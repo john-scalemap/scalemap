@@ -26,7 +26,7 @@
     "deploy:staging": "./scripts/deploy-staging.sh",
     "deploy:production": "./scripts/deploy-production.sh",
     "setup:dev": "./scripts/setup-dev.sh",
-    "prepare": "husky install"
+    "prepare": "husky install || true"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
