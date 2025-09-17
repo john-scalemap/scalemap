@@ -15,9 +15,9 @@ const nextConfig = {
   images: {
     domains: ['localhost'],
   },
+  skipTrailingSlashRedirect: true,
   experimental: {
-    // Skip static export errors to allow build to complete
-    skipTrailingSlashRedirect: true,
+    // Reserved for future experimental features
   }
 }
 
