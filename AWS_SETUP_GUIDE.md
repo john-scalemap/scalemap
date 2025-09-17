@@ -170,7 +170,7 @@ After completing the AWS setup, you'll have these credentials:
 
 ```bash
 # OpenAI (you already provided these)
-OPENAI_API_KEY=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
+OPENAI_API_KEY=sk-proj-YOUR_OPENAI_API_KEY_HERE
 OPENAI_ORGANIZATION_ID=org-2eECvyR0SrbIqwwa9PgtaIXS
 
 # AWS (from Step 5)
