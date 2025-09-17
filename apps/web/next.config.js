@@ -16,8 +16,13 @@ const nextConfig = {
     domains: ['localhost'],
   },
   skipTrailingSlashRedirect: true,
+  // Disable automatic static optimization to prevent 500.html generation
+  generateEtags: false,
+  poweredByHeader: false,
+  // Force App Router only, disable legacy Pages Router
   experimental: {
-    // Reserved for future experimental features
+    appDir: true, // Explicitly enable App Router
+    esmExternals: 'loose' // Help with build issues
   }
 }
 
