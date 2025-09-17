@@ -19,10 +19,9 @@ const nextConfig = {
   // Disable automatic static optimization to prevent 500.html generation
   generateEtags: false,
   poweredByHeader: false,
-  // Force App Router only, disable legacy Pages Router
+  // Experimental features
   experimental: {
-    appDir: true, // Explicitly enable App Router
-    esmExternals: 'loose' // Help with build issues
+    // Remove experimental options that might cause manifest issues
   }
 }
 
