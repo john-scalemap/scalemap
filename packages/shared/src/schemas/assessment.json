@@ -1,0 +1,570 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Assessment Schema",
+  "type": "object",
+  "definitions": {
+    "questionResponse": {
+      "type": "object",
+      "properties": {
+        "questionId": { "type": "string" },
+        "value": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" },
+            { "type": "boolean" },
+            {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          ]
+        },
+        "followUpAnswers": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["questionId", "value", "timestamp"],
+      "additionalProperties": false
+    },
+    "domainResponse": {
+      "type": "object",
+      "properties": {
+        "domain": {
+          "type": "string",
+          "enum": [
+            "strategic-alignment",
+            "financial-management",
+            "revenue-engine",
+            "operational-excellence",
+            "people-organization",
+            "technology-data",
+            "customer-experience",
+            "supply-chain",
+            "risk-compliance",
+            "partnerships",
+            "customer-success",
+            "change-management"
+          ]
+        },
+        "questions": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/definitions/questionResponse" }
+        },
+        "completeness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "lastUpdated": { "type": "string", "format": "date-time" },
+        "notes": { "type": "string" }
+      },
+      "required": ["domain", "questions", "completeness", "lastUpdated"],
+      "additionalProperties": false
+    },
+    "industryClassification": {
+      "type": "object",
+      "properties": {
+        "sector": {
+          "type": "string",
+          "enum": ["technology", "financial-services", "healthcare", "manufacturing", "retail", "other"]
+        },
+        "subSector": { "type": "string" },
+        "regulatoryClassification": {
+          "type": "string",
+          "enum": ["heavily-regulated", "lightly-regulated", "non-regulated"]
+        },
+        "businessModel": {
+          "type": "string",
+          "enum": ["b2b-saas", "b2c-marketplace", "manufacturing", "services", "hybrid"]
+        },
+        "companyStage": {
+          "type": "string",
+          "enum": ["startup", "growth", "mature"]
+        },
+        "employeeCount": {
+          "type": "number",
+          "minimum": 1
+        },
+        "revenue": { "type": "string" }
+      },
+      "required": ["sector", "subSector", "regulatoryClassification", "businessModel", "companyStage", "employeeCount"],
+      "additionalProperties": false
+    },
+    "assessmentProgress": {
+      "type": "object",
+      "properties": {
+        "overall": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "domains": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "completed": {
+                "type": "number",
+                "minimum": 0
+              },
+              "total": {
+                "type": "number",
+                "minimum": 0
+              },
+              "score": {
+                "type": "number",
+                "minimum": 1,
+                "maximum": 5
+              },
+              "status": {
+                "type": "string",
+                "enum": ["not-started", "in-progress", "completed"]
+              },
+              "requiredQuestions": {
+                "type": "number",
+                "minimum": 0
+              },
+              "optionalQuestions": {
+                "type": "number",
+                "minimum": 0
+              }
+            },
+            "required": ["completed", "total", "status", "requiredQuestions", "optionalQuestions"],
+            "additionalProperties": false
+          }
+        },
+        "completeness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "estimatedTimeRemaining": { "type": "string" },
+        "currentDomain": {
+          "type": "string",
+          "enum": [
+            "strategic-alignment",
+            "financial-management",
+            "revenue-engine",
+            "operational-excellence",
+            "people-organization",
+            "technology-data",
+            "customer-experience",
+            "supply-chain",
+            "risk-compliance",
+            "partnerships",
+            "customer-success",
+            "change-management"
+          ]
+        },
+        "currentQuestion": { "type": "string" }
+      },
+      "required": ["overall", "domains", "completeness", "estimatedTimeRemaining"],
+      "additionalProperties": false
+    },
+    "assessmentContext": {
+      "type": "object",
+      "properties": {
+        "primaryBusinessChallenges": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "scaling-issues",
+              "operational-inefficiency",
+              "revenue-growth-stagnation",
+              "team-alignment-problems",
+              "technology-constraints",
+              "customer-satisfaction-issues",
+              "financial-management-challenges",
+              "regulatory-compliance-burden",
+              "supply-chain-disruptions",
+              "talent-acquisition-retention",
+              "digital-transformation-needs",
+              "competitive-pressure"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 5
+        },
+        "strategicObjectives": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "improve-margins",
+              "accelerate-growth",
+              "enhance-customer-satisfaction",
+              "increase-operational-efficiency",
+              "expand-market-share",
+              "develop-new-products",
+              "improve-team-performance",
+              "reduce-costs",
+              "enhance-technology-capabilities",
+              "strengthen-competitive-position",
+              "improve-compliance-posture",
+              "build-organizational-capabilities"
+            ]
+          },
+          "minItems": 1,
+          "maxItems": 5
+        },
+        "resourceConstraints": {
+          "type": "object",
+          "properties": {
+            "budget": {
+              "type": "string",
+              "enum": ["limited", "moderate", "substantial"]
+            },
+            "team": {
+              "type": "string",
+              "enum": ["stretched", "adequate", "well-staffed"]
+            },
+            "timeAvailability": {
+              "type": "string",
+              "enum": ["minimal", "moderate", "flexible"]
+            }
+          },
+          "required": ["budget", "team", "timeAvailability"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["primaryBusinessChallenges", "strategicObjectives", "resourceConstraints"],
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "id": { "type": "string" },
+    "companyId": { "type": "string" },
+    "title": { "type": "string", "minLength": 1, "maxLength": 200 },
+    "description": { "type": "string", "maxLength": 1000 },
+    "status": {
+      "type": "string",
+      "enum": [
+        "payment-pending",
+        "document-processing",
+        "triaging",
+        "analyzing",
+        "synthesizing",
+        "validating",
+        "completed",
+        "failed"
+      ]
+    },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "completedAt": { "type": "string", "format": "date-time" },
+    "assessmentContext": { "$ref": "#/definitions/assessmentContext" },
+    "domainResponses": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/definitions/domainResponse" }
+    },
+    "progress": { "$ref": "#/definitions/assessmentProgress" },
+    "industryClassification": { "$ref": "#/definitions/industryClassification" },
+    "deliverySchedule": {
+      "type": "object",
+      "properties": {
+        "executive24h": { "type": "string", "format": "date-time" },
+        "detailed48h": { "type": "string", "format": "date-time" },
+        "implementation72h": { "type": "string", "format": "date-time" }
+      },
+      "required": ["executive24h", "detailed48h", "implementation72h"],
+      "additionalProperties": false
+    },
+    "clarificationPolicy": {
+      "type": "object",
+      "properties": {
+        "allowClarificationUntil": { "type": "string" },
+        "maxClarificationRequests": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "maxTimelineExtension": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": ["allowClarificationUntil", "maxClarificationRequests", "maxTimelineExtension"],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "id",
+    "companyId",
+    "title",
+    "description",
+    "status",
+    "createdAt",
+    "updatedAt",
+    "domainResponses",
+    "progress"
+  ],
+  "additionalProperties": false,
+  "domainValidationRules": {
+    "strategic-alignment": {
+      "requiredQuestions": ["1.1", "1.2", "1.3", "1.4", "1.5", "1.6"],
+      "conditionalQuestions": {
+        "1.7": {
+          "condition": "industryClassification.regulatoryClassification != 'non-regulated'"
+        },
+        "1.8": {
+          "condition": "industryClassification.regulatoryClassification != 'non-regulated'"
+        }
+      },
+      "scoringWeights": {
+        "1.1": 0.25,
+        "1.2": 0.20,
+        "1.3": 0.15,
+        "1.4": 0.15,
+        "1.5": 0.10,
+        "1.6": 0.15
+      },
+      "crossDomainValidation": [
+        {
+          "rule": "strategic_alignment_score_affects_all_domains",
+          "condition": "score <= 2",
+          "message": "Poor strategic alignment will affect all other operational domains"
+        }
+      ]
+    },
+    "financial-management": {
+      "requiredQuestions": ["2.1", "2.2", "2.3", "2.4", "2.5", "2.6", "2.7"],
+      "conditionalQuestions": {
+        "2.8": {
+          "condition": "industryClassification.revenue > '£10M'"
+        },
+        "2.9": {
+          "condition": "industryClassification.regulatoryClassification != 'non-regulated'"
+        }
+      },
+      "scoringWeights": {
+        "2.1": 0.20,
+        "2.2": 0.15,
+        "2.3": 0.20,
+        "2.4": 0.15,
+        "2.5": 0.10,
+        "2.6": 0.10,
+        "2.7": 0.10
+      },
+      "qualityChecks": [
+        {
+          "rule": "cash_flow_predictability_consistency",
+          "fields": ["2.1", "2.2"],
+          "message": "Cash flow predictability should align with financial planning sophistication"
+        }
+      ]
+    },
+    "revenue-engine": {
+      "requiredQuestions": ["3.1", "3.2", "3.3", "3.4", "3.5", "3.6", "3.7"],
+      "conditionalQuestions": {
+        "3.8": {
+          "condition": "industryClassification.businessModel == 'b2b-saas' || industryClassification.businessModel == 'b2b'"
+        },
+        "3.9": {
+          "condition": "industryClassification.businessModel == 'b2b-saas' || industryClassification.businessModel == 'b2b'"
+        }
+      },
+      "scoringWeights": {
+        "3.1": 0.20,
+        "3.2": 0.15,
+        "3.3": 0.20,
+        "3.4": 0.15,
+        "3.5": 0.10,
+        "3.6": 0.10,
+        "3.7": 0.10
+      }
+    },
+    "operational-excellence": {
+      "requiredQuestions": ["4.1", "4.2", "4.3", "4.4", "4.5", "4.6", "4.7"],
+      "conditionalQuestions": {
+        "4.8": {
+          "condition": "industryClassification.sector == 'manufacturing' || industryClassification.businessModel == 'manufacturing'"
+        }
+      },
+      "scoringWeights": {
+        "4.1": 0.15,
+        "4.2": 0.20,
+        "4.3": 0.15,
+        "4.4": 0.20,
+        "4.5": 0.10,
+        "4.6": 0.10,
+        "4.7": 0.10
+      }
+    },
+    "people-organization": {
+      "requiredQuestions": ["5.1", "5.2", "5.3", "5.4", "5.5", "5.6", "5.7"],
+      "conditionalQuestions": {
+        "5.8": {
+          "condition": "industryClassification.employeeCount > 50"
+        },
+        "5.9": {
+          "condition": "rapidGrowthIndicator == true"
+        }
+      },
+      "scoringWeights": {
+        "5.1": 0.20,
+        "5.2": 0.20,
+        "5.3": 0.15,
+        "5.4": 0.15,
+        "5.5": 0.10,
+        "5.6": 0.10,
+        "5.7": 0.10
+      }
+    },
+    "technology-data": {
+      "requiredQuestions": ["6.1", "6.2", "6.3", "6.4", "6.5", "6.6", "6.7"],
+      "conditionalQuestions": {
+        "6.8": {
+          "condition": "industryClassification.sector == 'technology' || industryClassification.businessModel == 'b2b-saas'"
+        }
+      },
+      "scoringWeights": {
+        "6.1": 0.20,
+        "6.2": 0.15,
+        "6.3": 0.15,
+        "6.4": 0.15,
+        "6.5": 0.10,
+        "6.6": 0.10,
+        "6.7": 0.15
+      }
+    },
+    "customer-experience": {
+      "requiredQuestions": ["7.1", "7.2", "7.3", "7.4", "7.5", "7.6", "7.7"],
+      "conditionalQuestions": {
+        "7.8": {
+          "condition": "industryClassification.businessModel == 'b2b-saas' || industryClassification.businessModel == 'b2b'"
+        }
+      },
+      "scoringWeights": {
+        "7.1": 0.20,
+        "7.2": 0.20,
+        "7.3": 0.15,
+        "7.4": 0.15,
+        "7.5": 0.10,
+        "7.6": 0.10,
+        "7.7": 0.10
+      }
+    },
+    "supply-chain": {
+      "requiredQuestions": ["8.1", "8.2", "8.3", "8.4", "8.5"],
+      "conditionalQuestions": {
+        "8.6": {
+          "condition": "internationalSupplyChain == true"
+        }
+      },
+      "applicabilityRules": {
+        "condition": "industryClassification.businessModel == 'manufacturing' || physicalProductsIndicator == true",
+        "message": "Supply chain domain only applicable to businesses with physical products or manufacturing"
+      },
+      "scoringWeights": {
+        "8.1": 0.25,
+        "8.2": 0.20,
+        "8.3": 0.20,
+        "8.4": 0.20,
+        "8.5": 0.15
+      }
+    },
+    "risk-compliance": {
+      "requiredQuestions": ["9.1", "9.2", "9.3", "9.4", "9.5", "9.6"],
+      "conditionalQuestions": {
+        "9.7": {
+          "condition": "industryClassification.regulatoryClassification != 'non-regulated'"
+        },
+        "9.8": {
+          "condition": "industryClassification.regulatoryClassification != 'non-regulated'"
+        }
+      },
+      "scoringWeights": {
+        "9.1": 0.20,
+        "9.2": 0.20,
+        "9.3": 0.15,
+        "9.4": 0.15,
+        "9.5": 0.15,
+        "9.6": 0.15
+      }
+    },
+    "partnerships": {
+      "requiredQuestions": ["10.1", "10.2", "10.3", "10.4", "10.5", "10.6"],
+      "conditionalQuestions": {
+        "10.7": {
+          "condition": "industryClassification.businessModel == 'b2b' && channelSalesIndicator == true"
+        }
+      },
+      "scoringWeights": {
+        "10.1": 0.20,
+        "10.2": 0.15,
+        "10.3": 0.20,
+        "10.4": 0.15,
+        "10.5": 0.15,
+        "10.6": 0.15
+      }
+    },
+    "customer-success": {
+      "requiredQuestions": ["11.1", "11.2", "11.3", "11.4", "11.5", "11.6"],
+      "conditionalQuestions": {
+        "11.7": {
+          "condition": "industryClassification.businessModel == 'b2b-saas'"
+        },
+        "11.8": {
+          "condition": "industryClassification.businessModel == 'b2b-saas'"
+        }
+      },
+      "scoringWeights": {
+        "11.1": 0.20,
+        "11.2": 0.20,
+        "11.3": 0.15,
+        "11.4": 0.15,
+        "11.5": 0.15,
+        "11.6": 0.15
+      }
+    },
+    "change-management": {
+      "requiredQuestions": ["12.1", "12.2", "12.3", "12.4", "12.5", "12.6", "12.7"],
+      "conditionalQuestions": {
+        "12.8": {
+          "condition": "industryClassification.employeeCount > 100"
+        }
+      },
+      "scoringWeights": {
+        "12.1": 0.20,
+        "12.2": 0.20,
+        "12.3": 0.15,
+        "12.4": 0.15,
+        "12.5": 0.10,
+        "12.6": 0.10,
+        "12.7": 0.10
+      },
+      "crossDomainValidation": [
+        {
+          "rule": "change_management_affects_implementation",
+          "condition": "score <= 2",
+          "message": "Poor change management capability will limit implementation of improvements in other domains"
+        }
+      ]
+    }
+  },
+  "completenessThresholds": {
+    "minimum": 70,
+    "recommended": 85,
+    "comprehensive": 95
+  },
+  "agentActivationRules": {
+    "triggerThreshold": 4.0,
+    "criticalThreshold": 4.5,
+    "domainPrioritization": {
+      "strategic-alignment": 1.0,
+      "financial-management": 0.9,
+      "people-organization": 0.9,
+      "revenue-engine": 0.8,
+      "operational-excellence": 0.8,
+      "technology-data": 0.7,
+      "customer-experience": 0.7,
+      "change-management": 0.7,
+      "risk-compliance": 0.6,
+      "customer-success": 0.6,
+      "partnerships": 0.5,
+      "supply-chain": 0.5
+    }
+  }
+}

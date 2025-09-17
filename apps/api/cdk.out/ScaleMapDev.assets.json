@@ -1,0 +1,51 @@
+{
+  "version": "48.0.0",
+  "files": {
+    "779df4660804a8352ffcc29c7d23d5fe7f9258edb332388078a9e5641f8939fc": {
+      "displayName": "LoginFunction/Code",
+      "source": {
+        "path": "asset.779df4660804a8352ffcc29c7d23d5fe7f9258edb332388078a9e5641f8939fc",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "884337373956-eu-west-1-ef4cc6d0": {
+          "bucketName": "cdk-hnb659fds-assets-884337373956-eu-west-1",
+          "objectKey": "779df4660804a8352ffcc29c7d23d5fe7f9258edb332388078a9e5641f8939fc.zip",
+          "region": "eu-west-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-file-publishing-role-884337373956-eu-west-1"
+        }
+      }
+    },
+    "2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d": {
+      "displayName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Code",
+      "source": {
+        "path": "asset.2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "884337373956-eu-west-1-073bd0f5": {
+          "bucketName": "cdk-hnb659fds-assets-884337373956-eu-west-1",
+          "objectKey": "2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d.zip",
+          "region": "eu-west-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-file-publishing-role-884337373956-eu-west-1"
+        }
+      }
+    },
+    "2ee5e6e4e07d6a55682068981e30b751e4ab79367cd48b8783e61d7593e9e58e": {
+      "displayName": "ScaleMapDev Template",
+      "source": {
+        "path": "ScaleMapDev.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "884337373956-eu-west-1-613cd542": {
+          "bucketName": "cdk-hnb659fds-assets-884337373956-eu-west-1",
+          "objectKey": "2ee5e6e4e07d6a55682068981e30b751e4ab79367cd48b8783e61d7593e9e58e.json",
+          "region": "eu-west-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-file-publishing-role-884337373956-eu-west-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

@@ -1,0 +1,73 @@
+schema: 1
+story: "3.2"
+story_title: "Frontend-Backend Integration"
+gate: CONCERNS
+status_reason: "Critical security vulnerabilities found in auth implementation and inconsistent token management patterns."
+reviewer: "Quinn (Test Architect)"
+updated: "2025-01-17T10:30:00Z"
+
+waiver: { active: false }
+
+top_issues:
+  - id: "SEC-001"
+    severity: high
+    finding: "Circular dependency in API client auth store access creates race conditions"
+    suggested_action: "Refactor auth token injection to use dependency injection pattern"
+  - id: "SEC-002"
+    severity: high
+    finding: "Dual token storage mechanism with localStorage/sessionStorage creates inconsistent state"
+    suggested_action: "Implement single source of truth for token storage"
+  - id: "SEC-003"
+    severity: medium
+    finding: "Base64 token parsing without proper validation vulnerable to malformed tokens"
+    suggested_action: "Add proper JWT validation library and error handling"
+  - id: "SEC-004"
+    severity: medium
+    finding: "Multiple duplicate refresh token implementations with different error handling"
+    suggested_action: "Consolidate to single token refresh mechanism"
+  - id: "ARCH-001"
+    severity: medium
+    finding: "Direct localStorage access patterns not SSR-safe"
+    suggested_action: "Implement proper client-side hydration checks"
+  - id: "TEST-001"
+    severity: medium
+    finding: "Integration tests only use mocks, no live backend verification"
+    suggested_action: "Add at least one live integration test for critical auth flow"
+
+evidence:
+  tests_reviewed: 22
+  risks_identified: 6
+  trace:
+    ac_covered: [1, 2, 3, 4, 5, 6, 7]
+    ac_gaps: []
+
+nfr_validation:
+  security:
+    status: CONCERNS
+    notes: "Multiple critical vulnerabilities in auth implementation"
+  performance:
+    status: PASS
+    notes: "Retry logic and exponential backoff properly implemented"
+  reliability:
+    status: CONCERNS
+    notes: "Inconsistent error handling patterns may cause unexpected failures"
+  maintainability:
+    status: CONCERNS
+    notes: "Circular dependencies and duplicate code reduce maintainability"
+
+recommendations:
+  immediate:
+    - action: "Refactor API client auth injection to eliminate circular dependency"
+      refs: ["apps/web/src/lib/api/client.ts:3-12"]
+    - action: "Consolidate token storage to single mechanism"
+      refs: ["apps/web/src/stores/auth.ts:311-336"]
+    - action: "Add proper JWT validation with library"
+      refs: ["apps/web/src/lib/api/client.ts:40-49"]
+  future:
+    - action: "Add integration tests with live backend for auth flow"
+      refs: ["apps/web/src/__tests__/frontend-backend-integration.test.tsx"]
+    - action: "Implement proper SSR safety checks for localStorage access"
+      refs: ["apps/web/src/stores/auth.ts:89-96"]
+
+quality_score: 55
+expires: "2025-01-31T00:00:00Z"

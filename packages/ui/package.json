@@ -1,0 +1,48 @@
+{
+  "name": "@scalemap/ui",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Reusable UI components for ScaleMap",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint . --ext .ts,.tsx --fix",
+    "format": "prettier --write .",
+    "type-check": "tsc --noEmit",
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "clsx": "^2.0.0",
+    "@scalemap/shared": "*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@types/node": "^20.8.9",
+    "typescript": "^5.2.2",
+    "@scalemap/eslint-config": "*",
+    "@scalemap/typescript-config": "*",
+    "eslint": "^8.52.0",
+    "prettier": "^3.0.3",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.7",
+    "ts-jest": "^29.1.1",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/user-event": "^14.5.1",
+    "jsdom": "^22.1.0"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "files": [
+    "dist"
+  ]
+}

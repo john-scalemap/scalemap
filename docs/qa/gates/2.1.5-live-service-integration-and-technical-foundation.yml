@@ -1,0 +1,24 @@
+schema: 1
+story: '2.1.5'
+gate: CONCERNS
+status_reason: 'Security vulnerabilities identified - temporary JWT bypass and missing rate limiting require resolution before production.'
+reviewer: 'Quinn'
+updated: '2025-09-15T18:30:00Z'
+top_issues:
+  - id: 'SEC-001'
+    severity: high
+    finding: 'Temporary JWT validation bypasses authentication (create-assessment.ts line 134)'
+    suggested_action: 'Implement proper JWT validation to replace temporary patterns'
+  - id: 'SEC-002'
+    severity: high
+    finding: 'No rate limiting implemented on assessment creation and update endpoints'
+    suggested_action: 'Add rate limiting middleware to prevent abuse before production deployment'
+  - id: 'MNT-001'
+    severity: medium
+    finding: 'Significant ESLint compliance issues (167 problems: 29 errors, 138 warnings)'
+    suggested_action: 'Fix remaining linting issues, particularly any type usage and unused variables'
+  - id: 'TEST-001'
+    severity: medium
+    finding: 'Missing performance testing baseline for external service dependencies'
+    suggested_action: 'Establish load testing with live services and performance benchmarks'
+waiver: { active: false }

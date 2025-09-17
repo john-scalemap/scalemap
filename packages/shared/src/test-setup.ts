@@ -1,0 +1,1 @@
+// Global test setup for @scalemap/shared package

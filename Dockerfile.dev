@@ -1,0 +1,40 @@
+# Development Dockerfile for ScaleMap
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++ \
+    git \
+    curl
+
+# Copy package files
+COPY package*.json ./
+COPY turbo.json ./
+
+# Copy workspace package files
+COPY apps/web/package*.json ./apps/web/
+COPY apps/api/package*.json ./apps/api/
+COPY packages/shared/package*.json ./packages/shared/
+COPY packages/ui/package*.json ./packages/ui/
+COPY packages/eslint-config/package*.json ./packages/eslint-config/
+COPY packages/typescript-config/package*.json ./packages/typescript-config/
+
+# Install dependencies
+RUN npm ci
+
+# Copy source code
+COPY . .
+
+# Build packages
+RUN npm run build
+
+# Expose ports for development
+EXPOSE 3000 3001
+
+# Start development servers
+CMD ["npm", "run", "dev"]

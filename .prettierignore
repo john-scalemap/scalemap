@@ -1,0 +1,23 @@
+# Build outputs
+dist
+build
+.next
+coverage
+cdk.out
+
+# Dependencies
+node_modules
+
+# Logs
+*.log
+
+# Environment files
+.env*
+
+# Cache directories
+.cache
+.parcel-cache
+
+# OS files
+.DS_Store
+Thumbs.db

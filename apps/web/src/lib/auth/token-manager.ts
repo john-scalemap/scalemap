@@ -1,0 +1,217 @@
+import { JwtUtils } from './jwt-utils';
+
+interface AuthTokens {
+  accessToken: string;
+  refreshToken: string;
+  expiresIn: number;
+  tokenType: 'Bearer';
+  scope: string[];
+}
+
+/**
+ * Centralized token management to eliminate circular dependencies
+ * and provide single source of truth for token storage
+ */
+export class TokenManager {
+  private static readonly ACCESS_TOKEN_KEY = 'scalemap_access_token';
+  private static readonly REFRESH_TOKEN_KEY = 'scalemap_refresh_token';
+  private static readonly EXPIRES_AT_KEY = 'scalemap_token_expires_at';
+
+  private static storage: Storage | null = null;
+
+  /**
+   * Initialize storage - defaults to localStorage for persistent sessions
+   */
+  private static getStorage(): Storage | null {
+    if (typeof window === 'undefined') {
+      return null;
+    }
+
+    if (!this.storage) {
+      // Always use localStorage for consistency
+      this.storage = localStorage;
+    }
+
+    return this.storage;
+  }
+
+  /**
+   * Store authentication tokens securely
+   */
+  static setTokens(tokens: AuthTokens): void {
+    const storage = this.getStorage();
+    if (!storage) return;
+
+    try {
+      storage.setItem(this.ACCESS_TOKEN_KEY, tokens.accessToken);
+      storage.setItem(this.REFRESH_TOKEN_KEY, tokens.refreshToken);
+
+      // Calculate absolute expiration time
+      const expiresAt = Date.now() + (tokens.expiresIn * 1000);
+      storage.setItem(this.EXPIRES_AT_KEY, expiresAt.toString());
+    } catch (error) {
+      console.error('Failed to store tokens:', error);
+    }
+  }
+
+  /**
+   * Get current access token
+   */
+  static getAccessToken(): string | null {
+    const storage = this.getStorage();
+    if (!storage) return null;
+
+    try {
+      return storage.getItem(this.ACCESS_TOKEN_KEY);
+    } catch (error) {
+      console.error('Failed to retrieve access token:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get current refresh token
+   */
+  static getRefreshToken(): string | null {
+    const storage = this.getStorage();
+    if (!storage) return null;
+
+    try {
+      return storage.getItem(this.REFRESH_TOKEN_KEY);
+    } catch (error) {
+      console.error('Failed to retrieve refresh token:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Get valid access token with automatic refresh if needed
+   */
+  static async getValidAccessToken(): Promise<string | null> {
+    const accessToken = this.getAccessToken();
+
+    if (!accessToken) {
+      return null;
+    }
+
+    // Check if token is expired using secure JWT utils
+    if (JwtUtils.isTokenExpired(accessToken)) {
+      const refreshed = await this.refreshAccessToken();
+      return refreshed ? this.getAccessToken() : null;
+    }
+
+    return accessToken;
+  }
+
+  /**
+   * Check if tokens are expired
+   */
+  static isTokenExpired(): boolean {
+    const accessToken = this.getAccessToken();
+    if (!accessToken) return true;
+
+    return JwtUtils.isTokenExpired(accessToken);
+  }
+
+  /**
+   * Refresh access token using refresh token
+   */
+  static async refreshAccessToken(): Promise<boolean> {
+    const refreshToken = this.getRefreshToken();
+
+    if (!refreshToken) {
+      this.clearTokens();
+      return false;
+    }
+
+    try {
+      // Import auth service dynamically to avoid circular dependency
+      const { authService } = await import('@/lib/api/auth');
+
+      const response = await authService.refreshToken({ refreshToken });
+
+      if (!response.success) {
+        this.clearTokens();
+        return false;
+      }
+
+      const data = response.data;
+      if (!data) {
+        this.clearTokens();
+        return false;
+      }
+
+      const newTokens: AuthTokens = {
+        accessToken: data.accessToken,
+        refreshToken: data.refreshToken,
+        expiresIn: data.expiresIn,
+        tokenType: 'Bearer',
+        scope: []
+      };
+
+      this.setTokens(newTokens);
+      return true;
+
+    } catch (error) {
+      console.error('Token refresh failed:', error);
+      this.clearTokens();
+      return false;
+    }
+  }
+
+  /**
+   * Clear all stored tokens
+   */
+  static clearTokens(): void {
+    const storage = this.getStorage();
+    if (!storage) return;
+
+    try {
+      storage.removeItem(this.ACCESS_TOKEN_KEY);
+      storage.removeItem(this.REFRESH_TOKEN_KEY);
+      storage.removeItem(this.EXPIRES_AT_KEY);
+    } catch (error) {
+      console.error('Failed to clear tokens:', error);
+    }
+  }
+
+  /**
+   * Get tokens in the format expected by auth store
+   */
+  static getTokens(): AuthTokens | null {
+    const accessToken = this.getAccessToken();
+    const refreshToken = this.getRefreshToken();
+
+    if (!accessToken || !refreshToken) {
+      return null;
+    }
+
+    const storage = this.getStorage();
+    let expiresIn = 900; // Default 15 minutes
+
+    if (storage) {
+      const expiresAtStr = storage.getItem(this.EXPIRES_AT_KEY);
+      if (expiresAtStr) {
+        const expiresAt = parseInt(expiresAtStr, 10);
+        const now = Date.now();
+        expiresIn = Math.max(0, Math.floor((expiresAt - now) / 1000));
+      }
+    }
+
+    return {
+      accessToken,
+      refreshToken,
+      expiresIn,
+      tokenType: 'Bearer',
+      scope: []
+    };
+  }
+
+  /**
+   * Check if user is authenticated (has valid tokens)
+   */
+  static isAuthenticated(): boolean {
+    const tokens = this.getTokens();
+    return tokens !== null && !this.isTokenExpired();
+  }
+}

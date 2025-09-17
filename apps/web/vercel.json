@@ -1,0 +1,23 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "installCommand": "npm install",
+  "env": {
+    "NEXT_PUBLIC_API_URL": "https://nb3pzj6u65.execute-api.eu-west-1.amazonaws.com/prod"
+  },
+  "rewrites": [
+    {
+      "source": "/api/assessments/:path*",
+      "destination": "https://nb3pzj6u65.execute-api.eu-west-1.amazonaws.com/prod/assessments/:path*"
+    },
+    {
+      "source": "/api/users/:path*",
+      "destination": "https://nb3pzj6u65.execute-api.eu-west-1.amazonaws.com/prod/users/:path*"
+    },
+    {
+      "source": "/api/uploads/:path*",
+      "destination": "https://nb3pzj6u65.execute-api.eu-west-1.amazonaws.com/prod/uploads/:path*"
+    }
+  ]
+}

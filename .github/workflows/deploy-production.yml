@@ -1,0 +1,103 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '18'
+  AWS_REGION: us-east-1
+
+jobs:
+  deploy-production:
+    name: Deploy to Production Environment
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID_PRODUCTION }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_PRODUCTION }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run full test suite
+        run: npm run test
+
+      - name: Build packages
+        run: npm run build
+
+      - name: Deploy API to AWS (Blue-Green)
+        working-directory: apps/api
+        run: |
+          npm install -g aws-cdk
+          # Deploy to green environment first
+          cdk deploy ScaleMapProd --require-approval never
+        env:
+          CDK_DEFAULT_ACCOUNT: ${{ secrets.AWS_ACCOUNT_ID_PRODUCTION }}
+          CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
+          DYNAMODB_TABLE_NAME: ${{ secrets.DYNAMODB_TABLE_NAME_PRODUCTION }}
+          S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME_PRODUCTION }}
+          SES_FROM_EMAIL: ${{ secrets.SES_FROM_EMAIL_PRODUCTION }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY_PRODUCTION }}
+          OPENAI_ORGANIZATION_ID: ${{ secrets.OPENAI_ORGANIZATION_ID }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY_PRODUCTION }}
+          STRIPE_PUBLIC_KEY: ${{ secrets.STRIPE_PUBLIC_KEY_PRODUCTION }}
+
+      - name: Deploy Web App to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_PRODUCTION }}
+          vercel-args: '--prod'
+          working-directory: apps/web
+          scope: ${{ secrets.VERCEL_ORG_ID }}
+
+      - name: Run production health checks
+        run: |
+          sleep 60  # Wait for deployment to stabilize
+          curl -f ${{ secrets.PRODUCTION_API_URL }}/health || exit 1
+          curl -f ${{ secrets.PRODUCTION_WEB_URL }} || exit 1
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          generate_release_notes: true
+          files: |
+            CHANGELOG.md
+
+      - name: Notify team
+        if: always()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          channel: '#deployments'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow
+          custom_payload: |
+            {
+              text: "🚀 Production deployment ${{ job.status }}!",
+              attachments: [{
+                color: '${{ job.status }}' === 'success' ? 'good' : 'danger',
+                fields: [{
+                  title: "Environment",
+                  value: "Production",
+                  short: true
+                }]
+              }]
+            }

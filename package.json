@@ -1,0 +1,60 @@
+{
+  "name": "scalemap",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ScaleMap - Strategic Enterprise Assessment and Agent Framework",
+  "author": "ScaleMap Team",
+  "license": "UNLICENSED",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "packageManager": "npm@9.8.1",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "turbo run format",
+    "test": "turbo run test",
+    "test:watch": "turbo run test:watch",
+    "type-check": "turbo run type-check",
+    "clean": "turbo run clean",
+    "deploy:staging": "./scripts/deploy-staging.sh",
+    "deploy:production": "./scripts/deploy-production.sh",
+    "setup:dev": "./scripts/setup-dev.sh",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/node": "^20.8.9",
+    "eslint": "^8.52.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.1.0",
+    "prettier": "^3.0.3",
+    "turbo": "^1.10.16",
+    "typescript": "^5.2.2"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "@aws-sdk/client-cloudwatch": "^3.888.0",
+    "@aws-sdk/client-ses": "^3.888.0",
+    "@aws-sdk/client-sns": "^3.888.0",
+    "@aws-sdk/client-textract": "^3.888.0",
+    "@aws-sdk/s3-request-presigner": "^3.888.0",
+    "jsonwebtoken": "^9.0.2",
+    "openai": "^5.20.2",
+    "react-dropzone": "^14.3.8"
+  }
+}

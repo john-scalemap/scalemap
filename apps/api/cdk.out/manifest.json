@@ -1,0 +1,2817 @@
+{
+  "version": "48.0.0",
+  "artifacts": {
+    "ScaleMapDev.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "ScaleMapDev.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "ScaleMapDev": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://884337373956/eu-west-1",
+      "properties": {
+        "templateFile": "ScaleMapDev.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-deploy-role-884337373956-eu-west-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-cfn-exec-role-884337373956-eu-west-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/2ee5e6e4e07d6a55682068981e30b751e4ab79367cd48b8783e61d7593e9e58e.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "ScaleMapDev.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-lookup-role-884337373956-eu-west-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "ScaleMapDev.assets"
+      ],
+      "metadata": {
+        "/ScaleMapDev/ScaleMapTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "ScaleMapTableD1C6C54B"
+            }
+          }
+        ],
+        "/ScaleMapDev/ScaleMapTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapTableD1C6C54B"
+          }
+        ],
+        "/ScaleMapDev/DocumentsBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DocumentsBucket9EC9DEB9"
+          }
+        ],
+        "/ScaleMapDev/DocumentsBucket/Notifications/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DocumentsBucketNotifications871115F2"
+          }
+        ],
+        "/ScaleMapDev/DocumentsBucket/AllowBucketNotificationsToScaleMapDevProcessDocumentFunction8AC314D7": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DocumentsBucketAllowBucketNotificationsToScaleMapDevProcessDocumentFunction8AC314D7027ADADD"
+          }
+        ],
+        "/ScaleMapDev/DeadLetterQueue/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeadLetterQueue9F481546"
+          }
+        ],
+        "/ScaleMapDev/LoginFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LoginFunctionServiceRole74B42ABA"
+          }
+        ],
+        "/ScaleMapDev/LoginFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LoginFunctionServiceRoleDefaultPolicy2FE1C77C"
+          }
+        ],
+        "/ScaleMapDev/LoginFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LoginFunction66F090C6"
+          }
+        ],
+        "/ScaleMapDev/LoginFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LoginFunctionLogRetentionB59EE088"
+          }
+        ],
+        "/ScaleMapDev/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+          }
+        ],
+        "/ScaleMapDev/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB"
+          }
+        ],
+        "/ScaleMapDev/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A"
+          }
+        ],
+        "/ScaleMapDev/RefreshTokenFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RefreshTokenFunctionServiceRole7D6AF27F"
+          }
+        ],
+        "/ScaleMapDev/RefreshTokenFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RefreshTokenFunctionServiceRoleDefaultPolicy47C7EF3C"
+          }
+        ],
+        "/ScaleMapDev/RefreshTokenFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RefreshTokenFunction37E34807"
+          }
+        ],
+        "/ScaleMapDev/RefreshTokenFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RefreshTokenFunctionLogRetention62D16626"
+          }
+        ],
+        "/ScaleMapDev/RefreshTokenFunction/ScaleMapDevJwtAuthorizer7FB6E645:Permissions": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RefreshTokenFunctionScaleMapDevJwtAuthorizer7FB6E645Permissions0B2DB8B6"
+          }
+        ],
+        "/ScaleMapDev/RegisterFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RegisterFunctionServiceRoleDB8F6C89"
+          }
+        ],
+        "/ScaleMapDev/RegisterFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RegisterFunctionServiceRoleDefaultPolicyC4352E3C"
+          }
+        ],
+        "/ScaleMapDev/RegisterFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RegisterFunction735506DF"
+          }
+        ],
+        "/ScaleMapDev/RegisterFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RegisterFunctionLogRetention8E4BDC14"
+          }
+        ],
+        "/ScaleMapDev/CreateCompanyFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateCompanyFunctionServiceRoleDBB9C1CF"
+          }
+        ],
+        "/ScaleMapDev/CreateCompanyFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateCompanyFunctionServiceRoleDefaultPolicy7A2CB781"
+          }
+        ],
+        "/ScaleMapDev/CreateCompanyFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateCompanyFunctionB2EDBE20"
+          }
+        ],
+        "/ScaleMapDev/CreateCompanyFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateCompanyFunctionLogRetention299B7396"
+          }
+        ],
+        "/ScaleMapDev/GetCompanyFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetCompanyFunctionServiceRoleDEA2282F"
+          }
+        ],
+        "/ScaleMapDev/GetCompanyFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetCompanyFunctionServiceRoleDefaultPolicy3E5CAADC"
+          }
+        ],
+        "/ScaleMapDev/GetCompanyFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetCompanyFunction40521299"
+          }
+        ],
+        "/ScaleMapDev/GetCompanyFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetCompanyFunctionLogRetention28CD26D3"
+          }
+        ],
+        "/ScaleMapDev/CreateAssessmentFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateAssessmentFunctionServiceRole1F65987E"
+          }
+        ],
+        "/ScaleMapDev/CreateAssessmentFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateAssessmentFunctionServiceRoleDefaultPolicy388FB5C2"
+          }
+        ],
+        "/ScaleMapDev/CreateAssessmentFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateAssessmentFunction9342934F"
+          }
+        ],
+        "/ScaleMapDev/CreateAssessmentFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateAssessmentFunctionLogRetentionEEA68C5D"
+          }
+        ],
+        "/ScaleMapDev/GetAssessmentFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetAssessmentFunctionServiceRole5126DA07"
+          }
+        ],
+        "/ScaleMapDev/GetAssessmentFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetAssessmentFunctionServiceRoleDefaultPolicy95FF1DE8"
+          }
+        ],
+        "/ScaleMapDev/GetAssessmentFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetAssessmentFunction53DE8AFB"
+          }
+        ],
+        "/ScaleMapDev/GetAssessmentFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetAssessmentFunctionLogRetentionB7D4D7F0"
+          }
+        ],
+        "/ScaleMapDev/UpdateResponsesFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UpdateResponsesFunctionServiceRoleC79C8D19"
+          }
+        ],
+        "/ScaleMapDev/UpdateResponsesFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UpdateResponsesFunctionServiceRoleDefaultPolicy9EF23BE3"
+          }
+        ],
+        "/ScaleMapDev/UpdateResponsesFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UpdateResponsesFunctionBF692635"
+          }
+        ],
+        "/ScaleMapDev/UpdateResponsesFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UpdateResponsesFunctionLogRetention511E2235"
+          }
+        ],
+        "/ScaleMapDev/UploadHandlerFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UploadHandlerFunctionServiceRole483D683C"
+          }
+        ],
+        "/ScaleMapDev/UploadHandlerFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UploadHandlerFunctionServiceRoleDefaultPolicyBB324832"
+          }
+        ],
+        "/ScaleMapDev/UploadHandlerFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UploadHandlerFunction1DEB4309"
+          }
+        ],
+        "/ScaleMapDev/UploadHandlerFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UploadHandlerFunctionLogRetentionFC59CE78"
+          }
+        ],
+        "/ScaleMapDev/ProcessDocumentFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProcessDocumentFunctionServiceRole89CDCA16"
+          }
+        ],
+        "/ScaleMapDev/ProcessDocumentFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProcessDocumentFunctionServiceRoleDefaultPolicyB341BFEF"
+          }
+        ],
+        "/ScaleMapDev/ProcessDocumentFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProcessDocumentFunctionC59F63F6"
+          }
+        ],
+        "/ScaleMapDev/ProcessDocumentFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProcessDocumentFunctionLogRetentionBFCFC4EB"
+          }
+        ],
+        "/ScaleMapDev/HealthFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthFunctionServiceRole04552894"
+          }
+        ],
+        "/ScaleMapDev/HealthFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthFunctionServiceRoleDefaultPolicy57228674"
+          }
+        ],
+        "/ScaleMapDev/HealthFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthFunction19D7724A"
+          }
+        ],
+        "/ScaleMapDev/HealthFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthFunctionLogRetentionC7891B18"
+          }
+        ],
+        "/ScaleMapDev/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC"
+          }
+        ],
+        "/ScaleMapDev/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleDefaultPolicy2CF63D36"
+          }
+        ],
+        "/ScaleMapDev/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691"
+          }
+        ],
+        "/ScaleMapDev/JwtAuthorizer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "JwtAuthorizer08CECD9F"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApi2204383E"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/CloudWatchRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiCloudWatchRole240E0A1B"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Account": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiAccountE7812CF1"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiDeployment77EBDD9Defb5a1a2af5a4ea9ed711cf36e04cbc8"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiDeploymentStageprodF4DD3120"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiEndpoint901AFFC5"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiOPTIONS1BF74AAB"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/health/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApihealthD68D4E2A"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/health/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApihealthOPTIONSB7ECEA33"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/health/GET/ApiPermission.ScaleMapDevScaleMapApiE4F3E3DD.GET..health": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApihealthGETApiPermissionScaleMapDevScaleMapApiE4F3E3DDGEThealthC78D496A"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/health/GET/ApiPermission.Test.ScaleMapDevScaleMapApiE4F3E3DD.GET..health": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApihealthGETApiPermissionTestScaleMapDevScaleMapApiE4F3E3DDGEThealth7ACEA346"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/health/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApihealthGET37CFB43A"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthBA436AC9"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthOPTIONSEE73EF88"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/login/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthlogin7F8100CE"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/login/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthloginOPTIONS86D709F4"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/login/POST/ApiPermission.ScaleMapDevScaleMapApiE4F3E3DD.POST..auth.login": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthloginPOSTApiPermissionScaleMapDevScaleMapApiE4F3E3DDPOSTauthlogin8D94DA63"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/login/POST/ApiPermission.Test.ScaleMapDevScaleMapApiE4F3E3DD.POST..auth.login": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthloginPOSTApiPermissionTestScaleMapDevScaleMapApiE4F3E3DDPOSTauthloginE21EE253"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/login/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthloginPOSTE1CB51A5"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/register/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthregisterBB7044BD"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/register/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthregisterOPTIONSFEDF5216"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/register/POST/ApiPermission.ScaleMapDevScaleMapApiE4F3E3DD.POST..auth.register": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthregisterPOSTApiPermissionScaleMapDevScaleMapApiE4F3E3DDPOSTauthregisterE2A68DB9"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/register/POST/ApiPermission.Test.ScaleMapDevScaleMapApiE4F3E3DD.POST..auth.register": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthregisterPOSTApiPermissionTestScaleMapDevScaleMapApiE4F3E3DDPOSTauthregister06000029"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/register/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthregisterPOST1086F82F"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/refresh/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthrefresh503A46F4"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/refresh/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthrefreshOPTIONSF8DE41B6"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/refresh/POST/ApiPermission.ScaleMapDevScaleMapApiE4F3E3DD.POST..auth.refresh": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthrefreshPOSTApiPermissionScaleMapDevScaleMapApiE4F3E3DDPOSTauthrefresh359E7A47"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/refresh/POST/ApiPermission.Test.ScaleMapDevScaleMapApiE4F3E3DD.POST..auth.refresh": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthrefreshPOSTApiPermissionTestScaleMapDevScaleMapApiE4F3E3DDPOSTauthrefresh9CC0EF91"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/refresh/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthrefreshPOST6EC4C378"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/company/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyE86C5AA2"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/company/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyOPTIONS38C4F9CB"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/company/POST/ApiPermission.ScaleMapDevScaleMapApiE4F3E3DD.POST..company": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyPOSTApiPermissionScaleMapDevScaleMapApiE4F3E3DDPOSTcompanyCC044152"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/company/POST/ApiPermission.Test.ScaleMapDevScaleMapApiE4F3E3DD.POST..company": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyPOSTApiPermissionTestScaleMapDevScaleMapApiE4F3E3DDPOSTcompanyF73BAA7D"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/company/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyPOST6EAA0F4F"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/company/GET/ApiPermission.ScaleMapDevScaleMapApiE4F3E3DD.GET..company": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyGETApiPermissionScaleMapDevScaleMapApiE4F3E3DDGETcompany5C0E9890"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/company/GET/ApiPermission.Test.ScaleMapDevScaleMapApiE4F3E3DD.GET..company": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyGETApiPermissionTestScaleMapDevScaleMapApiE4F3E3DDGETcompany5F9ADBF9"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/company/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyGET9784E0DD"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/assessment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentC3736B5E"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/assessment/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentOPTIONSC8FBF396"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/assessment/POST/ApiPermission.ScaleMapDevScaleMapApiE4F3E3DD.POST..assessment": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentPOSTApiPermissionScaleMapDevScaleMapApiE4F3E3DDPOSTassessment12D9A494"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/assessment/POST/ApiPermission.Test.ScaleMapDevScaleMapApiE4F3E3DD.POST..assessment": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentPOSTApiPermissionTestScaleMapDevScaleMapApiE4F3E3DDPOSTassessment7A5E2F00"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/assessment/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentPOSTA148887C"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/assessment/GET/ApiPermission.ScaleMapDevScaleMapApiE4F3E3DD.GET..assessment": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentGETApiPermissionScaleMapDevScaleMapApiE4F3E3DDGETassessment19015E8C"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/assessment/GET/ApiPermission.Test.ScaleMapDevScaleMapApiE4F3E3DD.GET..assessment": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentGETApiPermissionTestScaleMapDevScaleMapApiE4F3E3DDGETassessment40BA6FDF"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/assessment/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentGET1FE7CC79"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/assessment/responses/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentresponses1B5A68B6"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/assessment/responses/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentresponsesOPTIONS54E7E8FB"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/assessment/responses/PUT/ApiPermission.ScaleMapDevScaleMapApiE4F3E3DD.PUT..assessment.responses": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentresponsesPUTApiPermissionScaleMapDevScaleMapApiE4F3E3DDPUTassessmentresponses5B2B01A2"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/assessment/responses/PUT/ApiPermission.Test.ScaleMapDevScaleMapApiE4F3E3DD.PUT..assessment.responses": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentresponsesPUTApiPermissionTestScaleMapDevScaleMapApiE4F3E3DDPUTassessmentresponsesEC46383D"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/assessment/responses/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentresponsesPUTE7F381A0"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/documents/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsF359908A"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/documents/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsOPTIONSA3A85304"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/documents/upload/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsupload9463C0ED"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/documents/upload/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsuploadOPTIONS2F20AF31"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/documents/upload/POST/ApiPermission.ScaleMapDevScaleMapApiE4F3E3DD.POST..documents.upload": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsuploadPOSTApiPermissionScaleMapDevScaleMapApiE4F3E3DDPOSTdocumentsupload0CDACB12"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/documents/upload/POST/ApiPermission.Test.ScaleMapDevScaleMapApiE4F3E3DD.POST..documents.upload": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsuploadPOSTApiPermissionTestScaleMapDevScaleMapApiE4F3E3DDPOSTdocumentsupload0F1AAFD1"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/documents/upload/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsuploadPOST8F5412FD"
+          }
+        ],
+        "/ScaleMapDev/ApiErrorAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiErrorAlarmD3E841A2"
+          }
+        ],
+        "/ScaleMapDev/LambdaErrorAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaErrorAlarm646BFA4C"
+          }
+        ],
+        "/ScaleMapDev/CostAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CostAlarm97D2533C"
+          }
+        ],
+        "/ScaleMapDev/ApiUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiUrl"
+          }
+        ],
+        "/ScaleMapDev/TableName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TableName"
+          }
+        ],
+        "/ScaleMapDev/DocumentsBucketName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DocumentsBucketName"
+          }
+        ],
+        "/ScaleMapDev/DlqUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DlqUrl"
+          }
+        ],
+        "/ScaleMapDev/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/ScaleMapDev/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/ScaleMapDev/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "ScaleMapDev"
+    },
+    "ScaleMapStaging.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "ScaleMapStaging.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "ScaleMapStaging": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://884337373956/eu-west-1",
+      "properties": {
+        "templateFile": "ScaleMapStaging.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-deploy-role-884337373956-eu-west-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-cfn-exec-role-884337373956-eu-west-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/5f234000b4ec8ffc92f493063c7abc6ed7ef5afffbbb0e2c8fc9a973b7d3cb01.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "ScaleMapStaging.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-lookup-role-884337373956-eu-west-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "ScaleMapStaging.assets"
+      ],
+      "metadata": {
+        "/ScaleMapStaging/ScaleMapTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "ScaleMapTableD1C6C54B"
+            }
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapTableD1C6C54B"
+          }
+        ],
+        "/ScaleMapStaging/DocumentsBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DocumentsBucket9EC9DEB9"
+          }
+        ],
+        "/ScaleMapStaging/DocumentsBucket/Notifications/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DocumentsBucketNotifications871115F2"
+          }
+        ],
+        "/ScaleMapStaging/DocumentsBucket/AllowBucketNotificationsToScaleMapStagingProcessDocumentFunction937A587C": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DocumentsBucketAllowBucketNotificationsToScaleMapStagingProcessDocumentFunction937A587C3C46D898"
+          }
+        ],
+        "/ScaleMapStaging/DeadLetterQueue/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeadLetterQueue9F481546"
+          }
+        ],
+        "/ScaleMapStaging/LoginFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LoginFunctionServiceRole74B42ABA"
+          }
+        ],
+        "/ScaleMapStaging/LoginFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LoginFunctionServiceRoleDefaultPolicy2FE1C77C"
+          }
+        ],
+        "/ScaleMapStaging/LoginFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LoginFunction66F090C6"
+          }
+        ],
+        "/ScaleMapStaging/LoginFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LoginFunctionLogRetentionB59EE088"
+          }
+        ],
+        "/ScaleMapStaging/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+          }
+        ],
+        "/ScaleMapStaging/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB"
+          }
+        ],
+        "/ScaleMapStaging/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A"
+          }
+        ],
+        "/ScaleMapStaging/RefreshTokenFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RefreshTokenFunctionServiceRole7D6AF27F"
+          }
+        ],
+        "/ScaleMapStaging/RefreshTokenFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RefreshTokenFunctionServiceRoleDefaultPolicy47C7EF3C"
+          }
+        ],
+        "/ScaleMapStaging/RefreshTokenFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RefreshTokenFunction37E34807"
+          }
+        ],
+        "/ScaleMapStaging/RefreshTokenFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RefreshTokenFunctionLogRetention62D16626"
+          }
+        ],
+        "/ScaleMapStaging/RefreshTokenFunction/ScaleMapStagingJwtAuthorizerB3A92219:Permissions": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RefreshTokenFunctionScaleMapStagingJwtAuthorizerB3A92219PermissionsD7B7843C"
+          }
+        ],
+        "/ScaleMapStaging/RegisterFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RegisterFunctionServiceRoleDB8F6C89"
+          }
+        ],
+        "/ScaleMapStaging/RegisterFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RegisterFunctionServiceRoleDefaultPolicyC4352E3C"
+          }
+        ],
+        "/ScaleMapStaging/RegisterFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RegisterFunction735506DF"
+          }
+        ],
+        "/ScaleMapStaging/RegisterFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RegisterFunctionLogRetention8E4BDC14"
+          }
+        ],
+        "/ScaleMapStaging/CreateCompanyFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateCompanyFunctionServiceRoleDBB9C1CF"
+          }
+        ],
+        "/ScaleMapStaging/CreateCompanyFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateCompanyFunctionServiceRoleDefaultPolicy7A2CB781"
+          }
+        ],
+        "/ScaleMapStaging/CreateCompanyFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateCompanyFunctionB2EDBE20"
+          }
+        ],
+        "/ScaleMapStaging/CreateCompanyFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateCompanyFunctionLogRetention299B7396"
+          }
+        ],
+        "/ScaleMapStaging/GetCompanyFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetCompanyFunctionServiceRoleDEA2282F"
+          }
+        ],
+        "/ScaleMapStaging/GetCompanyFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetCompanyFunctionServiceRoleDefaultPolicy3E5CAADC"
+          }
+        ],
+        "/ScaleMapStaging/GetCompanyFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetCompanyFunction40521299"
+          }
+        ],
+        "/ScaleMapStaging/GetCompanyFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetCompanyFunctionLogRetention28CD26D3"
+          }
+        ],
+        "/ScaleMapStaging/CreateAssessmentFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateAssessmentFunctionServiceRole1F65987E"
+          }
+        ],
+        "/ScaleMapStaging/CreateAssessmentFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateAssessmentFunctionServiceRoleDefaultPolicy388FB5C2"
+          }
+        ],
+        "/ScaleMapStaging/CreateAssessmentFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateAssessmentFunction9342934F"
+          }
+        ],
+        "/ScaleMapStaging/CreateAssessmentFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateAssessmentFunctionLogRetentionEEA68C5D"
+          }
+        ],
+        "/ScaleMapStaging/GetAssessmentFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetAssessmentFunctionServiceRole5126DA07"
+          }
+        ],
+        "/ScaleMapStaging/GetAssessmentFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetAssessmentFunctionServiceRoleDefaultPolicy95FF1DE8"
+          }
+        ],
+        "/ScaleMapStaging/GetAssessmentFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetAssessmentFunction53DE8AFB"
+          }
+        ],
+        "/ScaleMapStaging/GetAssessmentFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetAssessmentFunctionLogRetentionB7D4D7F0"
+          }
+        ],
+        "/ScaleMapStaging/UpdateResponsesFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UpdateResponsesFunctionServiceRoleC79C8D19"
+          }
+        ],
+        "/ScaleMapStaging/UpdateResponsesFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UpdateResponsesFunctionServiceRoleDefaultPolicy9EF23BE3"
+          }
+        ],
+        "/ScaleMapStaging/UpdateResponsesFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UpdateResponsesFunctionBF692635"
+          }
+        ],
+        "/ScaleMapStaging/UpdateResponsesFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UpdateResponsesFunctionLogRetention511E2235"
+          }
+        ],
+        "/ScaleMapStaging/UploadHandlerFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UploadHandlerFunctionServiceRole483D683C"
+          }
+        ],
+        "/ScaleMapStaging/UploadHandlerFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UploadHandlerFunctionServiceRoleDefaultPolicyBB324832"
+          }
+        ],
+        "/ScaleMapStaging/UploadHandlerFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UploadHandlerFunction1DEB4309"
+          }
+        ],
+        "/ScaleMapStaging/UploadHandlerFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UploadHandlerFunctionLogRetentionFC59CE78"
+          }
+        ],
+        "/ScaleMapStaging/ProcessDocumentFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProcessDocumentFunctionServiceRole89CDCA16"
+          }
+        ],
+        "/ScaleMapStaging/ProcessDocumentFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProcessDocumentFunctionServiceRoleDefaultPolicyB341BFEF"
+          }
+        ],
+        "/ScaleMapStaging/ProcessDocumentFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProcessDocumentFunctionC59F63F6"
+          }
+        ],
+        "/ScaleMapStaging/ProcessDocumentFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProcessDocumentFunctionLogRetentionBFCFC4EB"
+          }
+        ],
+        "/ScaleMapStaging/HealthFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthFunctionServiceRole04552894"
+          }
+        ],
+        "/ScaleMapStaging/HealthFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthFunctionServiceRoleDefaultPolicy57228674"
+          }
+        ],
+        "/ScaleMapStaging/HealthFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthFunction19D7724A"
+          }
+        ],
+        "/ScaleMapStaging/HealthFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthFunctionLogRetentionC7891B18"
+          }
+        ],
+        "/ScaleMapStaging/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC"
+          }
+        ],
+        "/ScaleMapStaging/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleDefaultPolicy2CF63D36"
+          }
+        ],
+        "/ScaleMapStaging/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691"
+          }
+        ],
+        "/ScaleMapStaging/JwtAuthorizer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "JwtAuthorizer08CECD9F"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApi2204383E"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/CloudWatchRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiCloudWatchRole240E0A1B"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Account": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiAccountE7812CF1"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiDeployment77EBDD9Dc8d89f9488bd52ead5439c148d9fba98"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiDeploymentStageprodF4DD3120"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiEndpoint901AFFC5"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiOPTIONS1BF74AAB"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/health/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApihealthD68D4E2A"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/health/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApihealthOPTIONSB7ECEA33"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/health/GET/ApiPermission.ScaleMapStagingScaleMapApi0D72BBEB.GET..health": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApihealthGETApiPermissionScaleMapStagingScaleMapApi0D72BBEBGEThealth77EDD021"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/health/GET/ApiPermission.Test.ScaleMapStagingScaleMapApi0D72BBEB.GET..health": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApihealthGETApiPermissionTestScaleMapStagingScaleMapApi0D72BBEBGEThealth08472B00"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/health/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApihealthGET37CFB43A"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthBA436AC9"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthOPTIONSEE73EF88"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/login/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthlogin7F8100CE"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/login/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthloginOPTIONS86D709F4"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/login/POST/ApiPermission.ScaleMapStagingScaleMapApi0D72BBEB.POST..auth.login": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthloginPOSTApiPermissionScaleMapStagingScaleMapApi0D72BBEBPOSTauthloginA01EF03D"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/login/POST/ApiPermission.Test.ScaleMapStagingScaleMapApi0D72BBEB.POST..auth.login": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthloginPOSTApiPermissionTestScaleMapStagingScaleMapApi0D72BBEBPOSTauthloginC8366EA9"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/login/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthloginPOSTE1CB51A5"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/register/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthregisterBB7044BD"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/register/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthregisterOPTIONSFEDF5216"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/register/POST/ApiPermission.ScaleMapStagingScaleMapApi0D72BBEB.POST..auth.register": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthregisterPOSTApiPermissionScaleMapStagingScaleMapApi0D72BBEBPOSTauthregisterD0CF0F11"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/register/POST/ApiPermission.Test.ScaleMapStagingScaleMapApi0D72BBEB.POST..auth.register": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthregisterPOSTApiPermissionTestScaleMapStagingScaleMapApi0D72BBEBPOSTauthregisterB09FDCF8"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/register/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthregisterPOST1086F82F"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/refresh/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthrefresh503A46F4"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/refresh/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthrefreshOPTIONSF8DE41B6"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/refresh/POST/ApiPermission.ScaleMapStagingScaleMapApi0D72BBEB.POST..auth.refresh": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthrefreshPOSTApiPermissionScaleMapStagingScaleMapApi0D72BBEBPOSTauthrefresh5A67AF38"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/refresh/POST/ApiPermission.Test.ScaleMapStagingScaleMapApi0D72BBEB.POST..auth.refresh": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthrefreshPOSTApiPermissionTestScaleMapStagingScaleMapApi0D72BBEBPOSTauthrefresh50E3201C"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/refresh/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthrefreshPOST6EC4C378"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/company/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyE86C5AA2"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/company/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyOPTIONS38C4F9CB"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/company/POST/ApiPermission.ScaleMapStagingScaleMapApi0D72BBEB.POST..company": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyPOSTApiPermissionScaleMapStagingScaleMapApi0D72BBEBPOSTcompany28E542B4"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/company/POST/ApiPermission.Test.ScaleMapStagingScaleMapApi0D72BBEB.POST..company": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyPOSTApiPermissionTestScaleMapStagingScaleMapApi0D72BBEBPOSTcompany3FAFB4AC"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/company/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyPOST6EAA0F4F"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/company/GET/ApiPermission.ScaleMapStagingScaleMapApi0D72BBEB.GET..company": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyGETApiPermissionScaleMapStagingScaleMapApi0D72BBEBGETcompanyC0C6BDC9"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/company/GET/ApiPermission.Test.ScaleMapStagingScaleMapApi0D72BBEB.GET..company": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyGETApiPermissionTestScaleMapStagingScaleMapApi0D72BBEBGETcompanyC94238E0"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/company/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyGET9784E0DD"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/assessment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentC3736B5E"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/assessment/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentOPTIONSC8FBF396"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/assessment/POST/ApiPermission.ScaleMapStagingScaleMapApi0D72BBEB.POST..assessment": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentPOSTApiPermissionScaleMapStagingScaleMapApi0D72BBEBPOSTassessment209C9DF9"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/assessment/POST/ApiPermission.Test.ScaleMapStagingScaleMapApi0D72BBEB.POST..assessment": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentPOSTApiPermissionTestScaleMapStagingScaleMapApi0D72BBEBPOSTassessmentE80DF174"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/assessment/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentPOSTA148887C"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/assessment/GET/ApiPermission.ScaleMapStagingScaleMapApi0D72BBEB.GET..assessment": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentGETApiPermissionScaleMapStagingScaleMapApi0D72BBEBGETassessment95DBB509"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/assessment/GET/ApiPermission.Test.ScaleMapStagingScaleMapApi0D72BBEB.GET..assessment": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentGETApiPermissionTestScaleMapStagingScaleMapApi0D72BBEBGETassessmentDCFCA92E"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/assessment/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentGET1FE7CC79"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/assessment/responses/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentresponses1B5A68B6"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/assessment/responses/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentresponsesOPTIONS54E7E8FB"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/assessment/responses/PUT/ApiPermission.ScaleMapStagingScaleMapApi0D72BBEB.PUT..assessment.responses": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentresponsesPUTApiPermissionScaleMapStagingScaleMapApi0D72BBEBPUTassessmentresponses184F22D2"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/assessment/responses/PUT/ApiPermission.Test.ScaleMapStagingScaleMapApi0D72BBEB.PUT..assessment.responses": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentresponsesPUTApiPermissionTestScaleMapStagingScaleMapApi0D72BBEBPUTassessmentresponsesDE1C4F91"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/assessment/responses/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentresponsesPUTE7F381A0"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/documents/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsF359908A"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/documents/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsOPTIONSA3A85304"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/documents/upload/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsupload9463C0ED"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/documents/upload/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsuploadOPTIONS2F20AF31"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/documents/upload/POST/ApiPermission.ScaleMapStagingScaleMapApi0D72BBEB.POST..documents.upload": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsuploadPOSTApiPermissionScaleMapStagingScaleMapApi0D72BBEBPOSTdocumentsupload5981A3EE"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/documents/upload/POST/ApiPermission.Test.ScaleMapStagingScaleMapApi0D72BBEB.POST..documents.upload": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsuploadPOSTApiPermissionTestScaleMapStagingScaleMapApi0D72BBEBPOSTdocumentsupload36CB0E2A"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/documents/upload/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsuploadPOST8F5412FD"
+          }
+        ],
+        "/ScaleMapStaging/ApiErrorAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiErrorAlarmD3E841A2"
+          }
+        ],
+        "/ScaleMapStaging/LambdaErrorAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaErrorAlarm646BFA4C"
+          }
+        ],
+        "/ScaleMapStaging/CostAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CostAlarm97D2533C"
+          }
+        ],
+        "/ScaleMapStaging/ApiUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiUrl"
+          }
+        ],
+        "/ScaleMapStaging/TableName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TableName"
+          }
+        ],
+        "/ScaleMapStaging/DocumentsBucketName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DocumentsBucketName"
+          }
+        ],
+        "/ScaleMapStaging/DlqUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DlqUrl"
+          }
+        ],
+        "/ScaleMapStaging/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/ScaleMapStaging/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/ScaleMapStaging/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "ScaleMapStaging"
+    },
+    "ScaleMapProd.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "ScaleMapProd.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "ScaleMapProd": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://884337373956/eu-west-1",
+      "properties": {
+        "templateFile": "ScaleMapProd.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-deploy-role-884337373956-eu-west-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-cfn-exec-role-884337373956-eu-west-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/c1fd306104f6dd9afc7a0948b9bd3dcfe09f44dddb006c2bb39dbed03d7995e0.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "ScaleMapProd.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-lookup-role-884337373956-eu-west-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "ScaleMapProd.assets"
+      ],
+      "metadata": {
+        "/ScaleMapProd/ScaleMapTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "ScaleMapTableD1C6C54B"
+            }
+          }
+        ],
+        "/ScaleMapProd/ScaleMapTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapTableD1C6C54B"
+          }
+        ],
+        "/ScaleMapProd/DocumentsBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DocumentsBucket9EC9DEB9"
+          }
+        ],
+        "/ScaleMapProd/DocumentsBucket/Notifications/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DocumentsBucketNotifications871115F2"
+          }
+        ],
+        "/ScaleMapProd/DocumentsBucket/AllowBucketNotificationsToScaleMapProdProcessDocumentFunction878E4F94": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DocumentsBucketAllowBucketNotificationsToScaleMapProdProcessDocumentFunction878E4F94F10CB620"
+          }
+        ],
+        "/ScaleMapProd/DeadLetterQueue/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeadLetterQueue9F481546"
+          }
+        ],
+        "/ScaleMapProd/LoginFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LoginFunctionServiceRole74B42ABA"
+          }
+        ],
+        "/ScaleMapProd/LoginFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LoginFunctionServiceRoleDefaultPolicy2FE1C77C"
+          }
+        ],
+        "/ScaleMapProd/LoginFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LoginFunction66F090C6"
+          }
+        ],
+        "/ScaleMapProd/LoginFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LoginFunctionLogRetentionB59EE088"
+          }
+        ],
+        "/ScaleMapProd/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+          }
+        ],
+        "/ScaleMapProd/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB"
+          }
+        ],
+        "/ScaleMapProd/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A"
+          }
+        ],
+        "/ScaleMapProd/RefreshTokenFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RefreshTokenFunctionServiceRole7D6AF27F"
+          }
+        ],
+        "/ScaleMapProd/RefreshTokenFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RefreshTokenFunctionServiceRoleDefaultPolicy47C7EF3C"
+          }
+        ],
+        "/ScaleMapProd/RefreshTokenFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RefreshTokenFunction37E34807"
+          }
+        ],
+        "/ScaleMapProd/RefreshTokenFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RefreshTokenFunctionLogRetention62D16626"
+          }
+        ],
+        "/ScaleMapProd/RefreshTokenFunction/ScaleMapProdJwtAuthorizer0418A32F:Permissions": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RefreshTokenFunctionScaleMapProdJwtAuthorizer0418A32FPermissions149C84D2"
+          }
+        ],
+        "/ScaleMapProd/RegisterFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RegisterFunctionServiceRoleDB8F6C89"
+          }
+        ],
+        "/ScaleMapProd/RegisterFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RegisterFunctionServiceRoleDefaultPolicyC4352E3C"
+          }
+        ],
+        "/ScaleMapProd/RegisterFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RegisterFunction735506DF"
+          }
+        ],
+        "/ScaleMapProd/RegisterFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RegisterFunctionLogRetention8E4BDC14"
+          }
+        ],
+        "/ScaleMapProd/CreateCompanyFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateCompanyFunctionServiceRoleDBB9C1CF"
+          }
+        ],
+        "/ScaleMapProd/CreateCompanyFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateCompanyFunctionServiceRoleDefaultPolicy7A2CB781"
+          }
+        ],
+        "/ScaleMapProd/CreateCompanyFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateCompanyFunctionB2EDBE20"
+          }
+        ],
+        "/ScaleMapProd/CreateCompanyFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateCompanyFunctionLogRetention299B7396"
+          }
+        ],
+        "/ScaleMapProd/GetCompanyFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetCompanyFunctionServiceRoleDEA2282F"
+          }
+        ],
+        "/ScaleMapProd/GetCompanyFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetCompanyFunctionServiceRoleDefaultPolicy3E5CAADC"
+          }
+        ],
+        "/ScaleMapProd/GetCompanyFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetCompanyFunction40521299"
+          }
+        ],
+        "/ScaleMapProd/GetCompanyFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetCompanyFunctionLogRetention28CD26D3"
+          }
+        ],
+        "/ScaleMapProd/CreateAssessmentFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateAssessmentFunctionServiceRole1F65987E"
+          }
+        ],
+        "/ScaleMapProd/CreateAssessmentFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateAssessmentFunctionServiceRoleDefaultPolicy388FB5C2"
+          }
+        ],
+        "/ScaleMapProd/CreateAssessmentFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateAssessmentFunction9342934F"
+          }
+        ],
+        "/ScaleMapProd/CreateAssessmentFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateAssessmentFunctionLogRetentionEEA68C5D"
+          }
+        ],
+        "/ScaleMapProd/GetAssessmentFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetAssessmentFunctionServiceRole5126DA07"
+          }
+        ],
+        "/ScaleMapProd/GetAssessmentFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetAssessmentFunctionServiceRoleDefaultPolicy95FF1DE8"
+          }
+        ],
+        "/ScaleMapProd/GetAssessmentFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetAssessmentFunction53DE8AFB"
+          }
+        ],
+        "/ScaleMapProd/GetAssessmentFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetAssessmentFunctionLogRetentionB7D4D7F0"
+          }
+        ],
+        "/ScaleMapProd/UpdateResponsesFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UpdateResponsesFunctionServiceRoleC79C8D19"
+          }
+        ],
+        "/ScaleMapProd/UpdateResponsesFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UpdateResponsesFunctionServiceRoleDefaultPolicy9EF23BE3"
+          }
+        ],
+        "/ScaleMapProd/UpdateResponsesFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UpdateResponsesFunctionBF692635"
+          }
+        ],
+        "/ScaleMapProd/UpdateResponsesFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UpdateResponsesFunctionLogRetention511E2235"
+          }
+        ],
+        "/ScaleMapProd/UploadHandlerFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UploadHandlerFunctionServiceRole483D683C"
+          }
+        ],
+        "/ScaleMapProd/UploadHandlerFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UploadHandlerFunctionServiceRoleDefaultPolicyBB324832"
+          }
+        ],
+        "/ScaleMapProd/UploadHandlerFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UploadHandlerFunction1DEB4309"
+          }
+        ],
+        "/ScaleMapProd/UploadHandlerFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UploadHandlerFunctionLogRetentionFC59CE78"
+          }
+        ],
+        "/ScaleMapProd/ProcessDocumentFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProcessDocumentFunctionServiceRole89CDCA16"
+          }
+        ],
+        "/ScaleMapProd/ProcessDocumentFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProcessDocumentFunctionServiceRoleDefaultPolicyB341BFEF"
+          }
+        ],
+        "/ScaleMapProd/ProcessDocumentFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProcessDocumentFunctionC59F63F6"
+          }
+        ],
+        "/ScaleMapProd/ProcessDocumentFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ProcessDocumentFunctionLogRetentionBFCFC4EB"
+          }
+        ],
+        "/ScaleMapProd/HealthFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthFunctionServiceRole04552894"
+          }
+        ],
+        "/ScaleMapProd/HealthFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthFunctionServiceRoleDefaultPolicy57228674"
+          }
+        ],
+        "/ScaleMapProd/HealthFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthFunction19D7724A"
+          }
+        ],
+        "/ScaleMapProd/HealthFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealthFunctionLogRetentionC7891B18"
+          }
+        ],
+        "/ScaleMapProd/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleB6FB88EC"
+          }
+        ],
+        "/ScaleMapProd/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db834RoleDefaultPolicy2CF63D36"
+          }
+        ],
+        "/ScaleMapProd/BucketNotificationsHandler050a0587b7544547bf325f094a3db834/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BucketNotificationsHandler050a0587b7544547bf325f094a3db8347ECC3691"
+          }
+        ],
+        "/ScaleMapProd/JwtAuthorizer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "JwtAuthorizer08CECD9F"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApi2204383E"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/CloudWatchRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiCloudWatchRole240E0A1B"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Account": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiAccountE7812CF1"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiDeployment77EBDD9Dc74d6a807ebaec6f66f7bc115f9688f3"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiDeploymentStageprodF4DD3120"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiEndpoint901AFFC5"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiOPTIONS1BF74AAB"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/health/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApihealthD68D4E2A"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/health/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApihealthOPTIONSB7ECEA33"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/health/GET/ApiPermission.ScaleMapProdScaleMapApi18A6D135.GET..health": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApihealthGETApiPermissionScaleMapProdScaleMapApi18A6D135GEThealth35E653E7"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/health/GET/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.GET..health": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApihealthGETApiPermissionTestScaleMapProdScaleMapApi18A6D135GEThealthC818E1DA"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/health/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApihealthGET37CFB43A"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthBA436AC9"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthOPTIONSEE73EF88"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/login/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthlogin7F8100CE"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/login/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthloginOPTIONS86D709F4"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/login/POST/ApiPermission.ScaleMapProdScaleMapApi18A6D135.POST..auth.login": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthloginPOSTApiPermissionScaleMapProdScaleMapApi18A6D135POSTauthloginE5498F32"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/login/POST/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.POST..auth.login": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthloginPOSTApiPermissionTestScaleMapProdScaleMapApi18A6D135POSTauthloginEDD8EBD4"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/login/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthloginPOSTE1CB51A5"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/register/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthregisterBB7044BD"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/register/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthregisterOPTIONSFEDF5216"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/register/POST/ApiPermission.ScaleMapProdScaleMapApi18A6D135.POST..auth.register": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthregisterPOSTApiPermissionScaleMapProdScaleMapApi18A6D135POSTauthregister5C9D7C0B"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/register/POST/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.POST..auth.register": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthregisterPOSTApiPermissionTestScaleMapProdScaleMapApi18A6D135POSTauthregister35E905D8"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/register/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthregisterPOST1086F82F"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/refresh/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthrefresh503A46F4"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/refresh/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthrefreshOPTIONSF8DE41B6"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/refresh/POST/ApiPermission.ScaleMapProdScaleMapApi18A6D135.POST..auth.refresh": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthrefreshPOSTApiPermissionScaleMapProdScaleMapApi18A6D135POSTauthrefresh06EB456F"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/refresh/POST/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.POST..auth.refresh": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthrefreshPOSTApiPermissionTestScaleMapProdScaleMapApi18A6D135POSTauthrefresh8E93F500"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/refresh/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthrefreshPOST6EC4C378"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/company/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyE86C5AA2"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/company/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyOPTIONS38C4F9CB"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/company/POST/ApiPermission.ScaleMapProdScaleMapApi18A6D135.POST..company": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyPOSTApiPermissionScaleMapProdScaleMapApi18A6D135POSTcompany7E91196C"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/company/POST/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.POST..company": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyPOSTApiPermissionTestScaleMapProdScaleMapApi18A6D135POSTcompanyFA611D09"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/company/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyPOST6EAA0F4F"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/company/GET/ApiPermission.ScaleMapProdScaleMapApi18A6D135.GET..company": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyGETApiPermissionScaleMapProdScaleMapApi18A6D135GETcompanyAB3409F3"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/company/GET/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.GET..company": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyGETApiPermissionTestScaleMapProdScaleMapApi18A6D135GETcompany1C9247AB"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/company/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApicompanyGET9784E0DD"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/assessment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentC3736B5E"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/assessment/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentOPTIONSC8FBF396"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/assessment/POST/ApiPermission.ScaleMapProdScaleMapApi18A6D135.POST..assessment": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentPOSTApiPermissionScaleMapProdScaleMapApi18A6D135POSTassessment1EF7E060"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/assessment/POST/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.POST..assessment": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentPOSTApiPermissionTestScaleMapProdScaleMapApi18A6D135POSTassessment736C2070"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/assessment/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentPOSTA148887C"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/assessment/GET/ApiPermission.ScaleMapProdScaleMapApi18A6D135.GET..assessment": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentGETApiPermissionScaleMapProdScaleMapApi18A6D135GETassessment7295A2FF"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/assessment/GET/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.GET..assessment": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentGETApiPermissionTestScaleMapProdScaleMapApi18A6D135GETassessmentAD004BE1"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/assessment/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentGET1FE7CC79"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/assessment/responses/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentresponses1B5A68B6"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/assessment/responses/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentresponsesOPTIONS54E7E8FB"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/assessment/responses/PUT/ApiPermission.ScaleMapProdScaleMapApi18A6D135.PUT..assessment.responses": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentresponsesPUTApiPermissionScaleMapProdScaleMapApi18A6D135PUTassessmentresponsesC5033078"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/assessment/responses/PUT/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.PUT..assessment.responses": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentresponsesPUTApiPermissionTestScaleMapProdScaleMapApi18A6D135PUTassessmentresponses9D447126"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/assessment/responses/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentresponsesPUTE7F381A0"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/documents/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsF359908A"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/documents/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsOPTIONSA3A85304"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/documents/upload/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsupload9463C0ED"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/documents/upload/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsuploadOPTIONS2F20AF31"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/documents/upload/POST/ApiPermission.ScaleMapProdScaleMapApi18A6D135.POST..documents.upload": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsuploadPOSTApiPermissionScaleMapProdScaleMapApi18A6D135POSTdocumentsupload118C9F81"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/documents/upload/POST/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.POST..documents.upload": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsuploadPOSTApiPermissionTestScaleMapProdScaleMapApi18A6D135POSTdocumentsuploadEE7521FE"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/documents/upload/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApidocumentsuploadPOST8F5412FD"
+          }
+        ],
+        "/ScaleMapProd/ApiErrorAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiErrorAlarmD3E841A2"
+          }
+        ],
+        "/ScaleMapProd/LambdaErrorAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaErrorAlarm646BFA4C"
+          }
+        ],
+        "/ScaleMapProd/CostAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CostAlarm97D2533C"
+          }
+        ],
+        "/ScaleMapProd/ApiUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ApiUrl"
+          }
+        ],
+        "/ScaleMapProd/TableName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TableName"
+          }
+        ],
+        "/ScaleMapProd/DocumentsBucketName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DocumentsBucketName"
+          }
+        ],
+        "/ScaleMapProd/DlqUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DlqUrl"
+          }
+        ],
+        "/ScaleMapProd/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/ScaleMapProd/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/ScaleMapProd/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "ScaleMapProd"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "aws-cdk-lib/feature-flag-report": {
+      "type": "cdk:feature-flag-report",
+      "properties": {
+        "module": "aws-cdk-lib",
+        "flags": {
+          "@aws-cdk/aws-signer:signingProfileNamePassedToCfn": {
+            "recommendedValue": true,
+            "explanation": "Pass signingProfileName to CfnSigningProfile"
+          },
+          "@aws-cdk/core:newStyleStackSynthesis": {
+            "recommendedValue": true,
+            "explanation": "Switch to new stack synthesis method which enables CI/CD",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/core:stackRelativeExports": {
+            "recommendedValue": true,
+            "explanation": "Name exports based on the construct paths relative to the stack, rather than the global construct path",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-ecs-patterns:secGroupsDisablesImplicitOpenListener": {
+            "recommendedValue": true,
+            "explanation": "Disable implicit openListener when custom security groups are provided"
+          },
+          "@aws-cdk/aws-rds:lowercaseDbIdentifier": {
+            "recommendedValue": true,
+            "explanation": "Force lowercasing of RDS Cluster names in CDK",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-apigateway:usagePlanKeyOrderInsensitiveId": {
+            "recommendedValue": true,
+            "explanation": "Allow adding/removing multiple UsagePlanKeys independently",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-lambda:recognizeVersionProps": {
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to opt in to the updated logical id calculation for Lambda Version created using the  `fn.currentVersion`.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-lambda:recognizeLayerVersion": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to opt in to the updated logical id calculation for Lambda Version created using the `fn.currentVersion`."
+          },
+          "@aws-cdk/aws-cloudfront:defaultSecurityPolicyTLSv1.2_2021": {
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to have cloudfront distributions use the security policy TLSv1.2_2021 by default.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/core:checkSecretUsage": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enable this flag to make it impossible to accidentally use SecretValues in unsafe locations"
+          },
+          "@aws-cdk/core:target-partitions": {
+            "userValue": [
+              "aws",
+              "aws-cn"
+            ],
+            "recommendedValue": [
+              "aws",
+              "aws-cn"
+            ],
+            "explanation": "What regions to include in lookup tables of environment agnostic stacks"
+          },
+          "@aws-cdk-containers/ecs-service-extensions:enableDefaultLogDriver": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "ECS extensions will automatically add an `awslogs` driver if no logging is specified"
+          },
+          "@aws-cdk/aws-ec2:uniqueImdsv2TemplateName": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to have Launch Templates generated by the `InstanceRequireImdsv2Aspect` use unique names."
+          },
+          "@aws-cdk/aws-ecs:arnFormatIncludesClusterName": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "ARN format used by ECS. In the new ARN format, the cluster name is part of the resource ID."
+          },
+          "@aws-cdk/aws-iam:minimizePolicies": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Minimize IAM policies by combining Statements"
+          },
+          "@aws-cdk/core:validateSnapshotRemovalPolicy": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Error on snapshot removal policies on resources that do not support it."
+          },
+          "@aws-cdk/aws-codepipeline:crossAccountKeyAliasStackSafeResourceName": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Generate key aliases that include the stack name"
+          },
+          "@aws-cdk/aws-s3:createDefaultLoggingPolicy": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to create an S3 bucket policy by default in cases where an AWS service would automatically create the Policy if one does not exist."
+          },
+          "@aws-cdk/aws-sns-subscriptions:restrictSqsDescryption": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Restrict KMS key policy for encrypted Queues a bit more"
+          },
+          "@aws-cdk/aws-apigateway:disableCloudWatchRole": {
+            "userValue": false,
+            "recommendedValue": true,
+            "explanation": "Make default CloudWatch Role behavior safe for multiple API Gateways in one environment"
+          },
+          "@aws-cdk/core:enablePartitionLiterals": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Make ARNs concrete if AWS partition is known"
+          },
+          "@aws-cdk/aws-events:eventsTargetQueueSameAccount": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Event Rules may only push to encrypted SQS queues in the same account"
+          },
+          "@aws-cdk/aws-ecs:disableExplicitDeploymentControllerForCircuitBreaker": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Avoid setting the \"ECS\" deployment controller when adding a circuit breaker"
+          },
+          "@aws-cdk/aws-iam:importedRoleStackSafeDefaultPolicyName": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Enable this feature to by default create default policy names for imported roles that depend on the stack the role is in."
+          },
+          "@aws-cdk/aws-s3:serverAccessLogsUseBucketPolicy": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Use S3 Bucket Policy instead of ACLs for Server Access Logging"
+          },
+          "@aws-cdk/aws-route53-patters:useCertificate": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Use the official `Certificate` resource instead of `DnsValidatedCertificate`"
+          },
+          "@aws-cdk/customresources:installLatestAwsSdkDefault": {
+            "userValue": false,
+            "recommendedValue": false,
+            "explanation": "Whether to install the latest SDK by default in AwsCustomResource"
+          },
+          "@aws-cdk/aws-rds:databaseProxyUniqueResourceName": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Use unique resource name for Database Proxy"
+          },
+          "@aws-cdk/aws-codedeploy:removeAlarmsFromDeploymentGroup": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Remove CloudWatch alarms from deployment group"
+          },
+          "@aws-cdk/aws-apigateway:authorizerChangeDeploymentLogicalId": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Include authorizer configuration in the calculation of the API deployment logical ID."
+          },
+          "@aws-cdk/aws-ec2:launchTemplateDefaultUserData": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Define user data for a launch template by default when a machine image is provided."
+          },
+          "@aws-cdk/aws-secretsmanager:useAttachedSecretResourcePolicyForSecretTargetAttachments": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "SecretTargetAttachments uses the ResourcePolicy of the attached Secret."
+          },
+          "@aws-cdk/aws-redshift:columnId": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Whether to use an ID to track Redshift column changes"
+          },
+          "@aws-cdk/aws-stepfunctions-tasks:enableEmrServicePolicyV2": {
+            "recommendedValue": true,
+            "explanation": "Enable AmazonEMRServicePolicy_v2 managed policies"
+          },
+          "@aws-cdk/aws-ec2:restrictDefaultSecurityGroup": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Restrict access to the VPC default security group"
+          },
+          "@aws-cdk/aws-apigateway:requestValidatorUniqueId": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Generate a unique id for each RequestValidator added to a method"
+          },
+          "@aws-cdk/aws-kms:aliasNameRef": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "KMS Alias name and keyArn will have implicit reference to KMS Key"
+          },
+          "@aws-cdk/aws-kms:applyImportedAliasPermissionsToPrincipal": {
+            "recommendedValue": true,
+            "explanation": "Enable grant methods on Aliases imported by name to use kms:ResourceAliases condition"
+          },
+          "@aws-cdk/aws-autoscaling:generateLaunchTemplateInsteadOfLaunchConfig": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Generate a launch template when creating an AutoScalingGroup"
+          },
+          "@aws-cdk/core:includePrefixInUniqueNameGeneration": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "Include the stack prefix in the stack name generation process"
+          },
+          "@aws-cdk/aws-efs:denyAnonymousAccess": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "EFS denies anonymous clients accesses"
+          },
+          "@aws-cdk/aws-opensearchservice:enableOpensearchMultiAzWithStandby": {
+            "recommendedValue": true,
+            "explanation": "Enables support for Multi-AZ with Standby deployment for opensearch domains"
+          },
+          "@aws-cdk/aws-lambda-nodejs:useLatestRuntimeVersion": {
+            "recommendedValue": true,
+            "explanation": "Enables aws-lambda-nodejs.Function to use the latest available NodeJs runtime as the default"
+          },
+          "@aws-cdk/aws-efs:mountTargetOrderInsensitiveLogicalId": {
+            "recommendedValue": true,
+            "explanation": "When enabled, mount targets will have a stable logicalId that is linked to the associated subnet."
+          },
+          "@aws-cdk/aws-rds:auroraClusterChangeScopeOfInstanceParameterGroupWithEachParameters": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, a scope of InstanceParameterGroup for AuroraClusterInstance with each parameters will change."
+          },
+          "@aws-cdk/aws-appsync:useArnForSourceApiAssociationIdentifier": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, will always use the arn for identifiers for CfnSourceApiAssociation in the GraphqlApi construct rather than id."
+          },
+          "@aws-cdk/aws-rds:preventRenderingDeprecatedCredentials": {
+            "userValue": true,
+            "recommendedValue": true,
+            "explanation": "When enabled, creating an RDS database cluster from a snapshot will only render credentials for snapshot credentials."
+          },
+          "@aws-cdk/aws-codepipeline-actions:useNewDefaultBranchForCodeCommitSource": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the CodeCommit source action is using the default branch name 'main'."
+          },
+          "@aws-cdk/aws-cloudwatch-actions:changeLambdaPermissionLogicalIdForLambdaAction": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the logical ID of a Lambda permission for a Lambda action includes an alarm ID."
+          },
+          "@aws-cdk/aws-codepipeline:crossAccountKeysDefaultValueToFalse": {
+            "recommendedValue": true,
+            "explanation": "Enables Pipeline to set the default value for crossAccountKeys to false."
+          },
+          "@aws-cdk/aws-codepipeline:defaultPipelineTypeToV2": {
+            "recommendedValue": true,
+            "explanation": "Enables Pipeline to set the default pipeline type to V2."
+          },
+          "@aws-cdk/aws-kms:reduceCrossAccountRegionPolicyScope": {
+            "recommendedValue": true,
+            "explanation": "When enabled, IAM Policy created from KMS key grant will reduce the resource scope to this key only."
+          },
+          "@aws-cdk/pipelines:reduceAssetRoleTrustScope": {
+            "recommendedValue": true,
+            "explanation": "Remove the root account principal from PipelineAssetsFileRole trust policy",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-eks:nodegroupNameAttribute": {
+            "recommendedValue": true,
+            "explanation": "When enabled, nodegroupName attribute of the provisioned EKS NodeGroup will not have the cluster name prefix."
+          },
+          "@aws-cdk/aws-ec2:ebsDefaultGp3Volume": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the default volume type of the EBS volume will be GP3"
+          },
+          "@aws-cdk/aws-ecs:removeDefaultDeploymentAlarm": {
+            "recommendedValue": true,
+            "explanation": "When enabled, remove default deployment alarm settings"
+          },
+          "@aws-cdk/custom-resources:logApiResponseDataPropertyTrueDefault": {
+            "recommendedValue": false,
+            "explanation": "When enabled, the custom resource used for `AwsCustomResource` will configure the `logApiResponseData` property as true by default"
+          },
+          "@aws-cdk/aws-s3:keepNotificationInImportedBucket": {
+            "recommendedValue": false,
+            "explanation": "When enabled, Adding notifications to a bucket in the current stack will not remove notification from imported stack."
+          },
+          "@aws-cdk/aws-stepfunctions-tasks:useNewS3UriParametersForBedrockInvokeModelTask": {
+            "recommendedValue": true,
+            "explanation": "When enabled, use new props for S3 URI field in task definition of state machine for bedrock invoke model.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/core:explicitStackTags": {
+            "recommendedValue": true,
+            "explanation": "When enabled, stack tags need to be assigned explicitly on a Stack."
+          },
+          "@aws-cdk/aws-ecs:enableImdsBlockingDeprecatedFeature": {
+            "recommendedValue": false,
+            "explanation": "When set to true along with canContainersAccessInstanceRole=false in ECS cluster, new updated commands will be added to UserData to block container accessing IMDS. **Applicable to Linux only. IMPORTANT: See [details.](#aws-cdkaws-ecsenableImdsBlockingDeprecatedFeature)**"
+          },
+          "@aws-cdk/aws-ecs:disableEcsImdsBlocking": {
+            "recommendedValue": true,
+            "explanation": "When set to true, CDK synth will throw exception if canContainersAccessInstanceRole is false. **IMPORTANT: See [details.](#aws-cdkaws-ecsdisableEcsImdsBlocking)**"
+          },
+          "@aws-cdk/aws-ecs:reduceEc2FargateCloudWatchPermissions": {
+            "recommendedValue": true,
+            "explanation": "When enabled, we will only grant the necessary permissions when users specify cloudwatch log group through logConfiguration"
+          },
+          "@aws-cdk/aws-dynamodb:resourcePolicyPerReplica": {
+            "recommendedValue": true,
+            "explanation": "When enabled will allow you to specify a resource policy per replica, and not copy the source table policy to all replicas"
+          },
+          "@aws-cdk/aws-ec2:ec2SumTImeoutEnabled": {
+            "recommendedValue": true,
+            "explanation": "When enabled, initOptions.timeout and resourceSignalTimeout values will be summed together."
+          },
+          "@aws-cdk/aws-appsync:appSyncGraphQLAPIScopeLambdaPermission": {
+            "recommendedValue": true,
+            "explanation": "When enabled, a Lambda authorizer Permission created when using GraphqlApi will be properly scoped with a SourceArn."
+          },
+          "@aws-cdk/aws-rds:setCorrectValueForDatabaseInstanceReadReplicaInstanceResourceId": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the value of property `instanceResourceId` in construct `DatabaseInstanceReadReplica` will be set to the correct value which is `DbiResourceId` instead of currently `DbInstanceArn`"
+          },
+          "@aws-cdk/core:cfnIncludeRejectComplexResourceUpdateCreatePolicyIntrinsics": {
+            "recommendedValue": true,
+            "explanation": "When enabled, CFN templates added with `cfn-include` will error if the template contains Resource Update or Create policies with CFN Intrinsics that include non-primitive values."
+          },
+          "@aws-cdk/aws-lambda-nodejs:sdkV3ExcludeSmithyPackages": {
+            "recommendedValue": true,
+            "explanation": "When enabled, both `@aws-sdk` and `@smithy` packages will be excluded from the Lambda Node.js 18.x runtime to prevent version mismatches in bundled applications."
+          },
+          "@aws-cdk/aws-stepfunctions-tasks:fixRunEcsTaskPolicy": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the resource of IAM Run Ecs policy generated by SFN EcsRunTask will reference the definition, instead of constructing ARN."
+          },
+          "@aws-cdk/aws-ec2:bastionHostUseAmazonLinux2023ByDefault": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the BastionHost construct will use the latest Amazon Linux 2023 AMI, instead of Amazon Linux 2."
+          },
+          "@aws-cdk/core:aspectStabilization": {
+            "recommendedValue": true,
+            "explanation": "When enabled, a stabilization loop will be run when invoking Aspects during synthesis.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-route53-targets:userPoolDomainNameMethodWithoutCustomResource": {
+            "recommendedValue": true,
+            "explanation": "When enabled, use a new method for DNS Name of user pool domain target without creating a custom resource."
+          },
+          "@aws-cdk/aws-elasticloadbalancingV2:albDualstackWithoutPublicIpv4SecurityGroupRulesDefault": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the default security group ingress rules will allow IPv6 ingress from anywhere"
+          },
+          "@aws-cdk/aws-iam:oidcRejectUnauthorizedConnections": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the default behaviour of OIDC provider will reject unauthorized connections"
+          },
+          "@aws-cdk/core:enableAdditionalMetadataCollection": {
+            "recommendedValue": true,
+            "explanation": "When enabled, CDK will expand the scope of usage data collected to better inform CDK development and improve communication for security concerns and emerging issues."
+          },
+          "@aws-cdk/aws-lambda:createNewPoliciesWithAddToRolePolicy": {
+            "recommendedValue": false,
+            "explanation": "[Deprecated] When enabled, Lambda will create new inline policies with AddToRolePolicy instead of adding to the Default Policy Statement"
+          },
+          "@aws-cdk/aws-s3:setUniqueReplicationRoleName": {
+            "recommendedValue": true,
+            "explanation": "When enabled, CDK will automatically generate a unique role name that is used for s3 object replication."
+          },
+          "@aws-cdk/pipelines:reduceStageRoleTrustScope": {
+            "recommendedValue": true,
+            "explanation": "Remove the root account principal from Stage addActions trust policy",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-events:requireEventBusPolicySid": {
+            "recommendedValue": true,
+            "explanation": "When enabled, grantPutEventsTo() will use resource policies with Statement IDs for service principals."
+          },
+          "@aws-cdk/core:aspectPrioritiesMutating": {
+            "recommendedValue": true,
+            "explanation": "When set to true, Aspects added by the construct library on your behalf will be given a priority of MUTATING."
+          },
+          "@aws-cdk/aws-dynamodb:retainTableReplica": {
+            "recommendedValue": true,
+            "explanation": "When enabled, table replica will be default to the removal policy of source table unless specified otherwise."
+          },
+          "@aws-cdk/cognito:logUserPoolClientSecretValue": {
+            "recommendedValue": false,
+            "explanation": "When disabled, the value of the user pool client secret will not be logged in the custom resource lambda function logs."
+          },
+          "@aws-cdk/pipelines:reduceCrossAccountActionRoleTrustScope": {
+            "recommendedValue": true,
+            "explanation": "When enabled, scopes down the trust policy for the cross-account action role",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-stepfunctions:useDistributedMapResultWriterV2": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the resultWriterV2 property of DistributedMap will be used insted of resultWriter"
+          },
+          "@aws-cdk/s3-notifications:addS3TrustKeyPolicyForSnsSubscriptions": {
+            "recommendedValue": true,
+            "explanation": "Add an S3 trust policy to a KMS key resource policy for SNS subscriptions."
+          },
+          "@aws-cdk/aws-ec2:requirePrivateSubnetsForEgressOnlyInternetGateway": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the EgressOnlyGateway resource is only created if private subnets are defined in the dual-stack VPC."
+          },
+          "@aws-cdk/aws-ec2-alpha:useResourceIdForVpcV2Migration": {
+            "recommendedValue": false,
+            "explanation": "When enabled, use resource IDs for VPC V2 migration"
+          },
+          "@aws-cdk/aws-s3:publicAccessBlockedByDefault": {
+            "recommendedValue": true,
+            "explanation": "When enabled, setting any combination of options for BlockPublicAccess will automatically set true for any options not defined."
+          },
+          "@aws-cdk/aws-lambda:useCdkManagedLogGroup": {
+            "recommendedValue": true,
+            "explanation": "When enabled, CDK creates and manages loggroup for the lambda function"
+          }
+        }
+      }
+    }
+  },
+  "minimumCliVersion": "2.1029.1"
+}
