@@ -38,10 +38,18 @@ interface AuthProviderProps {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
+  console.log('🚀 AuthProvider: Component initializing');
+
   const [user, setUser] = useState<User | null>(null);
   const [company, setCompany] = useState<Company | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  console.log('🚀 AuthProvider: State initialized', {
+    isLoading,
+    hasUser: !!user,
+    hasCompany: !!company,
+  });
 
   const loadUserAndCompanyData = async () => {
     console.log('AuthContext: loadUserAndCompanyData called');
@@ -207,7 +215,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
   };
 
   useEffect(() => {
-    loadUserAndCompanyData();
+    console.log('🚀 AuthProvider: useEffect mounting, calling loadUserAndCompanyData');
+    try {
+      loadUserAndCompanyData();
+    } catch (error) {
+      console.error('🚨 AuthProvider: Critical error in useEffect:', error);
+    }
   }, []);
 
   const isAuthenticated = !!user && !!company && !isLoading;
@@ -232,6 +245,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
     error,
     refreshData,
   };
+
+  console.log('🚀 AuthProvider: Rendering with value:', {
+    hasUser: !!user,
+    hasCompany: !!company,
+    isLoading,
+    isAuthenticated,
+    error,
+  });
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
