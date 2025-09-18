@@ -196,16 +196,16 @@
         }
       }
     },
-    "b5a510126cec7dbf04fb504fe17f9b203c9f524b24f79485cd3747f1a434b530": {
+    "5bf77a9e1d01f9e0439968942b668b52a264cdd4e13aaca0215aa73c68666ccb": {
       "displayName": "ScaleMapStaging Template",
       "source": {
         "path": "ScaleMapStaging.template.json",
         "packaging": "file"
       },
       "destinations": {
-        "884337373956-eu-west-1-b0a88a13": {
+        "884337373956-eu-west-1-61d9bc12": {
           "bucketName": "cdk-hnb659fds-assets-884337373956-eu-west-1",
-          "objectKey": "b5a510126cec7dbf04fb504fe17f9b203c9f524b24f79485cd3747f1a434b530.json",
+          "objectKey": "5bf77a9e1d01f9e0439968942b668b52a264cdd4e13aaca0215aa73c68666ccb.json",
           "region": "eu-west-1",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-file-publishing-role-884337373956-eu-west-1"
         }

@@ -3472,7 +3472,7 @@
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Account"
    }
   },
-  "ScaleMapApiDeployment77EBDD9Dd093cbfb18e90e712a71785f9dfd7106": {
+  "ScaleMapApiDeployment77EBDD9D15ade3309ee4f15215d68146c46de626": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "ScaleMap API for production environment",
@@ -3530,7 +3530,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "ScaleMapApiDeployment77EBDD9Dd093cbfb18e90e712a71785f9dfd7106"
+     "Ref": "ScaleMapApiDeployment77EBDD9D15ade3309ee4f15215d68146c46de626"
     },
     "RestApiId": {
      "Ref": "ScaleMapApi2204383E"
@@ -3561,7 +3561,7 @@
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
        },
        "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
        },
        "StatusCode": "204"
       }
@@ -3632,7 +3632,7 @@
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
        },
        "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
        },
        "StatusCode": "204"
       }
@@ -3795,7 +3795,7 @@
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
        },
        "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
        },
        "StatusCode": "204"
       }
@@ -3860,7 +3860,7 @@
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
        },
        "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
        },
        "StatusCode": "204"
       }
@@ -4020,7 +4020,7 @@
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
        },
        "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
        },
        "StatusCode": "204"
       }
@@ -4180,7 +4180,7 @@
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
        },
        "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
        },
        "StatusCode": "204"
       }
@@ -4340,7 +4340,7 @@
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
        },
        "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
        },
        "StatusCode": "204"
       }
@@ -4503,7 +4503,7 @@
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
        },
        "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
        },
        "StatusCode": "204"
       }
@@ -4666,7 +4666,7 @@
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
        },
        "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
        },
        "StatusCode": "204"
       }
@@ -4832,7 +4832,7 @@
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
        },
        "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
        },
        "StatusCode": "204"
       }
@@ -5093,7 +5093,7 @@
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
        },
        "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
        },
        "StatusCode": "204"
       }
@@ -5259,7 +5259,7 @@
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
        },
        "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
        },
        "StatusCode": "204"
       }
@@ -5324,7 +5324,7 @@
         "method.response.header.Access-Control-Allow-Credentials": "'true'"
        },
        "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
+        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
        },
        "StatusCode": "204"
       }
@@ -5459,7 +5459,7 @@
    "Type": "AWS::ApiGateway::GatewayResponse",
    "Properties": {
     "ResponseParameters": {
-     "gatewayresponse.header.Access-Control-Allow-Origin": "'https://web-5jgiv2tsg-scale-map.vercel.app'",
+     "gatewayresponse.header.Access-Control-Allow-Origin": "'${request.header.Origin}'",
      "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
      "gatewayresponse.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
      "gatewayresponse.header.Access-Control-Allow-Credentials": "'true'"
@@ -5477,7 +5477,7 @@
    "Type": "AWS::ApiGateway::GatewayResponse",
    "Properties": {
     "ResponseParameters": {
-     "gatewayresponse.header.Access-Control-Allow-Origin": "'https://web-5jgiv2tsg-scale-map.vercel.app'",
+     "gatewayresponse.header.Access-Control-Allow-Origin": "'${request.header.Origin}'",
      "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
      "gatewayresponse.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
      "gatewayresponse.header.Access-Control-Allow-Credentials": "'true'"

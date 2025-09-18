@@ -326,6 +326,7 @@ export class ScaleMapStack extends cdk.Stack {
                 'https://app.scalemap.ai',
                 'https://web-5jgiv2tsg-scale-map.vercel.app',
                 'https://web-qtq3fyntv-scale-map.vercel.app',
+                'https://web-2o7w6lzvk-scale-map.vercel.app',
               ]
             : apigateway.Cors.ALL_ORIGINS,
         allowMethods: apigateway.Cors.ALL_METHODS,
@@ -345,7 +346,7 @@ export class ScaleMapStack extends cdk.Stack {
     api.addGatewayResponse('UnauthorizedResponse', {
       type: apigateway.ResponseType.UNAUTHORIZED,
       responseHeaders: {
-        'Access-Control-Allow-Origin': "'https://web-5jgiv2tsg-scale-map.vercel.app'",
+        'Access-Control-Allow-Origin': `'\${request.header.Origin}'`,
         'Access-Control-Allow-Headers': "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
         'Access-Control-Allow-Methods': "'GET,POST,PUT,DELETE,OPTIONS'",
         'Access-Control-Allow-Credentials': "'true'",
@@ -355,7 +356,7 @@ export class ScaleMapStack extends cdk.Stack {
     api.addGatewayResponse('ForbiddenResponse', {
       type: apigateway.ResponseType.ACCESS_DENIED,
       responseHeaders: {
-        'Access-Control-Allow-Origin': "'https://web-5jgiv2tsg-scale-map.vercel.app'",
+        'Access-Control-Allow-Origin': `'\${request.header.Origin}'`,
         'Access-Control-Allow-Headers': "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
         'Access-Control-Allow-Methods': "'GET,POST,PUT,DELETE,OPTIONS'",
         'Access-Control-Allow-Credentials': "'true'",

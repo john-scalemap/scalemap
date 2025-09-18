@@ -3472,7 +3472,7 @@
     "aws:cdk:path": "ScaleMapStaging/ScaleMapApi/Account"
    }
   },
-  "ScaleMapApiDeployment77EBDD9D41d48827effefc4e764a031e1670360b": {
+  "ScaleMapApiDeployment77EBDD9D41e892f120dd862601043627c658872a": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "ScaleMap API for staging environment",
@@ -3530,7 +3530,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "ScaleMapApiDeployment77EBDD9D41d48827effefc4e764a031e1670360b"
+     "Ref": "ScaleMapApiDeployment77EBDD9D41e892f120dd862601043627c658872a"
     },
     "RestApiId": {
      "Ref": "ScaleMapApi2204383E"
@@ -5394,7 +5394,7 @@
    "Type": "AWS::ApiGateway::GatewayResponse",
    "Properties": {
     "ResponseParameters": {
-     "gatewayresponse.header.Access-Control-Allow-Origin": "'https://web-5jgiv2tsg-scale-map.vercel.app'",
+     "gatewayresponse.header.Access-Control-Allow-Origin": "'${request.header.Origin}'",
      "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
      "gatewayresponse.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
      "gatewayresponse.header.Access-Control-Allow-Credentials": "'true'"
@@ -5412,7 +5412,7 @@
    "Type": "AWS::ApiGateway::GatewayResponse",
    "Properties": {
     "ResponseParameters": {
-     "gatewayresponse.header.Access-Control-Allow-Origin": "'https://web-5jgiv2tsg-scale-map.vercel.app'",
+     "gatewayresponse.header.Access-Control-Allow-Origin": "'${request.header.Origin}'",
      "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
      "gatewayresponse.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
      "gatewayresponse.header.Access-Control-Allow-Credentials": "'true'"
