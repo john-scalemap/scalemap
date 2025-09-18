@@ -19,8 +19,21 @@ const JwtUtils = {
   getUserEmail: (token: string) => decodeJwtPayload(token)?.email,
   getUserId: (token: string) => decodeJwtPayload(token)?.sub,
   getCompanyId: (token: string) => decodeJwtPayload(token)?.companyId,
+  safeDecode: (token: string) => decodeJwtPayload(token),
 };
 import { TokenManager } from './token-manager';
+
+// Helper function to read user from both storage types
+function getStoredUser(): string | null {
+  try {
+    const fromSession = sessionStorage.getItem('user');
+    if (fromSession) return fromSession;
+    // Fallback to localStorage when Remember Me was used
+    return typeof localStorage !== 'undefined' ? localStorage.getItem('user') : null;
+  } catch {
+    return null;
+  }
+}
 
 interface AuthContextValue {
   user: User | null;
@@ -69,20 +82,22 @@ export function AuthProvider({ children }: AuthProviderProps) {
         return;
       }
 
-      // First try to get user data from sessionStorage (live site)
-      const storedUserData = sessionStorage.getItem('user');
+      // Try to get user data from both sessionStorage and localStorage
+      const storedUserData = getStoredUser();
       console.log(
-        'AuthContext: Stored user data from sessionStorage:',
+        'AuthContext: Stored user data from storage:',
         !!storedUserData,
         storedUserData?.substring(0, 50) + '...'
       );
+
+      let user: User | null = null;
 
       if (storedUserData) {
         try {
           const parsedUser = JSON.parse(storedUserData);
 
           // Create user object from stored data
-          const userData: User = {
+          user = {
             id: parsedUser.id || parsedUser.sub || JwtUtils.getUserId(accessToken),
             cognitoUserId: parsedUser.cognitoUserId || parsedUser.id || parsedUser.sub,
             email: parsedUser.email || JwtUtils.getUserEmail(accessToken),
@@ -105,35 +120,69 @@ export function AuthProvider({ children }: AuthProviderProps) {
             updatedAt: parsedUser.updatedAt || new Date().toISOString(),
           };
 
-          console.log('AuthContext: Created user from sessionStorage:', userData);
-          setUser(userData);
+          console.log('AuthContext: Created user from storage:', user);
+        } catch (parseError) {
+          console.warn('Failed to parse stored user data, will try JWT fallback');
+          user = null;
+        }
+      }
 
-          // Create company from user data or fallback
-          const fallbackCompany: Company = {
-            id: parsedUser.companyId || JwtUtils.getCompanyId(accessToken) || 'unknown',
-            name: parsedUser.companyName || 'Your Company',
-            industry: '',
-            businessModel: 'other',
-            size: '1-10',
-            description: '',
-            website: '',
-            headquarters: '',
-            subscription: {
-              plan: 'basic',
-              status: 'active',
-              startDate: new Date().toISOString(),
-              endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
-              features: ['basic_assessment'],
+      // If user is still null or missing key fields, try JWT-derived fallback
+      if (!user || !user.companyId) {
+        const payload = JwtUtils.safeDecode(accessToken);
+        if (payload?.email) {
+          user = {
+            id: payload.sub || JwtUtils.getUserId(accessToken),
+            cognitoUserId: payload.sub || JwtUtils.getUserId(accessToken),
+            email: payload.email,
+            emailVerified: true,
+            firstName: '',
+            lastName: '',
+            companyId: payload.companyId || JwtUtils.getCompanyId(accessToken),
+            role: 'user' as const,
+            status: 'active' as const,
+            lastLoginAt: new Date().toISOString(),
+            gdprConsent: {
+              consentGiven: true,
+              consentDate: new Date().toISOString(),
+              consentVersion: '1.0',
+              ipAddress: '',
+              userAgent: '',
+              dataProcessingPurposes: ['authentication', 'service_provision'],
             },
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
           };
-          console.log('AuthContext: Created company from sessionStorage:', fallbackCompany);
-          setCompany(fallbackCompany);
-          return;
-        } catch (parseError) {
-          console.warn('Failed to parse stored user data, falling back to JWT extraction');
+          console.log('AuthContext: Created user from JWT fallback:', user);
         }
+      }
+
+      if (user) {
+        setUser(user);
+
+        // Create company from user data or fallback
+        const fallbackCompany: Company = {
+          id: user.companyId || 'unknown',
+          name: 'Your Company',
+          industry: '',
+          businessModel: 'other',
+          size: '1-10',
+          description: '',
+          website: '',
+          headquarters: '',
+          subscription: {
+            plan: 'basic',
+            status: 'active',
+            startDate: new Date().toISOString(),
+            endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+            features: ['basic_assessment'],
+          },
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+        console.log('AuthContext: Created company from user data:', fallbackCompany);
+        setCompany(fallbackCompany);
+        return;
       }
 
       // Fallback: Extract user data from JWT
