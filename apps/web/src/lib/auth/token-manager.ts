@@ -28,7 +28,8 @@ export class TokenManager {
   private static storage: Storage | null = null;
 
   /**
-   * Initialize storage - defaults to localStorage for persistent sessions
+   * Initialize storage - checks both sessionStorage and localStorage
+   * Priority: sessionStorage (for live site) -> localStorage (for development)
    */
   private static getStorage(): Storage | null {
     if (typeof window === 'undefined') {
@@ -36,8 +37,13 @@ export class TokenManager {
     }
 
     if (!this.storage) {
-      // Always use localStorage for consistency
-      this.storage = localStorage;
+      // Check sessionStorage first (live site uses this)
+      if (sessionStorage.getItem(this.ACCESS_TOKEN_KEY)) {
+        this.storage = sessionStorage;
+      } else {
+        // Fallback to localStorage (development)
+        this.storage = localStorage;
+      }
     }
 
     return this.storage;
@@ -55,7 +61,7 @@ export class TokenManager {
       storage.setItem(this.REFRESH_TOKEN_KEY, tokens.refreshToken);
 
       // Calculate absolute expiration time
-      const expiresAt = Date.now() + (tokens.expiresIn * 1000);
+      const expiresAt = Date.now() + tokens.expiresIn * 1000;
       storage.setItem(this.EXPIRES_AT_KEY, expiresAt.toString());
     } catch (error) {
       console.error('Failed to store tokens:', error);
@@ -66,11 +72,18 @@ export class TokenManager {
    * Get current access token
    */
   static getAccessToken(): string | null {
-    const storage = this.getStorage();
-    if (!storage) return null;
+    if (typeof window === 'undefined') return null;
 
     try {
-      return storage.getItem(this.ACCESS_TOKEN_KEY);
+      // Check sessionStorage first (live site format)
+      let token = sessionStorage.getItem('accessToken');
+      if (token) return token;
+
+      // Check localStorage with our custom key
+      token = localStorage.getItem(this.ACCESS_TOKEN_KEY);
+      if (token) return token;
+
+      return null;
     } catch (error) {
       console.error('Failed to retrieve access token:', error);
       return null;
@@ -81,11 +94,18 @@ export class TokenManager {
    * Get current refresh token
    */
   static getRefreshToken(): string | null {
-    const storage = this.getStorage();
-    if (!storage) return null;
+    if (typeof window === 'undefined') return null;
 
     try {
-      return storage.getItem(this.REFRESH_TOKEN_KEY);
+      // Check sessionStorage first (live site format)
+      let token = sessionStorage.getItem('refreshToken');
+      if (token) return token;
+
+      // Check localStorage with our custom key
+      token = localStorage.getItem(this.REFRESH_TOKEN_KEY);
+      if (token) return token;
+
+      return null;
     } catch (error) {
       console.error('Failed to retrieve refresh token:', error);
       return null;
@@ -154,12 +174,11 @@ export class TokenManager {
         refreshToken: data.refreshToken,
         expiresIn: data.expiresIn,
         tokenType: 'Bearer',
-        scope: []
+        scope: [],
       };
 
       this.setTokens(newTokens);
       return true;
-
     } catch (error) {
       console.error('Token refresh failed:', error);
       this.clearTokens();
@@ -211,7 +230,7 @@ export class TokenManager {
       refreshToken,
       expiresIn,
       tokenType: 'Bearer',
-      scope: []
+      scope: [],
     };
   }
 

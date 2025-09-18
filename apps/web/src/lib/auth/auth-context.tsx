@@ -55,7 +55,66 @@ export function AuthProvider({ children }: AuthProviderProps) {
         return;
       }
 
-      // Extract user data from JWT
+      // First try to get user data from sessionStorage (live site)
+      const storedUserData = sessionStorage.getItem('user');
+      if (storedUserData) {
+        try {
+          const parsedUser = JSON.parse(storedUserData);
+
+          // Create user object from stored data
+          const userData: User = {
+            id: parsedUser.id || parsedUser.sub || JwtUtils.getUserId(accessToken),
+            cognitoUserId: parsedUser.cognitoUserId || parsedUser.id || parsedUser.sub,
+            email: parsedUser.email || JwtUtils.getUserEmail(accessToken),
+            emailVerified: parsedUser.emailVerified ?? true,
+            firstName: parsedUser.firstName || '',
+            lastName: parsedUser.lastName || '',
+            companyId: parsedUser.companyId || JwtUtils.getCompanyId(accessToken),
+            role: parsedUser.role || ('user' as const),
+            status: parsedUser.status || ('active' as const),
+            lastLoginAt: parsedUser.lastLoginAt || new Date().toISOString(),
+            gdprConsent: parsedUser.gdprConsent || {
+              consentGiven: true,
+              consentDate: new Date().toISOString(),
+              consentVersion: '1.0',
+              ipAddress: '',
+              userAgent: '',
+              dataProcessingPurposes: ['authentication', 'service_provision'],
+            },
+            createdAt: parsedUser.createdAt || new Date().toISOString(),
+            updatedAt: parsedUser.updatedAt || new Date().toISOString(),
+          };
+
+          setUser(userData);
+
+          // Create company from user data or fallback
+          const fallbackCompany: Company = {
+            id: parsedUser.companyId || JwtUtils.getCompanyId(accessToken) || 'unknown',
+            name: parsedUser.companyName || 'Your Company',
+            industry: '',
+            businessModel: 'other',
+            size: '1-10',
+            description: '',
+            website: '',
+            headquarters: '',
+            subscription: {
+              plan: 'basic',
+              status: 'active',
+              startDate: new Date().toISOString(),
+              endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+              features: ['basic_assessment'],
+            },
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          };
+          setCompany(fallbackCompany);
+          return;
+        } catch (parseError) {
+          console.warn('Failed to parse stored user data, falling back to JWT extraction');
+        }
+      }
+
+      // Fallback: Extract user data from JWT
       const userEmail = JwtUtils.getUserEmail(accessToken);
       const companyId = JwtUtils.getCompanyId(accessToken);
       const userId = JwtUtils.getUserId(accessToken);
