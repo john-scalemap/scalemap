@@ -77,12 +77,26 @@ export class TokenManager {
     try {
       // Check sessionStorage first (live site format)
       let token = sessionStorage.getItem('accessToken');
-      if (token) return token;
+      if (token) {
+        console.log('TokenManager: Found access token in sessionStorage');
+        return token;
+      }
 
-      // Check localStorage with our custom key
+      // Check localStorage (development format)
+      token = localStorage.getItem('accessToken');
+      if (token) {
+        console.log('TokenManager: Found access token in localStorage');
+        return token;
+      }
+
+      // Fallback: Check with our custom key (backwards compatibility)
       token = localStorage.getItem(this.ACCESS_TOKEN_KEY);
-      if (token) return token;
+      if (token) {
+        console.log('TokenManager: Found access token with custom key');
+        return token;
+      }
 
+      console.log('TokenManager: No access token found in any storage');
       return null;
     } catch (error) {
       console.error('Failed to retrieve access token:', error);
@@ -99,12 +113,26 @@ export class TokenManager {
     try {
       // Check sessionStorage first (live site format)
       let token = sessionStorage.getItem('refreshToken');
-      if (token) return token;
+      if (token) {
+        console.log('TokenManager: Found refresh token in sessionStorage');
+        return token;
+      }
 
-      // Check localStorage with our custom key
+      // Check localStorage (development format)
+      token = localStorage.getItem('refreshToken');
+      if (token) {
+        console.log('TokenManager: Found refresh token in localStorage');
+        return token;
+      }
+
+      // Fallback: Check with our custom key (backwards compatibility)
       token = localStorage.getItem(this.REFRESH_TOKEN_KEY);
-      if (token) return token;
+      if (token) {
+        console.log('TokenManager: Found refresh token with custom key');
+        return token;
+      }
 
+      console.log('TokenManager: No refresh token found in any storage');
       return null;
     } catch (error) {
       console.error('Failed to retrieve refresh token:', error);
