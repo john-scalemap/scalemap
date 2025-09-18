@@ -14,7 +14,7 @@ const CORS_CONFIGS: Record<string, CorsConfig> = {
       'http://localhost:3000',
       'http://localhost:3001',
       'http://127.0.0.1:3000',
-      'http://127.0.0.1:3001'
+      'http://127.0.0.1:3001',
     ],
     allowedMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
     allowedHeaders: [
@@ -24,46 +24,39 @@ const CORS_CONFIGS: Record<string, CorsConfig> = {
       'X-Api-Key',
       'X-Amz-Security-Token',
       'X-Amz-User-Agent',
-      'Cache-Control'
+      'Cache-Control',
     ],
     allowCredentials: true,
-    maxAge: 86400 // 24 hours
+    maxAge: 86400, // 24 hours
   },
 
   staging: {
-    allowedOrigins: [
-      'https://scalemap-staging.vercel.app',
-      'https://staging.scalemap.ai'
-    ],
+    allowedOrigins: ['https://scalemap-staging.vercel.app', 'https://staging.scalemap.ai'],
     allowedMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: [
       'Content-Type',
       'Authorization',
       'X-Amz-Date',
       'X-Api-Key',
-      'X-Amz-Security-Token'
+      'X-Amz-Security-Token',
     ],
     allowCredentials: true,
-    maxAge: 3600 // 1 hour
+    maxAge: 3600, // 1 hour
   },
 
   production: {
-    allowedOrigins: [
-      'https://scalemap.ai',
-      'https://www.scalemap.ai',
-      'https://app.scalemap.ai'
-    ],
+    allowedOrigins: ['https://scalemap.ai', 'https://www.scalemap.ai', 'https://app.scalemap.ai'],
     allowedMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: [
       'Content-Type',
       'Authorization',
       'X-Amz-Date',
       'X-Api-Key',
-      'X-Amz-Security-Token'
+      'X-Amz-Security-Token',
     ],
     allowCredentials: true,
-    maxAge: 3600 // 1 hour
-  }
+    maxAge: 3600, // 1 hour
+  },
 };
 
 export class CorsPolicy {
@@ -114,7 +107,7 @@ export class CorsPolicy {
       'X-XSS-Protection': '1; mode=block',
       'Content-Security-Policy': "default-src 'none'; frame-ancestors 'none';",
       'Referrer-Policy': 'strict-origin-when-cross-origin',
-      'Permissions-Policy': 'geolocation=(), microphone=(), camera=()'
+      'Permissions-Policy': 'geolocation=(), microphone=(), camera=()',
     };
   }
 
@@ -127,8 +120,8 @@ export class CorsPolicy {
       ...this.getSecurityHeaders(),
       'Content-Type': 'application/json',
       'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
-      'Pragma': 'no-cache',
-      'Expires': '0'
+      Pragma: 'no-cache',
+      Expires: '0',
     };
   }
 
@@ -146,8 +139,8 @@ export class CorsPolicy {
 
     // Allow Vercel preview deployments in production for authorized domains
     if (environment === 'production' && origin.endsWith('.vercel.app')) {
-      // Only allow scale-map Vercel deployments (must end with scale-map.vercel.app)
-      if (origin.endsWith('-scale-map.vercel.app')) {
+      // Only allow scale-map Vercel deployments (pattern: web-*-scale-map.vercel.app)
+      if (origin.includes('-scale-map.vercel.app')) {
         return true;
       }
     }
@@ -176,8 +169,11 @@ export class CorsPolicy {
     }
 
     // In production, allow Vercel preview deployments for authorized domains
-    if (environment === 'production' && requestOrigin.endsWith('-scale-map.vercel.app')) {
-      return requestOrigin;
+    if (environment === 'production' && requestOrigin.endsWith('.vercel.app')) {
+      // Only allow scale-map Vercel deployments (pattern: web-*-scale-map.vercel.app)
+      if (requestOrigin.includes('-scale-map.vercel.app')) {
+        return requestOrigin;
+      }
     }
 
     // For production, return the first allowed origin (never *)
@@ -193,7 +189,7 @@ export class CorsPolicy {
     return {
       statusCode: 200,
       headers,
-      body: ''
+      body: '',
     };
   }
 
@@ -211,7 +207,7 @@ export class CorsPolicy {
     if (origin && !this.isOriginAllowed(origin)) {
       return {
         isValid: false,
-        reason: `Origin '${origin}' not allowed`
+        reason: `Origin '${origin}' not allowed`,
       };
     }
 
@@ -219,7 +215,7 @@ export class CorsPolicy {
     if (!this.config.allowedMethods.includes(method)) {
       return {
         isValid: false,
-        reason: `Method '${method}' not allowed`
+        reason: `Method '${method}' not allowed`,
       };
     }
 
