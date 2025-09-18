@@ -86,7 +86,7 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
   );
 
   // Get auth context for user and company data
-  const { user, company, isAuthenticated } = useAuth();
+  const { user, company, isAuthenticated, isLoading: authLoading } = useAuth();
 
   const {
     currentAssessment,
@@ -247,8 +247,14 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
         setError(null);
         setLoading(true);
 
+        // Wait for auth to finish loading
+        if (authLoading) {
+          throw new Error('Authentication is loading. Please wait a moment and try again.');
+        }
+
         // Enhanced authentication check with better error reporting
         console.log('CreateAssessment auth check:', {
+          authLoading,
           isAuthenticated,
           hasUser: !!user,
           hasCompany: !!company,
@@ -256,18 +262,7 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
           companyName: company?.name,
         });
 
-        // Check if user is authenticated and has required data
-        if (!user || !user.email) {
-          console.error('User not authenticated or missing email');
-          throw new Error('Authentication required. Please log in again.');
-        }
-
-        if (!company || !company.id) {
-          console.error('Company data not available');
-          throw new Error('Company information missing. Please refresh the page and try again.');
-        }
-
-        // Additional token check as fallback
+        // Get token first as it's most reliable
         const { TokenManager } = await import('@/lib/auth/token-manager');
         const accessToken = TokenManager.getAccessToken();
         if (!accessToken) {
@@ -275,12 +270,89 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
           throw new Error('Authentication token missing. Please log in again.');
         }
 
+        // Try to get user data from AuthContext, fallback to JWT if needed
+        let userData = user;
+        let companyData = company;
+
+        if (!userData || !userData.email) {
+          console.log('User data missing from AuthContext, attempting JWT fallback');
+
+          // Try to extract user from JWT token
+          try {
+            const payload = JSON.parse(atob(accessToken.split('.')[1]));
+            if (payload?.email) {
+              userData = {
+                id: payload.sub,
+                email: payload.email,
+                firstName: '',
+                lastName: '',
+                companyId: payload.companyId,
+              } as any;
+              console.log('Reconstructed user from JWT:', userData);
+            }
+          } catch (jwtError) {
+            console.error('Failed to extract user from JWT:', jwtError);
+          }
+        }
+
+        if (!companyData || !companyData.id) {
+          console.log('Company data missing from AuthContext, attempting fallback');
+
+          // Try to get company ID from user data or JWT
+          const companyId =
+            userData?.companyId ||
+            (userData as any)?.company?.id ||
+            (() => {
+              try {
+                const payload = JSON.parse(atob(accessToken.split('.')[1]));
+                return payload?.companyId;
+              } catch {
+                return null;
+              }
+            })();
+
+          if (companyId) {
+            companyData = {
+              id: companyId,
+              name: 'Your Company',
+              // Add other required company fields with defaults
+              industry: '',
+              businessModel: 'other',
+              size: '1-10',
+              description: '',
+              website: '',
+              headquarters: '',
+              subscription: {
+                plan: 'basic',
+                status: 'active',
+                startDate: new Date().toISOString(),
+                endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+                features: ['basic_assessment'],
+              },
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+            } as any;
+            console.log('Reconstructed company from fallback:', companyData);
+          }
+        }
+
+        // Final validation
+        if (!userData || !userData.email) {
+          console.error('User data still missing after fallback attempts');
+          throw new Error('Authentication required. Please log in again.');
+        }
+
+        if (!companyData || !companyData.id) {
+          console.error('Company data still missing after fallback attempts');
+          throw new Error('Company information missing. Please refresh the page and try again.');
+        }
+
         const response = await assessmentService.createAssessment({
           title,
           description,
-          companyName: company.name,
-          contactEmail: user.email,
-          companyId: company.id,
+          companyName: companyData.name,
+          contactEmail: userData.email,
+          companyId: companyData.id,
         });
 
         if (!response.success) {
@@ -299,7 +371,7 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
         setLoading(false);
       }
     },
-    [isAuthenticated, user, company, setCurrentAssessment, setLoading]
+    [authLoading, isAuthenticated, user, company, setCurrentAssessment, setLoading]
   );
 
   const navigateToDomain = useCallback(
