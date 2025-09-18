@@ -52,23 +52,30 @@ export class ScaleMapStack extends cdk.Stack {
       bucketName: `scalemap-documents-${stage}`,
       encryption: s3.BucketEncryption.S3_MANAGED,
       versioned: true,
-      cors: [{
-        allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.POST, s3.HttpMethods.PUT],
-        allowedOrigins: stage === 'production' ? ['https://scalemap.ai'] : ['*'],
-        allowedHeaders: ['*'],
-        maxAge: 300,
-      }],
-      lifecycleRules: [{
-        id: 'cost-optimization',
-        enabled: true,
-        transitions: [{
-          storageClass: s3.StorageClass.INFREQUENT_ACCESS,
-          transitionAfter: cdk.Duration.days(30),
-        }, {
-          storageClass: s3.StorageClass.GLACIER,
-          transitionAfter: cdk.Duration.days(90),
-        }],
-      }],
+      cors: [
+        {
+          allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.POST, s3.HttpMethods.PUT],
+          allowedOrigins: stage === 'production' ? ['https://scalemap.ai'] : ['*'],
+          allowedHeaders: ['*'],
+          maxAge: 300,
+        },
+      ],
+      lifecycleRules: [
+        {
+          id: 'cost-optimization',
+          enabled: true,
+          transitions: [
+            {
+              storageClass: s3.StorageClass.INFREQUENT_ACCESS,
+              transitionAfter: cdk.Duration.days(30),
+            },
+            {
+              storageClass: s3.StorageClass.GLACIER,
+              transitionAfter: cdk.Duration.days(90),
+            },
+          ],
+        },
+      ],
       removalPolicy: stage === 'production' ? cdk.RemovalPolicy.RETAIN : cdk.RemovalPolicy.DESTROY,
     });
 
@@ -79,13 +86,15 @@ export class ScaleMapStack extends cdk.Stack {
     });
 
     // JWT Secrets (generate secure random secrets for production)
-    const jwtAccessSecret = stage === 'production'
-      ? '-q_OFZbpI0M24rNKHUYibzGmyL_-Jkfhj7HnMhEZZy_I_a2KW0zEZ-u5n5EC2v4z'
-      : 'dev-access-secret-change-in-production';
+    const jwtAccessSecret =
+      stage === 'production'
+        ? '-q_OFZbpI0M24rNKHUYibzGmyL_-Jkfhj7HnMhEZZy_I_a2KW0zEZ-u5n5EC2v4z'
+        : 'dev-access-secret-change-in-production';
 
-    const jwtRefreshSecret = stage === 'production'
-      ? 'WX-E-NG6bddW3mQhrSTPR_Hyxz0CJrzKG_WtpvgzMK-i3Mlzgh7BTMhrk8zDxPWc'
-      : 'dev-refresh-secret-change-in-production';
+    const jwtRefreshSecret =
+      stage === 'production'
+        ? 'WX-E-NG6bddW3mQhrSTPR_Hyxz0CJrzKG_WtpvgzMK-i3Mlzgh7BTMhrk8zDxPWc'
+        : 'dev-refresh-secret-change-in-production';
 
     // Common Lambda environment variables
     const commonEnvVars = {
@@ -99,7 +108,10 @@ export class ScaleMapStack extends cdk.Stack {
       DLQ_URL: dlq.queueUrl,
       SES_FROM_ADDRESS: 'john@scalemap.uk',
       SES_FROM_EMAIL: 'john@scalemap.uk',
-      FRONTEND_BASE_URL: stage === 'production' ? 'https://web-e73oegele-scale-map.vercel.app' : 'https://dev.scalemap.ai',
+      FRONTEND_BASE_URL:
+        stage === 'production'
+          ? 'https://web-e73oegele-scale-map.vercel.app'
+          : 'https://dev.scalemap.ai',
       JWT_ACCESS_SECRET: jwtAccessSecret,
       JWT_REFRESH_SECRET: jwtRefreshSecret,
       JWT_ACCESS_TTL: '900', // 15 minutes
@@ -114,7 +126,9 @@ export class ScaleMapStack extends cdk.Stack {
       sourceMap: true,
       target: 'es2022',
       define: {
-        'process.env.NODE_ENV': JSON.stringify(stage === 'production' ? 'production' : 'development'),
+        'process.env.NODE_ENV': JSON.stringify(
+          stage === 'production' ? 'production' : 'development'
+        ),
       },
       external: [
         '@aws-sdk/*', // AWS SDK v3 is available in Lambda runtime
@@ -179,12 +193,16 @@ export class ScaleMapStack extends cdk.Stack {
     });
 
     // Assessment Functions
-    const createAssessmentFunction = new nodejsLambda.NodejsFunction(this, 'CreateAssessmentFunction', {
-      ...lambdaProps,
-      functionName: `scalemap-create-assessment-${stage}`,
-      entry: 'src/functions/assessment/create-assessment.ts',
-      handler: 'handler',
-    });
+    const createAssessmentFunction = new nodejsLambda.NodejsFunction(
+      this,
+      'CreateAssessmentFunction',
+      {
+        ...lambdaProps,
+        functionName: `scalemap-create-assessment-${stage}`,
+        entry: 'src/functions/assessment/create-assessment.ts',
+        handler: 'handler',
+      }
+    );
 
     const getAssessmentFunction = new nodejsLambda.NodejsFunction(this, 'GetAssessmentFunction', {
       ...lambdaProps,
@@ -193,12 +211,16 @@ export class ScaleMapStack extends cdk.Stack {
       handler: 'handler',
     });
 
-    const updateResponsesFunction = new nodejsLambda.NodejsFunction(this, 'UpdateResponsesFunction', {
-      ...lambdaProps,
-      functionName: `scalemap-update-responses-${stage}`,
-      entry: 'src/functions/assessment/update-responses.ts',
-      handler: 'handler',
-    });
+    const updateResponsesFunction = new nodejsLambda.NodejsFunction(
+      this,
+      'UpdateResponsesFunction',
+      {
+        ...lambdaProps,
+        functionName: `scalemap-update-responses-${stage}`,
+        entry: 'src/functions/assessment/update-responses.ts',
+        handler: 'handler',
+      }
+    );
 
     // Document Processing Functions
     const uploadHandlerFunction = new nodejsLambda.NodejsFunction(this, 'UploadHandlerFunction', {
@@ -210,14 +232,18 @@ export class ScaleMapStack extends cdk.Stack {
       timeout: cdk.Duration.minutes(5),
     });
 
-    const processDocumentFunction = new nodejsLambda.NodejsFunction(this, 'ProcessDocumentFunction', {
-      ...lambdaProps,
-      functionName: `scalemap-process-document-${stage}`,
-      entry: 'src/functions/documents/process-document.ts',
-      handler: 'handler',
-      memorySize: 2048,
-      timeout: cdk.Duration.minutes(15),
-    });
+    const processDocumentFunction = new nodejsLambda.NodejsFunction(
+      this,
+      'ProcessDocumentFunction',
+      {
+        ...lambdaProps,
+        functionName: `scalemap-process-document-${stage}`,
+        entry: 'src/functions/documents/process-document.ts',
+        handler: 'handler',
+        memorySize: 2048,
+        timeout: cdk.Duration.minutes(15),
+      }
+    );
 
     // Health Check Function
     const healthFunction = new nodejsLambda.NodejsFunction(this, 'HealthFunction', {
@@ -229,40 +255,46 @@ export class ScaleMapStack extends cdk.Stack {
 
     // Grant DynamoDB permissions to all functions
     const lambdaFunctions = [
-      loginFunction, refreshTokenFunction, registerFunction, verifyEmailFunction,
-      createCompanyFunction, getCompanyFunction,
-      createAssessmentFunction, getAssessmentFunction, updateResponsesFunction,
-      uploadHandlerFunction, processDocumentFunction,
-      healthFunction
+      loginFunction,
+      refreshTokenFunction,
+      registerFunction,
+      verifyEmailFunction,
+      createCompanyFunction,
+      getCompanyFunction,
+      createAssessmentFunction,
+      getAssessmentFunction,
+      updateResponsesFunction,
+      uploadHandlerFunction,
+      processDocumentFunction,
+      healthFunction,
     ];
 
-    lambdaFunctions.forEach(fn => {
+    lambdaFunctions.forEach((fn) => {
       table.grantReadWriteData(fn);
       documentsBucket.grantReadWrite(fn);
     });
 
     // Grant Textract permissions for document processing
-    processDocumentFunction.addToRolePolicy(new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW,
-      actions: [
-        'textract:AnalyzeDocument',
-        'textract:StartDocumentAnalysis',
-        'textract:GetDocumentAnalysis'
-      ],
-      resources: ['*'],
-    }));
+    processDocumentFunction.addToRolePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: [
+          'textract:AnalyzeDocument',
+          'textract:StartDocumentAnalysis',
+          'textract:GetDocumentAnalysis',
+        ],
+        resources: ['*'],
+      })
+    );
 
     // Grant SES permissions for email notifications
     const sesPermissions = new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
-      actions: [
-        'ses:SendEmail',
-        'ses:SendRawEmail'
-      ],
+      actions: ['ses:SendEmail', 'ses:SendRawEmail'],
       resources: ['*'],
     });
 
-    lambdaFunctions.forEach(fn => {
+    lambdaFunctions.forEach((fn) => {
       fn.addToRolePolicy(sesPermissions);
     });
 
@@ -286,9 +318,22 @@ export class ScaleMapStack extends cdk.Stack {
       restApiName: `ScaleMap API - ${stage}`,
       description: `ScaleMap API for ${stage} environment`,
       defaultCorsPreflightOptions: {
-        allowOrigins: stage === 'production' ? ['https://scalemap.ai'] : apigateway.Cors.ALL_ORIGINS,
+        allowOrigins:
+          stage === 'production'
+            ? [
+                'https://scalemap.ai',
+                'https://web-qwr45qaae-scale-map.vercel.app',
+                'https://*.vercel.app',
+              ]
+            : apigateway.Cors.ALL_ORIGINS,
         allowMethods: apigateway.Cors.ALL_METHODS,
-        allowHeaders: ['Content-Type', 'Authorization', 'X-Amz-Date', 'X-Api-Key', 'X-Amz-Security-Token'],
+        allowHeaders: [
+          'Content-Type',
+          'Authorization',
+          'X-Amz-Date',
+          'X-Api-Key',
+          'X-Amz-Security-Token',
+        ],
         allowCredentials: true,
       },
     });
@@ -299,10 +344,18 @@ export class ScaleMapStack extends cdk.Stack {
 
     // Auth endpoints
     const authResource = api.root.addResource('auth');
-    authResource.addResource('login').addMethod('POST', new apigateway.LambdaIntegration(loginFunction));
-    authResource.addResource('register').addMethod('POST', new apigateway.LambdaIntegration(registerFunction));
-    authResource.addResource('refresh').addMethod('POST', new apigateway.LambdaIntegration(refreshTokenFunction));
-    authResource.addResource('verify-email').addMethod('GET', new apigateway.LambdaIntegration(verifyEmailFunction));
+    authResource
+      .addResource('login')
+      .addMethod('POST', new apigateway.LambdaIntegration(loginFunction));
+    authResource
+      .addResource('register')
+      .addMethod('POST', new apigateway.LambdaIntegration(registerFunction));
+    authResource
+      .addResource('refresh')
+      .addMethod('POST', new apigateway.LambdaIntegration(refreshTokenFunction));
+    authResource
+      .addResource('verify-email')
+      .addMethod('GET', new apigateway.LambdaIntegration(verifyEmailFunction));
 
     // Protected endpoints (require authentication)
     const protectedMethodOptions = {
@@ -312,21 +365,49 @@ export class ScaleMapStack extends cdk.Stack {
 
     // Company endpoints
     const companyResource = api.root.addResource('company');
-    companyResource.addMethod('POST', new apigateway.LambdaIntegration(createCompanyFunction), protectedMethodOptions);
+    companyResource.addMethod(
+      'POST',
+      new apigateway.LambdaIntegration(createCompanyFunction),
+      protectedMethodOptions
+    );
 
     // Company by ID endpoint: /company/{id}
     const companyByIdResource = companyResource.addResource('{id}');
-    companyByIdResource.addMethod('GET', new apigateway.LambdaIntegration(getCompanyFunction), protectedMethodOptions);
+    companyByIdResource.addMethod(
+      'GET',
+      new apigateway.LambdaIntegration(getCompanyFunction),
+      protectedMethodOptions
+    );
 
     // Assessment endpoints
     const assessmentResource = api.root.addResource('assessments');
-    assessmentResource.addMethod('POST', new apigateway.LambdaIntegration(createAssessmentFunction), protectedMethodOptions);
-    assessmentResource.addMethod('GET', new apigateway.LambdaIntegration(getAssessmentFunction), protectedMethodOptions);
-    assessmentResource.addResource('responses').addMethod('PUT', new apigateway.LambdaIntegration(updateResponsesFunction), protectedMethodOptions);
+    assessmentResource.addMethod(
+      'POST',
+      new apigateway.LambdaIntegration(createAssessmentFunction),
+      protectedMethodOptions
+    );
+    assessmentResource.addMethod(
+      'GET',
+      new apigateway.LambdaIntegration(getAssessmentFunction),
+      protectedMethodOptions
+    );
+    assessmentResource
+      .addResource('responses')
+      .addMethod(
+        'PUT',
+        new apigateway.LambdaIntegration(updateResponsesFunction),
+        protectedMethodOptions
+      );
 
     // Document endpoints
     const documentsResource = api.root.addResource('documents');
-    documentsResource.addResource('upload').addMethod('POST', new apigateway.LambdaIntegration(uploadHandlerFunction), protectedMethodOptions);
+    documentsResource
+      .addResource('upload')
+      .addMethod(
+        'POST',
+        new apigateway.LambdaIntegration(uploadHandlerFunction),
+        protectedMethodOptions
+      );
 
     // CloudWatch Alarms for monitoring
     // TODO: Connect alarms to SNS topics for notifications

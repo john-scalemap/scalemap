@@ -1,7 +1,8 @@
 import { TokenManager } from './auth/token-manager';
 
 // API Base URL
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://nb3pzj6u65.execute-api.eu-west-1.amazonaws.com/prod';
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL || 'https://nb3pzj6u65.execute-api.eu-west-1.amazonaws.com/prod';
 
 // Generic API response interface
 interface ApiResponse<T = any> {
@@ -66,7 +67,7 @@ export const assessmentService = {
     contactEmail: string;
     companyId?: string;
   }): Promise<ApiResponse> {
-    return apiCall('/assessment/create', {
+    return apiCall('/assessments', {
       method: 'POST',
       body: JSON.stringify(data),
     });
@@ -78,11 +79,11 @@ export const assessmentService = {
       queryParams.append('status', params.status.join(','));
     }
 
-    return apiCall(`/assessment/list${queryParams.toString() ? `?${queryParams}` : ''}`);
+    return apiCall(`/assessments${queryParams.toString() ? `?${queryParams}` : ''}`);
   },
 
   async getAssessment(id: string): Promise<ApiResponse> {
-    return apiCall(`/assessment/${id}`);
+    return apiCall(`/assessments/${id}`);
   },
 };
 
