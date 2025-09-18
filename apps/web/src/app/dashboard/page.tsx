@@ -2,28 +2,34 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 import AssessmentCard from '@/components/AssessmentCard';
-import { useAssessment, ListAssessmentsResult } from '@/hooks/useAssessment';
-import { useAuth } from '@/stores/auth';
+import { useAssessment } from '@/hooks/useAssessment';
+import { useAuth } from '@/lib/auth/auth-context';
 import { Assessment } from '@/types';
 
 export default function DashboardPage() {
   const router = useRouter();
   const { listAssessments } = useAssessment();
-  const { user, isAuthenticated, loading } = useAuth();
+  const { user, company, isAuthenticated, isLoading } = useAuth();
   const [assessments, setAssessments] = useState<Assessment[]>([]);
   const [assessmentsLoading, setAssessmentsLoading] = useState(false);
   const [assessmentsError, setAssessmentsError] = useState<string | null>(null);
 
-  const loadDraftAssessments = async () => {
+  const loadDraftAssessments = useCallback(async () => {
     try {
       setAssessmentsLoading(true);
       setAssessmentsError(null);
 
       // Load draft/in-progress assessments
-      const result = await listAssessments(['document-processing', 'triaging', 'analyzing', 'synthesizing', 'validating']);
+      const result = await listAssessments([
+        'document-processing',
+        'triaging',
+        'analyzing',
+        'synthesizing',
+        'validating',
+      ]);
       setAssessments(result.assessments);
     } catch (error) {
       console.error('Failed to load assessments:', error);
@@ -31,20 +37,20 @@ export default function DashboardPage() {
     } finally {
       setAssessmentsLoading(false);
     }
-  };
+  }, [listAssessments]);
 
   // Load assessments when user is available
   useEffect(() => {
-    if (isAuthenticated && user && !loading) {
+    if (isAuthenticated && user && !isLoading) {
       loadDraftAssessments();
     }
-  }, [isAuthenticated, user, loading]);
+  }, [isAuthenticated, user, isLoading, loadDraftAssessments]);
 
   const handleResumeAssessment = (assessmentId: string) => {
     router.push(`/assessment/${assessmentId}/questionnaire`);
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50">
         <header className="bg-white border-b border-gray-200">
@@ -54,10 +60,18 @@ export default function DashboardPage() {
                 <h1 className="text-xl font-bold text-gray-900">ScaleMap Dashboard</h1>
               </div>
               <nav className="flex space-x-8">
-                <a href="/monitoring" className="text-gray-500 hover:text-gray-900">Monitoring</a>
-                <a href="/settings" className="text-gray-500 hover:text-gray-900">Settings</a>
-                <a href="/profile" className="text-gray-500 hover:text-gray-900">Profile</a>
-                <a href="/" className="text-gray-500 hover:text-gray-900">Public Site</a>
+                <a href="/monitoring" className="text-gray-500 hover:text-gray-900">
+                  Monitoring
+                </a>
+                <a href="/settings" className="text-gray-500 hover:text-gray-900">
+                  Settings
+                </a>
+                <a href="/profile" className="text-gray-500 hover:text-gray-900">
+                  Profile
+                </a>
+                <a href="/" className="text-gray-500 hover:text-gray-900">
+                  Public Site
+                </a>
               </nav>
             </div>
           </div>
@@ -90,10 +104,18 @@ export default function DashboardPage() {
               <h1 className="text-xl font-bold text-gray-900">ScaleMap Dashboard</h1>
             </div>
             <nav className="flex space-x-8">
-              <a href="/monitoring" className="text-gray-500 hover:text-gray-900">Monitoring</a>
-              <a href="/settings" className="text-gray-500 hover:text-gray-900">Settings</a>
-              <a href="/profile" className="text-gray-500 hover:text-gray-900">Profile</a>
-              <a href="/" className="text-gray-500 hover:text-gray-900">Public Site</a>
+              <a href="/monitoring" className="text-gray-500 hover:text-gray-900">
+                Monitoring
+              </a>
+              <a href="/settings" className="text-gray-500 hover:text-gray-900">
+                Settings
+              </a>
+              <a href="/profile" className="text-gray-500 hover:text-gray-900">
+                Profile
+              </a>
+              <a href="/" className="text-gray-500 hover:text-gray-900">
+                Public Site
+              </a>
             </nav>
           </div>
         </div>
@@ -179,28 +201,32 @@ export default function DashboardPage() {
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Account Information</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm font-medium text-gray-500">Email</label>
+                <div className="text-sm font-medium text-gray-500">Email</div>
                 <p className="mt-1 text-sm text-gray-900">{user.email}</p>
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-500">Name</label>
-                <p className="mt-1 text-sm text-gray-900">{user.firstName} {user.lastName}</p>
+                <div className="text-sm font-medium text-gray-500">Name</div>
+                <p className="mt-1 text-sm text-gray-900">
+                  {user.firstName} {user.lastName}
+                </p>
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-500">Email Status</label>
+                <div className="text-sm font-medium text-gray-500">Email Status</div>
                 <p className="mt-1">
-                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                    user.emailVerified
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-yellow-100 text-yellow-800'
-                  }`}>
+                  <span
+                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                      user.emailVerified
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-yellow-100 text-yellow-800'
+                    }`}
+                  >
                     {user.emailVerified ? 'Verified' : 'Pending Verification'}
                   </span>
                 </p>
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-500">Company</label>
-                <p className="mt-1 text-sm text-gray-900">{user.company?.name || 'No company set'}</p>
+                <div className="text-sm font-medium text-gray-500">Company</div>
+                <p className="mt-1 text-sm text-gray-900">{company?.name || 'No company set'}</p>
               </div>
             </div>
           </div>
@@ -248,7 +274,9 @@ export default function DashboardPage() {
                 <span className="text-2xl text-gray-400">📊</span>
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-2">No assessments in progress</h3>
-              <p className="text-gray-500 mb-4">Start your first assessment to see your progress here</p>
+              <p className="text-gray-500 mb-4">
+                Start your first assessment to see your progress here
+              </p>
               <Link
                 href="/assessment/new"
                 className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
