@@ -146,12 +146,19 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
   const loadDomainTemplates = useCallback(async () => {
     try {
       const { TokenManager } = await import('@/lib/auth/token-manager');
-      const accessToken = TokenManager.getAccessToken();
+      const token = TokenManager.getAccessToken();
+
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      };
+
+      // Add authentication header if token exists
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
 
       const response = await fetch('/api/assessment/questions', {
-        headers: {
-          Authorization: `Bearer ${accessToken || ''}`,
-        },
+        headers,
       });
 
       if (!response.ok) {
@@ -552,14 +559,20 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
 
     try {
       const { TokenManager } = await import('@/lib/auth/token-manager');
-      const accessToken = TokenManager.getAccessToken();
+      const token = TokenManager.getAccessToken();
+
+      const headers: Record<string, string> = {
+        'Content-Type': 'application/json',
+      };
+
+      // Add authentication header if token exists
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
 
       const response = await fetch(`/api/assessment/${currentAssessment.id}/validate`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken || ''}`,
-        },
+        headers,
         body: JSON.stringify({
           domainResponses: currentAssessment.domainResponses,
           industryClassification,
@@ -693,7 +706,10 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
 
     createAssessment,
     saveAssessment,
-    submitAssessment,
+    submitAssessment: async () => {
+      await submitAssessment();
+      return currentAssessment!;
+    },
     loadAssessment: loadAssessmentById,
     listAssessments,
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+
 import { useAssessmentApi } from '@/hooks/useAuthenticatedFetch';
 
 interface AssessmentFormData {
@@ -45,23 +46,20 @@ export function AssessmentForm() {
     }
   };
 
-  const handleInputChange = (field: keyof AssessmentFormData) => (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: e.target.value
-    }));
-  };
+  const handleInputChange =
+    (field: keyof AssessmentFormData) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setFormData((prev) => ({
+        ...prev,
+        [field]: e.target.value,
+      }));
+    };
 
   if (success) {
     return (
       <div className="p-4 bg-green-100 border border-green-400 text-green-700 rounded">
         Assessment created successfully!
-        <button
-          onClick={() => setSuccess(false)}
-          className="ml-2 underline"
-        >
+        <button onClick={() => setSuccess(false)} className="ml-2 underline">
           Create another
         </button>
       </div>
@@ -73,9 +71,7 @@ export function AssessmentForm() {
       <h2 className="text-xl font-bold">Create Assessment</h2>
 
       {error && (
-        <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-          {error}
-        </div>
+        <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">{error}</div>
       )}
 
       <div>
