@@ -1,6 +1,6 @@
 import { DomainName, DomainCompletenessAnalysis, AssessmentGap, ConflictingResponse } from '@scalemap/shared';
 
-import { TimelinePauseEvent, TimelineExtension } from '../../../services/timeline-manager';
+import { TimelinePauseEvent, TimelineExtension } from '../../services/timeline-manager';
 
 /**
  * Create a complete DomainCompletenessAnalysis for testing

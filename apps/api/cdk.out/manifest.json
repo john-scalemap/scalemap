@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-deploy-role-884337373956-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-cfn-exec-role-884337373956-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/31feefb81c360d3565a12f7ef8a57c0a164bc522d944bbdead5a80f126ab8330.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/eda14b2a85d38998c2ad44a9702b54b098c8cbbc248c9b8d2ebe24f0f398cca3.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -429,7 +429,7 @@
         "/ScaleMapDev/ScaleMapApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiDeployment77EBDD9De09eea18b1eee8f105992e12fbd4a7a6"
+            "data": "ScaleMapApiDeployment77EBDD9Def960affec42e4705f6842c05b351d4a"
           }
         ],
         "/ScaleMapDev/ScaleMapApi/DeploymentStage.prod/Resource": [
@@ -792,6 +792,18 @@
             "data": "ScaleMapApidocumentsuploadPOST8F5412FD"
           }
         ],
+        "/ScaleMapDev/ScaleMapApi/UnauthorizedResponse/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiUnauthorizedResponseC4515272"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/ForbiddenResponse/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiForbiddenResponse84C3610E"
+          }
+        ],
         "/ScaleMapDev/ApiErrorAlarm/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -872,7 +884,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-deploy-role-884337373956-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-cfn-exec-role-884337373956-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/ca403a2a7983f12476b1d3c13dac692043c885fc6cb96b5b831cef5bd3eaac49.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/b5a510126cec7dbf04fb504fe17f9b203c9f524b24f79485cd3747f1a434b530.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -1283,7 +1295,7 @@
         "/ScaleMapStaging/ScaleMapApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiDeployment77EBDD9D1fb50d92c99772d0a0b5e37caf944c8e"
+            "data": "ScaleMapApiDeployment77EBDD9D41d48827effefc4e764a031e1670360b"
           }
         ],
         "/ScaleMapStaging/ScaleMapApi/DeploymentStage.prod/Resource": [
@@ -1646,6 +1658,18 @@
             "data": "ScaleMapApidocumentsuploadPOST8F5412FD"
           }
         ],
+        "/ScaleMapStaging/ScaleMapApi/UnauthorizedResponse/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiUnauthorizedResponseC4515272"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/ForbiddenResponse/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiForbiddenResponse84C3610E"
+          }
+        ],
         "/ScaleMapStaging/ApiErrorAlarm/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -1726,7 +1750,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-deploy-role-884337373956-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-cfn-exec-role-884337373956-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/bf46e77d2d99f655e553ff48e28b8d368935f047e01b3db1e020a10dbf403cc7.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/fdf51d48798726d46d0b9ef4941e39b4ae6a6e4dc312c82c79915427bed0a830.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -2137,7 +2161,7 @@
         "/ScaleMapProd/ScaleMapApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiDeployment77EBDD9Dc846916700432e297ac8e8e04654ce34"
+            "data": "ScaleMapApiDeployment77EBDD9Dd093cbfb18e90e712a71785f9dfd7106"
           }
         ],
         "/ScaleMapProd/ScaleMapApi/DeploymentStage.prod/Resource": [
@@ -2498,6 +2522,18 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "ScaleMapApidocumentsuploadPOST8F5412FD"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/UnauthorizedResponse/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiUnauthorizedResponseC4515272"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/ForbiddenResponse/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiForbiddenResponse84C3610E"
           }
         ],
         "/ScaleMapProd/ApiErrorAlarm/Resource": [

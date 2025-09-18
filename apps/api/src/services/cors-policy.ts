@@ -144,6 +144,14 @@ export class CorsPolicy {
       return true;
     }
 
+    // Allow Vercel preview deployments in production for authorized domains
+    if (environment === 'production' && origin.endsWith('.vercel.app')) {
+      // Only allow scale-map Vercel deployments (must end with scale-map.vercel.app)
+      if (origin.endsWith('-scale-map.vercel.app')) {
+        return true;
+      }
+    }
+
     return this.config.allowedOrigins.includes(origin);
   }
 
@@ -164,6 +172,11 @@ export class CorsPolicy {
     // In development, be more permissive with localhost
     const environment = process.env.NODE_ENV || process.env.STAGE || 'development';
     if (environment === 'development' && requestOrigin.includes('localhost')) {
+      return requestOrigin;
+    }
+
+    // In production, allow Vercel preview deployments for authorized domains
+    if (environment === 'production' && requestOrigin.endsWith('-scale-map.vercel.app')) {
       return requestOrigin;
     }
 

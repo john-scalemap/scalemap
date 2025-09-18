@@ -9,6 +9,8 @@ interface ClientProvidersProps {
 }
 
 export default function ClientProviders({ children }: ClientProvidersProps) {
+  console.log('🔧 ClientProviders: Rendering wrapper components');
+
   return (
     <ErrorProvider>
       <AuthProvider>

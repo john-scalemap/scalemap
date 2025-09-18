@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { jwtService } from '../../services/jwt';
 import { rateLimiters } from '../../services/rate-limiter';
 import { parseEventBody } from '../../utils/json-parser';
+import { corsPolicy } from '../../services/cors-policy';
 
 const dynamoDb = new DynamoDBClient({ region: process.env.AWS_REGION || 'us-east-1' });
 const TABLE_NAME = process.env.DYNAMODB_TABLE_NAME || 'scalemap-table';
@@ -59,11 +60,7 @@ const createInitialDomainProgress = (): Record<DomainName, DomainProgress> => {
 };
 
 export const handler: APIGatewayProxyHandler = async (event, _context, _callback): Promise<APIGatewayProxyResult> => {
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type,Authorization',
-    'Access-Control-Allow-Methods': 'OPTIONS,POST'
-  };
+  const corsHeaders = corsPolicy.getCorsHeaders(event);
 
   try {
     // Rate limiting check

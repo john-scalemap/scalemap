@@ -192,6 +192,15 @@ describe('CorsPolicy', () => {
       expect(policy.isOriginAllowed('https://fake-scalemap.ai')).toBe(false);
     });
 
+    it('should allow Vercel preview deployments for scale-map in production', () => {
+      const policy = new (CorsPolicy as any)();
+
+      expect(policy.isOriginAllowed('https://web-5jgiv2tsg-scale-map.vercel.app')).toBe(true);
+      expect(policy.isOriginAllowed('https://web-qtq3fyntv-scale-map.vercel.app')).toBe(true);
+      expect(policy.isOriginAllowed('https://other-project.vercel.app')).toBe(false);
+      expect(policy.isOriginAllowed('https://some-random-project.vercel.app')).toBe(false);
+    });
+
     it('should be permissive with localhost in development', () => {
       process.env.NODE_ENV = 'development';
       const policy = new (CorsPolicy as any)();

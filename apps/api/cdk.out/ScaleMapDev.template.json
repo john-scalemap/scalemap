@@ -385,7 +385,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-884337373956-eu-west-1",
-     "S3Key": "d23fc2a03564a23e9248247bd80dadda022d5ed7d452e72bb9608ed64aeaa134.zip"
+     "S3Key": "ce84d4f86ada13c40914ffbd0bd614188c11346e3293d9a3f3a822a55a295542.zip"
     },
     "DeadLetterConfig": {
      "TargetArn": {
@@ -444,7 +444,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ScaleMapDev/LoginFunction/Resource",
-    "aws:asset:path": "asset.d23fc2a03564a23e9248247bd80dadda022d5ed7d452e72bb9608ed64aeaa134",
+    "aws:asset:path": "asset.ce84d4f86ada13c40914ffbd0bd614188c11346e3293d9a3f3a822a55a295542",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -989,7 +989,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-884337373956-eu-west-1",
-     "S3Key": "0a6effd5cf9ae3be5c366499fede8328f22d19baa717544ba64284b4ec77d4d0.zip"
+     "S3Key": "bfc851b920100ac7b5e42349cb773705a53299a7fc23d2c99ca594d9ca9d2570.zip"
     },
     "DeadLetterConfig": {
      "TargetArn": {
@@ -1048,7 +1048,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ScaleMapDev/RegisterFunction/Resource",
-    "aws:asset:path": "asset.0a6effd5cf9ae3be5c366499fede8328f22d19baa717544ba64284b4ec77d4d0",
+    "aws:asset:path": "asset.bfc851b920100ac7b5e42349cb773705a53299a7fc23d2c99ca594d9ca9d2570",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -1957,7 +1957,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-884337373956-eu-west-1",
-     "S3Key": "92919ac01530eda7c8233912fab15a3b89b54e91d54ad592ab5752b2f94759a3.zip"
+     "S3Key": "cd2f77e96b98834477057649d3d7c244615c4e88a60e8fd21e8c6ec7d91d2438.zip"
     },
     "DeadLetterConfig": {
      "TargetArn": {
@@ -2016,7 +2016,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ScaleMapDev/CreateAssessmentFunction/Resource",
-    "aws:asset:path": "asset.92919ac01530eda7c8233912fab15a3b89b54e91d54ad592ab5752b2f94759a3",
+    "aws:asset:path": "asset.cd2f77e96b98834477057649d3d7c244615c4e88a60e8fd21e8c6ec7d91d2438",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -3472,7 +3472,7 @@
     "aws:cdk:path": "ScaleMapDev/ScaleMapApi/Account"
    }
   },
-  "ScaleMapApiDeployment77EBDD9De09eea18b1eee8f105992e12fbd4a7a6": {
+  "ScaleMapApiDeployment77EBDD9Def960affec42e4705f6842c05b351d4a": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "ScaleMap API for dev environment",
@@ -3517,7 +3517,9 @@
     "ScaleMapApihealthGET37CFB43A",
     "ScaleMapApihealthOPTIONSB7ECEA33",
     "ScaleMapApihealthD68D4E2A",
-    "ScaleMapApiOPTIONS1BF74AAB"
+    "ScaleMapApiOPTIONS1BF74AAB",
+    "ScaleMapApiForbiddenResponse84C3610E",
+    "ScaleMapApiUnauthorizedResponseC4515272"
    ],
    "Metadata": {
     "aws:cdk:path": "ScaleMapDev/ScaleMapApi/Deployment/Resource",
@@ -3528,7 +3530,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "ScaleMapApiDeployment77EBDD9De09eea18b1eee8f105992e12fbd4a7a6"
+     "Ref": "ScaleMapApiDeployment77EBDD9Def960affec42e4705f6842c05b351d4a"
     },
     "RestApiId": {
      "Ref": "ScaleMapApi2204383E"
@@ -5388,6 +5390,42 @@
     "aws:cdk:path": "ScaleMapDev/ScaleMapApi/Default/documents/upload/POST/Resource"
    }
   },
+  "ScaleMapApiUnauthorizedResponseC4515272": {
+   "Type": "AWS::ApiGateway::GatewayResponse",
+   "Properties": {
+    "ResponseParameters": {
+     "gatewayresponse.header.Access-Control-Allow-Origin": "'https://web-5jgiv2tsg-scale-map.vercel.app'",
+     "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+     "gatewayresponse.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+     "gatewayresponse.header.Access-Control-Allow-Credentials": "'true'"
+    },
+    "ResponseType": "UNAUTHORIZED",
+    "RestApiId": {
+     "Ref": "ScaleMapApi2204383E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapDev/ScaleMapApi/UnauthorizedResponse/Resource"
+   }
+  },
+  "ScaleMapApiForbiddenResponse84C3610E": {
+   "Type": "AWS::ApiGateway::GatewayResponse",
+   "Properties": {
+    "ResponseParameters": {
+     "gatewayresponse.header.Access-Control-Allow-Origin": "'https://web-5jgiv2tsg-scale-map.vercel.app'",
+     "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+     "gatewayresponse.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
+     "gatewayresponse.header.Access-Control-Allow-Credentials": "'true'"
+    },
+    "ResponseType": "ACCESS_DENIED",
+    "RestApiId": {
+     "Ref": "ScaleMapApi2204383E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapDev/ScaleMapApi/ForbiddenResponse/Resource"
+   }
+  },
   "ApiErrorAlarmD3E841A2": {
    "Type": "AWS::CloudWatch::Alarm",
    "Properties": {
@@ -5462,7 +5500,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22QPXPCMAyGf0t3o0LapWOg16kfNLBziiOCiWOnkd1c6st/79mBK0On95Fk6ZWVQbZ6hOUdDryQVbPQqoSwcygbgQMfQjUabG1VQthjqUlsjibBJPgBwtrLhlxMXmiWNTJNQmNbVghhczRb6lvFrKyJb1+8kU5ZMwn+YgifnnwanODadzC2ojPDe5Jri1DYQijsvEnSrdVKjjGcKW52QGZyDHkUoW3N8GrrghyZNAU7VaOjAUcIe9uQyb072V79UB8H3UQFscs7ldz+MJfSeuPEM3Xaji2ZdIObaOewTivOUBBb30uKhxFv5E62isULXasXk8STkNr6akAnTxByjX2bjCNM078tIv02GipTx8KHd513k4iXhDPff2cZrJ5geXdmpRa9N061BMWsv1EZsyYJAgAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22QT0/DMAzFPwv3zGyFC8duCC78Gd3uk5t6XdY0KXVCNaJ+d5R0ExPi9H62k+cnZ5At7mF+gwPPZNXMtCohbBzKRuDAu1CdDLa2KiFssdQkVnuTYBR8B2HpZUMuNs80yRKZRqGxLSuEsNqbNfWtYlbWxLdP3kinrBkFfzKED08+GSe4/NsZW9GR4S3J5YtQ2EIo7JQk6dpqJU+xnCgm2yEzOYY8itC2ZnixdUGOTHLBTtXoaMAThK1tyOTeHWyvvqmPRldVQezyTqVtv5hLab1x4pE6bU8tmXSDq2rjsE4RJyiIre8lxcOIV3IHW8XhmS7T85KJn6d8BXFnDafZn9YopLa+GtDJA4RcY9+mbBHG8X/XdJCYSZk6Dt6967wbRTw2HPn2K8tg8QDzmyMrNeu9caolKCb9AamPU7EsAgAA"
    },
    "Metadata": {
     "aws:cdk:path": "ScaleMapDev/CDKMetadata/Default"
