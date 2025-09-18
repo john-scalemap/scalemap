@@ -50,6 +50,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       const accessToken = TokenManager.getAccessToken();
       console.log('AuthContext: Loading user data, token present:', !!accessToken);
+      console.log('AuthContext: sessionStorage keys:', Object.keys(sessionStorage));
+      console.log('AuthContext: localStorage keys:', Object.keys(localStorage));
 
       if (!accessToken) {
         console.log('AuthContext: No access token found');
@@ -60,6 +62,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       // First try to get user data from sessionStorage (live site)
       const storedUserData = sessionStorage.getItem('user');
+      console.log(
+        'AuthContext: Stored user data from sessionStorage:',
+        !!storedUserData,
+        storedUserData?.substring(0, 50) + '...'
+      );
+
       if (storedUserData) {
         try {
           const parsedUser = JSON.parse(storedUserData);
@@ -196,6 +204,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   const isAuthenticated = !!user && !!company && !isLoading;
+
+  // Debug authentication state
+  React.useEffect(() => {
+    console.log('AuthContext state update:', {
+      hasUser: !!user,
+      hasCompany: !!company,
+      isLoading,
+      isAuthenticated,
+      userEmail: user?.email,
+      companyName: company?.name,
+    });
+  }, [user, company, isLoading, isAuthenticated]);
 
   const value: AuthContextValue = {
     user,
