@@ -1,3 +1,8 @@
+import { useState, useEffect, useCallback } from 'react';
+
+import { assessmentService } from '@/lib/api';
+import { useAuth } from '@/lib/auth/auth-context';
+import { useAssessmentStore } from '@/stores/assessment-store';
 import {
   Assessment,
   DomainName,
@@ -6,13 +11,8 @@ import {
   IndustryClassification,
   Question,
   DomainTemplate,
-  DomainProgress
+  DomainProgress,
 } from '@/types';
-import { useState, useEffect, useCallback } from 'react';
-
-import { assessmentService } from '@/lib/api';
-import { useAssessmentStore } from '@/stores/assessment-store';
-import { useAuth } from '@/lib/auth/auth-context';
 
 export interface UseAssessmentOptions {
   assessmentId?: string;
@@ -78,14 +78,12 @@ export interface UseAssessmentReturn {
 }
 
 export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessmentReturn => {
-  const {
-    assessmentId,
-    autoSave = true,
-    validationMode = 'lenient'
-  } = options;
+  const { assessmentId, autoSave = true, validationMode = 'lenient' } = options;
 
   const [error, setError] = useState<string | null>(null);
-  const [domainTemplates, setDomainTemplates] = useState<Record<DomainName, DomainTemplate>>({} as Record<DomainName, DomainTemplate>);
+  const [domainTemplates, setDomainTemplates] = useState<Record<DomainName, DomainTemplate>>(
+    {} as Record<DomainName, DomainTemplate>
+  );
 
   // Get auth context for user and company data
   const { user, company, isAuthenticated } = useAuth();
@@ -109,7 +107,7 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
     submitAssessment,
     calculateCompleteness,
     canProgressToDomain,
-    autoSave: performAutoSave // TODO: Implement auto-save functionality
+    // TODO: Implement auto-save functionality - performAutoSave not used yet
   } = useAssessmentStore();
 
   // Load assessment on mount if assessmentId provided
@@ -133,21 +131,24 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
     loadDomainTemplates();
   }, [industryClassification]);
 
-  const loadAssessmentById = useCallback(async (id: string) => {
-    try {
-      setError(null);
-      await loadAssessment(id);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load assessment');
-    }
-  }, [loadAssessment]);
+  const loadAssessmentById = useCallback(
+    async (id: string) => {
+      try {
+        setError(null);
+        await loadAssessment(id);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load assessment');
+      }
+    },
+    [loadAssessment]
+  );
 
   const loadDomainTemplates = useCallback(async () => {
     try {
       const response = await fetch('/api/assessment/questions', {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken')}`,
+        },
       });
 
       if (!response.ok) {
@@ -167,18 +168,18 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
           questions: questions as any,
           industrySpecific: {
             regulated: { additionalQuestions: [], requiredFields: [] },
-            nonRegulated: { skipQuestions: [] }
+            nonRegulated: { skipQuestions: [] },
           },
           companyStageVariations: {
             startup: { focusAreas: [] },
             growth: { focusAreas: [] },
-            mature: { focusAreas: [] }
+            mature: { focusAreas: [] },
           },
           scoringRules: {
             triggerThreshold: 4.0,
             criticalThreshold: 4.5,
-            weightingFactors: {}
-          }
+            weightingFactors: {},
+          },
         };
       });
 
@@ -200,79 +201,100 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
       'customer-experience': 'Customer Experience & Product Development',
       'supply-chain': 'Supply Chain & Operations',
       'risk-compliance': 'Risk Management & Compliance',
-      'partnerships': 'External Partnerships & Ecosystem',
+      partnerships: 'External Partnerships & Ecosystem',
       'customer-success': 'Customer Success & Growth',
-      'change-management': 'Change Management & Implementation'
+      'change-management': 'Change Management & Implementation',
     };
     return titles[domain];
   };
 
   const getDomainDescription = (domain: DomainName): string => {
     const descriptions: Record<DomainName, string> = {
-      'strategic-alignment': 'Assess how well your organization aligns strategy across all levels and adapts to market changes.',
-      'financial-management': 'Evaluate financial planning, cash flow management, and capital efficiency practices.',
-      'revenue-engine': 'Analyze sales processes, customer acquisition, and revenue growth systems.',
-      'operational-excellence': 'Review process management, efficiency, and scalability of operations.',
-      'people-organization': 'Examine talent management, culture, and organizational development capabilities.',
-      'technology-data': 'Assess technology infrastructure, data management, and digital capabilities.',
-      'customer-experience': 'Evaluate customer satisfaction, product development, and experience optimization.',
-      'supply-chain': 'Review supply chain efficiency, vendor relationships, and operational resilience.',
-      'risk-compliance': 'Analyze risk management practices and regulatory compliance capabilities.',
-      'partnerships': 'Assess strategic partnerships, ecosystem integration, and external relationships.',
-      'customer-success': 'Evaluate customer lifecycle management, retention, and expansion strategies.',
-      'change-management': 'Review organizational change capabilities and implementation effectiveness.'
+      'strategic-alignment':
+        'Assess how well your organization aligns strategy across all levels and adapts to market changes.',
+      'financial-management':
+        'Evaluate financial planning, cash flow management, and capital efficiency practices.',
+      'revenue-engine':
+        'Analyze sales processes, customer acquisition, and revenue growth systems.',
+      'operational-excellence':
+        'Review process management, efficiency, and scalability of operations.',
+      'people-organization':
+        'Examine talent management, culture, and organizational development capabilities.',
+      'technology-data':
+        'Assess technology infrastructure, data management, and digital capabilities.',
+      'customer-experience':
+        'Evaluate customer satisfaction, product development, and experience optimization.',
+      'supply-chain':
+        'Review supply chain efficiency, vendor relationships, and operational resilience.',
+      'risk-compliance':
+        'Analyze risk management practices and regulatory compliance capabilities.',
+      partnerships:
+        'Assess strategic partnerships, ecosystem integration, and external relationships.',
+      'customer-success':
+        'Evaluate customer lifecycle management, retention, and expansion strategies.',
+      'change-management':
+        'Review organizational change capabilities and implementation effectiveness.',
     };
     return descriptions[domain];
   };
 
-  const createAssessment = useCallback(async (title: string, description: string): Promise<Assessment> => {
-    try {
+  const createAssessment = useCallback(
+    async (title: string, description: string): Promise<Assessment> => {
+      try {
+        setError(null);
+        setLoading(true);
+
+        // Check authentication
+        if (!isAuthenticated || !user || !company) {
+          throw new Error('Authentication required. Please log in again.');
+        }
+
+        const response = await assessmentService.createAssessment({
+          title,
+          description,
+          companyName: company.name,
+          contactEmail: user.email,
+          companyId: company.id,
+        });
+
+        if (!response.success) {
+          throw new Error(response.error?.message || 'Failed to create assessment');
+        }
+
+        const assessment = response.data!;
+        setCurrentAssessment(assessment);
+        return assessment;
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to create assessment';
+        setError(errorMessage);
+        throw new Error(errorMessage);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [isAuthenticated, user, company, setCurrentAssessment, setLoading]
+  );
+
+  const navigateToDomain = useCallback(
+    async (domain: DomainName): Promise<boolean> => {
+      if (!canProgressToDomain(domain)) {
+        setError(`Cannot access ${domain} domain yet. Please complete prerequisite domains.`);
+        return false;
+      }
+
+      setCurrentDomain(domain);
       setError(null);
-      setLoading(true);
+      return true;
+    },
+    [canProgressToDomain, setCurrentDomain]
+  );
 
-      // Check authentication
-      if (!isAuthenticated || !user || !company) {
-        throw new Error('Authentication required. Please log in again.');
-      }
-
-      const response = await assessmentService.createAssessment({
-        title,
-        description,
-        companyName: company.name,
-        contactEmail: user.email,
-        companyId: company.id
-      });
-
-      if (!response.success) {
-        throw new Error(response.error?.message || 'Failed to create assessment');
-      }
-
-      const assessment = response.data!;
-      setCurrentAssessment(assessment);
-      return assessment;
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to create assessment';
-      setError(errorMessage);
-      throw new Error(errorMessage);
-    } finally {
-      setLoading(false);
-    }
-  }, [isAuthenticated, user, company, setCurrentAssessment, setLoading]);
-
-  const navigateToDomain = useCallback(async (domain: DomainName): Promise<boolean> => {
-    if (!canProgressToDomain(domain)) {
-      setError(`Cannot access ${domain} domain yet. Please complete prerequisite domains.`);
-      return false;
-    }
-
-    setCurrentDomain(domain);
-    setError(null);
-    return true;
-  }, [canProgressToDomain, setCurrentDomain]);
-
-  const canAccessDomain = useCallback((domain: DomainName): boolean => {
-    return canProgressToDomain(domain);
-  }, [canProgressToDomain]);
+  const canAccessDomain = useCallback(
+    (domain: DomainName): boolean => {
+      return canProgressToDomain(domain);
+    },
+    [canProgressToDomain]
+  );
 
   const getCurrentDomainQuestions = useCallback((): Question[] => {
     const currentDomain = workflowState.currentDomain;
@@ -285,8 +307,10 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
 
     // Add industry-specific questions
     if (industryClassification) {
-      if (industryClassification.regulatoryClassification === 'heavily-regulated' ||
-          industryClassification.regulatoryClassification === 'lightly-regulated') {
+      if (
+        industryClassification.regulatoryClassification === 'heavily-regulated' ||
+        industryClassification.regulatoryClassification === 'lightly-regulated'
+      ) {
         questions = [...questions, ...template.industrySpecific.regulated.additionalQuestions];
       }
 
@@ -300,100 +324,118 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
     return questions;
   }, [workflowState.currentDomain, domainTemplates, industryClassification]);
 
-  const getIndustrySpecificQuestions = useCallback((domain: DomainName): Question[] => {
-    const template = domainTemplates[domain];
-    if (!template || !industryClassification) {
-      return [];
-    }
+  const getIndustrySpecificQuestions = useCallback(
+    (domain: DomainName): Question[] => {
+      const template = domainTemplates[domain];
+      if (!template || !industryClassification) {
+        return [];
+      }
 
-    let additionalQuestions: Question[] = [];
+      let additionalQuestions: Question[] = [];
 
-    // Add regulated industry questions
-    if (industryClassification.regulatoryClassification !== 'non-regulated') {
-      additionalQuestions = [...additionalQuestions, ...template.industrySpecific.regulated.additionalQuestions];
-    }
+      // Add regulated industry questions
+      if (industryClassification.regulatoryClassification !== 'non-regulated') {
+        additionalQuestions = [
+          ...additionalQuestions,
+          ...template.industrySpecific.regulated.additionalQuestions,
+        ];
+      }
 
-    // Add company stage specific questions
-    const stageVariations = template.companyStageVariations[industryClassification.companyStage];
-    if (stageVariations.questions) {
-      additionalQuestions = [...additionalQuestions, ...stageVariations.questions];
-    }
+      // Add company stage specific questions
+      const stageVariations = template.companyStageVariations[industryClassification.companyStage];
+      if (stageVariations.questions) {
+        additionalQuestions = [...additionalQuestions, ...stageVariations.questions];
+      }
 
-    return additionalQuestions;
-  }, [domainTemplates, industryClassification]);
+      return additionalQuestions;
+    },
+    [domainTemplates, industryClassification]
+  );
 
-  const answerQuestion = useCallback(async (questionId: string, value: any) => {
-    if (!currentAssessment || !workflowState.currentDomain) {
-      throw new Error('No active assessment or domain');
-    }
+  const answerQuestion = useCallback(
+    async (questionId: string, value: any) => {
+      if (!currentAssessment || !workflowState.currentDomain) {
+        throw new Error('No active assessment or domain');
+      }
 
-    const validationError = validateQuestion(questionId, value);
-    if (validationError && validationMode === 'strict') {
-      throw new Error(validationError);
-    }
+      const validationError = validateQuestion(questionId, value);
+      if (validationError && validationMode === 'strict') {
+        throw new Error(validationError);
+      }
 
-    const response: QuestionResponse = {
-      questionId,
-      value,
-      timestamp: new Date().toISOString()
-    };
+      const response: QuestionResponse = {
+        questionId,
+        value,
+        timestamp: new Date().toISOString(),
+      };
 
-    updateQuestionResponse(workflowState.currentDomain, questionId, response);
+      updateQuestionResponse(workflowState.currentDomain, questionId, response);
 
-    // Trigger validation after answer
-    if (validationMode === 'strict') {
-      await validateAssessment();
-    }
-  }, [currentAssessment, workflowState.currentDomain, updateQuestionResponse, validationMode]);
+      // Trigger validation after answer
+      if (validationMode === 'strict') {
+        await validateAssessment();
+      }
+    },
+    [currentAssessment, workflowState.currentDomain, updateQuestionResponse, validationMode]
+  );
 
-  const getQuestionResponse = useCallback((questionId: string): QuestionResponse | null => {
-    if (!currentAssessment || !workflowState.currentDomain) {
+  const getQuestionResponse = useCallback(
+    (questionId: string): QuestionResponse | null => {
+      if (!currentAssessment || !workflowState.currentDomain) {
+        return null;
+      }
+
+      const domainResponse = currentAssessment.domainResponses[workflowState.currentDomain];
+      return domainResponse?.questions[questionId] || null;
+    },
+    [currentAssessment, workflowState.currentDomain]
+  );
+
+  const validateQuestion = useCallback(
+    (questionId: string, value: any): string | null => {
+      const questions = getCurrentDomainQuestions();
+      const question = questions.find((q) => q.id === questionId);
+
+      if (!question) {
+        return 'Question not found';
+      }
+
+      if (question.required && (value === null || value === undefined || value === '')) {
+        return 'This question is required';
+      }
+
+      if (question.type === 'scale' && question.scale) {
+        const numValue = Number(value);
+        if (isNaN(numValue) || numValue < question.scale.min || numValue > question.scale.max) {
+          return `Value must be between ${question.scale.min} and ${question.scale.max}`;
+        }
+      }
+
+      if (question.type === 'multiple-choice' && question.options) {
+        if (!question.options.includes(value)) {
+          return 'Invalid option selected';
+        }
+      }
+
       return null;
-    }
+    },
+    [getCurrentDomainQuestions]
+  );
 
-    const domainResponse = currentAssessment.domainResponses[workflowState.currentDomain];
-    return domainResponse?.questions[questionId] || null;
-  }, [currentAssessment, workflowState.currentDomain]);
+  const setIndustryClassificationHandler = useCallback(
+    async (classification: IndustryClassification) => {
+      try {
+        setIndustryClassificationStore(classification);
 
-  const validateQuestion = useCallback((questionId: string, value: any): string | null => {
-    const questions = getCurrentDomainQuestions();
-    const question = questions.find(q => q.id === questionId);
-
-    if (!question) {
-      return 'Question not found';
-    }
-
-    if (question.required && (value === null || value === undefined || value === '')) {
-      return 'This question is required';
-    }
-
-    if (question.type === 'scale' && question.scale) {
-      const numValue = Number(value);
-      if (isNaN(numValue) || numValue < question.scale.min || numValue > question.scale.max) {
-        return `Value must be between ${question.scale.min} and ${question.scale.max}`;
+        if (currentAssessment) {
+          await saveAssessment();
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to save industry classification');
       }
-    }
-
-    if (question.type === 'multiple-choice' && question.options) {
-      if (!question.options.includes(value)) {
-        return 'Invalid option selected';
-      }
-    }
-
-    return null;
-  }, [getCurrentDomainQuestions]);
-
-  const setIndustryClassificationHandler = useCallback(async (classification: IndustryClassification) => {
-    try {
-      setIndustryClassificationStore(classification);
-
-      if (currentAssessment) {
-        await saveAssessment();
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to save industry classification');
-    }
-  }, [setIndustryClassificationStore, currentAssessment, saveAssessment]);
+    },
+    [setIndustryClassificationStore, currentAssessment, saveAssessment]
+  );
 
   const validateAssessment = useCallback(async (): Promise<AssessmentValidation> => {
     if (!currentAssessment) {
@@ -403,7 +445,7 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
         warnings: [],
         completeness: 0,
         requiredFieldsMissing: [],
-        crossDomainInconsistencies: []
+        crossDomainInconsistencies: [],
       };
       setValidation(validation);
       return validation;
@@ -414,12 +456,12 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken')}`
+          Authorization: `Bearer ${localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken')}`,
         },
         body: JSON.stringify({
           domainResponses: currentAssessment.domainResponses,
-          industryClassification
-        })
+          industryClassification,
+        }),
       });
 
       if (!response.ok) {
@@ -436,45 +478,54 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
         warnings: [],
         completeness: calculateCompleteness(),
         requiredFieldsMissing: [],
-        crossDomainInconsistencies: []
+        crossDomainInconsistencies: [],
       };
       setValidation(validation);
       return validation;
     }
   }, [currentAssessment, industryClassification, setValidation, calculateCompleteness]);
 
-  const calculateDomainCompleteness = useCallback((domain: DomainName): number => {
-    if (!currentAssessment) return 0;
+  const calculateDomainCompleteness = useCallback(
+    (domain: DomainName): number => {
+      if (!currentAssessment) return 0;
 
-    const domainResponse = currentAssessment.domainResponses[domain];
-    if (!domainResponse) return 0;
+      const domainResponse = currentAssessment.domainResponses[domain];
+      if (!domainResponse) return 0;
 
-    const template = domainTemplates[domain];
-    if (!template) return 0;
+      const template = domainTemplates[domain];
+      if (!template) return 0;
 
-    const totalQuestions = template.questions.length;
-    const answeredQuestions = Object.keys(domainResponse.questions).length;
+      const totalQuestions = template.questions.length;
+      const answeredQuestions = Object.keys(domainResponse.questions).length;
 
-    return totalQuestions > 0 ? Math.round((answeredQuestions / totalQuestions) * 100) : 0;
-  }, [currentAssessment, domainTemplates]);
+      return totalQuestions > 0 ? Math.round((answeredQuestions / totalQuestions) * 100) : 0;
+    },
+    [currentAssessment, domainTemplates]
+  );
 
-  const getRequiredQuestions = useCallback((domain: DomainName): Question[] => {
-    const template = domainTemplates[domain];
-    if (!template) return [];
+  const getRequiredQuestions = useCallback(
+    (domain: DomainName): Question[] => {
+      const template = domainTemplates[domain];
+      if (!template) return [];
 
-    return template.questions.filter(q => q.required);
-  }, [domainTemplates]);
+      return template.questions.filter((q) => q.required);
+    },
+    [domainTemplates]
+  );
 
-  const getMissingRequiredQuestions = useCallback((domain: DomainName): Question[] => {
-    if (!currentAssessment) return [];
+  const getMissingRequiredQuestions = useCallback(
+    (domain: DomainName): Question[] => {
+      if (!currentAssessment) return [];
 
-    const requiredQuestions = getRequiredQuestions(domain);
-    const domainResponse = currentAssessment.domainResponses[domain];
+      const requiredQuestions = getRequiredQuestions(domain);
+      const domainResponse = currentAssessment.domainResponses[domain];
 
-    if (!domainResponse) return requiredQuestions;
+      if (!domainResponse) return requiredQuestions;
 
-    return requiredQuestions.filter(q => !(q.id in domainResponse.questions));
-  }, [currentAssessment, getRequiredQuestions]);
+      return requiredQuestions.filter((q) => !(q.id in domainResponse.questions));
+    },
+    [currentAssessment, getRequiredQuestions]
+  );
 
   const listAssessments = useCallback(async (status?: string[]): Promise<ListAssessmentsResult> => {
     try {
@@ -497,10 +548,18 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
   }, []);
 
   const availableDomains: DomainName[] = [
-    'strategic-alignment', 'financial-management', 'revenue-engine',
-    'operational-excellence', 'people-organization', 'technology-data',
-    'customer-experience', 'supply-chain', 'risk-compliance',
-    'partnerships', 'customer-success', 'change-management'
+    'strategic-alignment',
+    'financial-management',
+    'revenue-engine',
+    'operational-excellence',
+    'people-organization',
+    'technology-data',
+    'customer-experience',
+    'supply-chain',
+    'risk-compliance',
+    'partnerships',
+    'customer-success',
+    'change-management',
   ];
 
   return {
@@ -515,7 +574,7 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
       currentDomain: workflowState.currentDomain,
       completeness: progressState.completeness,
       estimatedTimeRemaining: progressState.estimatedTimeRemaining,
-      canProgress: workflowState.canProceed
+      canProgress: workflowState.canProceed,
     },
 
     availableDomains,
@@ -544,6 +603,6 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
     enableAutoSave,
     disableAutoSave,
     isAutoSaveEnabled: workflowState.autoSaveEnabled,
-    lastAutoSave: workflowState.lastAutoSave
+    lastAutoSave: workflowState.lastAutoSave,
   };
 };

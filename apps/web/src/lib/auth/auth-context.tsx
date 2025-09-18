@@ -4,9 +4,10 @@ import { Company } from '@scalemap/shared/types/company';
 import { User } from '@scalemap/shared/types/user';
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
-import { TokenManager } from './token-manager';
-import { JwtUtils } from './jwt-utils';
 import { companyService } from '../api/company';
+
+import { JwtUtils } from './jwt-utils';
+import { TokenManager } from './token-manager';
 
 interface AuthContextValue {
   user: User | null;
@@ -59,7 +60,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         email: userEmail,
         emailVerified: true, // TODO: Extract from JWT if available
         firstName: '', // TODO: Extract from JWT if available or fetch from user API
-        lastName: '',  // TODO: Extract from JWT if available or fetch from user API
+        lastName: '', // TODO: Extract from JWT if available or fetch from user API
         companyId,
         role: 'user' as const, // TODO: Extract from JWT if available
         status: 'active' as const,
@@ -70,25 +71,74 @@ export function AuthProvider({ children }: AuthProviderProps) {
           consentVersion: '1.0',
           ipAddress: '',
           userAgent: '',
-          dataProcessingPurposes: ['authentication', 'service_provision']
+          dataProcessingPurposes: ['authentication', 'service_provision'],
         },
         createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date().toISOString(),
       };
 
       setUser(userData);
 
       // Fetch company data from API
-      const companyResponse = await companyService.getCompany(companyId);
-      if (companyResponse.success && companyResponse.data) {
-        setCompany(companyResponse.data);
-      } else {
-        throw new Error(companyResponse.error?.message || 'Failed to load company data');
+      try {
+        const companyResponse = await companyService.getCompany(companyId);
+        if (companyResponse.success && companyResponse.data) {
+          setCompany(companyResponse.data);
+        } else {
+          console.error('Company API call failed:', companyResponse.error);
+          // Fallback: Create minimal company data from JWT
+          const fallbackCompany: Company = {
+            id: companyId,
+            name: 'Company', // Basic fallback name
+            industry: '',
+            businessModel: 'other',
+            size: '1-10',
+            description: '',
+            website: '',
+            headquarters: '',
+            subscription: {
+              plan: 'basic',
+              status: 'active',
+              startDate: new Date().toISOString(),
+              endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+              features: ['basic_assessment'],
+            },
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          };
+          setCompany(fallbackCompany);
+          console.warn('Using fallback company data due to API failure');
+        }
+      } catch (companyError) {
+        console.error('Company API request failed:', companyError);
+        // Create fallback company data to allow assessment creation
+        const fallbackCompany: Company = {
+          id: companyId,
+          name: 'Company',
+          industry: '',
+          businessModel: 'other',
+          size: '1-10',
+          description: '',
+          website: '',
+          headquarters: '',
+          subscription: {
+            plan: 'basic',
+            status: 'active',
+            startDate: new Date().toISOString(),
+            endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+            features: ['basic_assessment'],
+          },
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+        setCompany(fallbackCompany);
+        console.warn('Using fallback company data due to API network error');
       }
-
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to load authentication data';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Failed to load authentication data';
       setError(errorMessage);
+      console.error('Auth context error:', err);
       setUser(null);
       setCompany(null);
     } finally {
@@ -112,14 +162,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
     isLoading,
     isAuthenticated,
     error,
-    refreshData
+    refreshData,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth(): AuthContextValue {
@@ -155,7 +201,7 @@ export const getUserFromAuth = (): { email: string; id: string } => {
 
   return {
     email: userEmail,
-    id: userId
+    id: userId,
   };
 };
 
@@ -173,6 +219,6 @@ export const getCompanyFromAuth = (): { id: string; name?: string } => {
     id: companyId,
     // Note: Company name is not in JWT, so we return undefined
     // The calling code should use the useCompany hook for full company data
-    name: undefined
+    name: undefined,
   };
 };
