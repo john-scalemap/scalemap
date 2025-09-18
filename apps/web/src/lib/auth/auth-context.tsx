@@ -44,6 +44,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [error, setError] = useState<string | null>(null);
 
   const loadUserAndCompanyData = async () => {
+    console.log('AuthContext: loadUserAndCompanyData called');
     try {
       setIsLoading(true);
       setError(null);
@@ -130,7 +131,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const companyId = JwtUtils.getCompanyId(accessToken);
       const userId = JwtUtils.getUserId(accessToken);
 
+      console.log('AuthContext: Extracted from JWT:', { userEmail, companyId, userId });
+
       if (!userEmail || !companyId || !userId) {
+        console.error('AuthContext: Invalid JWT data:', { userEmail, companyId, userId });
         throw new Error('Invalid authentication token');
       }
 
@@ -187,10 +191,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const errorMessage =
         err instanceof Error ? err.message : 'Failed to load authentication data';
       setError(errorMessage);
-      console.error('Auth context error:', err);
+      console.error('AuthContext: Error loading user data:', err);
       setUser(null);
       setCompany(null);
     } finally {
+      console.log('AuthContext: loadUserAndCompanyData finished, setting isLoading to false');
       setIsLoading(false);
     }
   };
