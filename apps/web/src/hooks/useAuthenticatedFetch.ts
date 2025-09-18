@@ -83,13 +83,19 @@ export function useAssessmentApi() {
       description: string;
       assessmentContext?: any;
     }) => {
+      const token = TokenManager.getAccessToken();
+
       console.log('CreateAssessment auth check:', {
         authLoading: false,
+        hasToken: !!token,
         isAuthenticated: TokenManager.isAuthenticated(),
-        hasUser: !!TokenManager.getAccessToken(),
-        hasCompany: !!TokenManager.getAccessToken(),
+        tokenLength: token?.length || 0,
         userEmail: undefined, // Will be resolved by backend
       });
+
+      if (!token) {
+        throw new Error('No authentication token found. Please log in again.');
+      }
 
       return fetchWithAuth('/api/assessments', {
         method: 'POST',

@@ -259,6 +259,10 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
           throw new Error('Authentication is loading. Please wait a moment and try again.');
         }
 
+        // Get token first as it's most reliable
+        const { TokenManager } = await import('@/lib/auth/token-manager');
+        const accessToken = TokenManager.getAccessToken();
+
         // Enhanced authentication check with better error reporting
         console.log('CreateAssessment auth check:', {
           authLoading,
@@ -267,11 +271,10 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
           hasCompany: !!company,
           userEmail: user?.email,
           companyName: company?.name,
+          hasToken: !!accessToken,
+          tokenLength: accessToken?.length || 0,
         });
 
-        // Get token first as it's most reliable
-        const { TokenManager } = await import('@/lib/auth/token-manager');
-        const accessToken = TokenManager.getAccessToken();
         if (!accessToken) {
           console.error('No access token found');
           throw new Error('Authentication token missing. Please log in again.');
