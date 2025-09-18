@@ -6,7 +6,9 @@ import { withRetry } from './retry';
 
 export interface CreateAssessmentRequest {
   title: string;
-  description?: string;
+  description: string;
+  companyName: string;
+  contactEmail: string;
   companyId: string;
 }
 

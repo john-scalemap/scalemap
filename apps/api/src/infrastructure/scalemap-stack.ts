@@ -7,7 +7,7 @@ import * as nodejsLambda from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as s3n from 'aws-cdk-lib/aws-s3-notifications';
-import * as ses from 'aws-cdk-lib/aws-ses';
+// import * as ses from 'aws-cdk-lib/aws-ses'; // TODO: Add SES monitoring
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { Construct } from 'constructs';
 
@@ -312,10 +312,13 @@ export class ScaleMapStack extends cdk.Stack {
     // Company endpoints
     const companyResource = api.root.addResource('company');
     companyResource.addMethod('POST', new apigateway.LambdaIntegration(createCompanyFunction), protectedMethodOptions);
-    companyResource.addMethod('GET', new apigateway.LambdaIntegration(getCompanyFunction), protectedMethodOptions);
+
+    // Company by ID endpoint: /company/{id}
+    const companyByIdResource = companyResource.addResource('{id}');
+    companyByIdResource.addMethod('GET', new apigateway.LambdaIntegration(getCompanyFunction), protectedMethodOptions);
 
     // Assessment endpoints
-    const assessmentResource = api.root.addResource('assessment');
+    const assessmentResource = api.root.addResource('assessments');
     assessmentResource.addMethod('POST', new apigateway.LambdaIntegration(createAssessmentFunction), protectedMethodOptions);
     assessmentResource.addMethod('GET', new apigateway.LambdaIntegration(getAssessmentFunction), protectedMethodOptions);
     assessmentResource.addResource('responses').addMethod('PUT', new apigateway.LambdaIntegration(updateResponsesFunction), protectedMethodOptions);
@@ -325,7 +328,8 @@ export class ScaleMapStack extends cdk.Stack {
     documentsResource.addResource('upload').addMethod('POST', new apigateway.LambdaIntegration(uploadHandlerFunction), protectedMethodOptions);
 
     // CloudWatch Alarms for monitoring
-    const apiErrorAlarm = new cdk.aws_cloudwatch.Alarm(this, 'ApiErrorAlarm', {
+    // TODO: Connect alarms to SNS topics for notifications
+    new cdk.aws_cloudwatch.Alarm(this, 'ApiErrorAlarm', {
       alarmName: `scalemap-api-errors-${stage}`,
       metric: api.metricServerError(),
       threshold: 10,
@@ -333,7 +337,7 @@ export class ScaleMapStack extends cdk.Stack {
       treatMissingData: cdk.aws_cloudwatch.TreatMissingData.NOT_BREACHING,
     });
 
-    const lambdaErrorAlarm = new cdk.aws_cloudwatch.Alarm(this, 'LambdaErrorAlarm', {
+    new cdk.aws_cloudwatch.Alarm(this, 'LambdaErrorAlarm', {
       alarmName: `scalemap-lambda-errors-${stage}`,
       metric: healthFunction.metricErrors(),
       threshold: 5,
@@ -342,7 +346,7 @@ export class ScaleMapStack extends cdk.Stack {
     });
 
     // Cost monitoring alarm
-    const costAlarm = new cdk.aws_cloudwatch.Alarm(this, 'CostAlarm', {
+    new cdk.aws_cloudwatch.Alarm(this, 'CostAlarm', {
       alarmName: `scalemap-cost-${stage}`,
       metric: new cdk.aws_cloudwatch.Metric({
         namespace: 'AWS/Billing',

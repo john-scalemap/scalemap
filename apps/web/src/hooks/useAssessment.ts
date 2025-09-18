@@ -12,6 +12,7 @@ import { useState, useEffect, useCallback } from 'react';
 
 import { assessmentService } from '@/lib/api';
 import { useAssessmentStore } from '@/stores/assessment-store';
+import { useAuth } from '@/lib/auth/auth-context';
 
 export interface UseAssessmentOptions {
   assessmentId?: string;
@@ -86,6 +87,9 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
   const [error, setError] = useState<string | null>(null);
   const [domainTemplates, setDomainTemplates] = useState<Record<DomainName, DomainTemplate>>({} as Record<DomainName, DomainTemplate>);
 
+  // Get auth context for user and company data
+  const { user, company, isAuthenticated } = useAuth();
+
   const {
     currentAssessment,
     workflowState,
@@ -105,7 +109,7 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
     submitAssessment,
     calculateCompleteness,
     canProgressToDomain,
-    autoSave: performAutoSave
+    autoSave: performAutoSave // TODO: Implement auto-save functionality
   } = useAssessmentStore();
 
   // Load assessment on mount if assessmentId provided
@@ -226,10 +230,17 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
       setError(null);
       setLoading(true);
 
+      // Check authentication
+      if (!isAuthenticated || !user || !company) {
+        throw new Error('Authentication required. Please log in again.');
+      }
+
       const response = await assessmentService.createAssessment({
         title,
         description,
-        companyId: 'default-company-id' // Should come from auth store
+        companyName: company.name,
+        contactEmail: user.email,
+        companyId: company.id
       });
 
       if (!response.success) {
@@ -246,7 +257,7 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
     } finally {
       setLoading(false);
     }
-  }, [setCurrentAssessment, setLoading]);
+  }, [isAuthenticated, user, company, setCurrentAssessment, setLoading]);
 
   const navigateToDomain = useCallback(async (domain: DomainName): Promise<boolean> => {
     if (!canProgressToDomain(domain)) {

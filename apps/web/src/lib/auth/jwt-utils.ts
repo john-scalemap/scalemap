@@ -2,10 +2,14 @@ import * as jwt from 'jsonwebtoken';
 import { JwtPayload } from 'jsonwebtoken';
 
 interface TokenPayload extends JwtPayload {
-  userId: string;
+  sub: string; // user ID
+  userId?: string; // legacy support
   email: string;
-  role?: string;
-  scope?: string[];
+  companyId: string;
+  role: string;
+  permissions: string[];
+  emailVerified: boolean;
+  scope?: string[]; // legacy support
 }
 
 /**
@@ -26,7 +30,7 @@ export class JwtUtils {
       }
 
       // Validate required fields
-      if (!decoded.userId || !decoded.email || !decoded.exp) {
+      if ((!decoded.sub && !decoded.userId) || !decoded.email || !decoded.exp || !decoded.companyId) {
         return null;
       }
 
@@ -75,6 +79,14 @@ export class JwtUtils {
   static getUserEmail(token: string): string | null {
     const payload = this.decodeToken(token);
     return payload?.email || null;
+  }
+
+  /**
+   * Get company ID from token
+   */
+  static getCompanyId(token: string): string | null {
+    const payload = this.decodeToken(token);
+    return payload?.companyId || null;
   }
 
   /**

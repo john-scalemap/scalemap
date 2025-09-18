@@ -1,5 +1,6 @@
 export { default as apiClient } from './client';
 export { authService, type LoginRequest, type LoginResponse, type RegisterRequest } from './auth';
+export { companyService, type CompanyService } from './company';
 export {
   assessmentService,
   type CreateAssessmentRequest,

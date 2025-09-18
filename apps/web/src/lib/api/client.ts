@@ -1,4 +1,4 @@
-import { ApiResponse, ApiError } from '@scalemap/shared/types/api';
+import { ApiResponse } from '@scalemap/shared/types/api';
 
 import { TokenManager } from '@/lib/auth/token-manager';
 
@@ -153,7 +153,7 @@ export class ApiClient {
 
 // Create the default API client instance
 const apiClient = new ApiClient({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL || 'https://api.scalemap.ai/v1',
+  baseUrl: process.env.NEXT_PUBLIC_API_URL || 'https://nb3pzj6u65.execute-api.eu-west-1.amazonaws.com/prod',
 });
 
 export default apiClient;
