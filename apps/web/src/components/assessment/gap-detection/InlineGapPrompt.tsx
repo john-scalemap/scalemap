@@ -1,8 +1,9 @@
 'use client';
 
-import { AssessmentGap, DomainName } from '@/types';
 import { AlertCircle, ChevronDown, ChevronUp, Lightbulb } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
+
+import { AssessmentGap, DomainName } from '@/types';
 
 import { useRealTimeGapDetection } from '../../../hooks/useGapAnalysis';
 

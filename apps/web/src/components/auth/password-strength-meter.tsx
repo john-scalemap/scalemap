@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+
 import { passwordValidator } from '../../lib/utils/password-validation';
 
 interface PasswordStrengthMeterProps {

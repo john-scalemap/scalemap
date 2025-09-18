@@ -1,7 +1,8 @@
 'use client';
 
-import { DomainName, DomainProgress, AssessmentProgress as IAssessmentProgress } from '@/types';
 import React from 'react';
+
+import { DomainName, DomainProgress, AssessmentProgress as IAssessmentProgress } from '@/types';
 
 interface AssessmentProgressProps {
   progress: IAssessmentProgress;

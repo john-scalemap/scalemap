@@ -1,8 +1,9 @@
 'use client';
 
-import { LoginCredentials, ApiResponse } from '@/types';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
+
+import { LoginCredentials, ApiResponse } from '@/types';
 
 import LoginForm from '../../components/auth/LoginForm';
 

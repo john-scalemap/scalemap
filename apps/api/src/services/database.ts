@@ -114,10 +114,19 @@ export class DatabaseService {
   ): Promise<Record<string, unknown> | null> {
     return withTiming(
       async () => {
+        // Automatically append updatedAt to all update expressions
+        const finalUpdateExpression = updateExpression.includes('updatedAt')
+          ? updateExpression
+          : updateExpression.includes(' SET ')
+            ? updateExpression.replace(' SET ', ' SET ') + ', updatedAt = :updatedAt'
+            : updateExpression.startsWith('SET ')
+              ? updateExpression + ', updatedAt = :updatedAt'
+              : `SET updatedAt = :updatedAt, ${updateExpression}`;
+
         const command = new UpdateCommand({
           TableName: this.tableName,
           Key: { PK: pk, SK: sk },
-          UpdateExpression: updateExpression,
+          UpdateExpression: finalUpdateExpression,
           ExpressionAttributeValues: {
             ...expressionAttributeValues,
             ':updatedAt': new Date().toISOString(),

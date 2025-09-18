@@ -1,7 +1,8 @@
 'use client';
 
-import { Assessment } from '@/types';
 import Link from 'next/link';
+
+import { Assessment } from '@/types';
 
 interface AssessmentCardProps {
   assessment: Assessment;

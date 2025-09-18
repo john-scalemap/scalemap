@@ -1,6 +1,5 @@
 'use client';
 
-import { IndustryClassification } from '@/types';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
@@ -9,6 +8,7 @@ import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
 import { Textarea } from '@/components/ui/Textarea';
 import { useAssessment } from '@/hooks/useAssessment';
+import { IndustryClassification } from '@/types';
 
 interface CompanyContextForm {
   title: string;

@@ -1,8 +1,9 @@
 'use client';
 
-import { PasswordResetRequest } from '@/types';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+
+import { PasswordResetRequest } from '@/types';
 
 interface ForgotPasswordFormProps {
   onSubmit: (data: PasswordResetRequest) => void;

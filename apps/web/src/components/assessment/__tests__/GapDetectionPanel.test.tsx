@@ -2,10 +2,11 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import React from 'react';
 
 import '@testing-library/jest-dom';
+import { AssessmentGap } from '@/types';
+
 import { useGapAnalysis } from '../../../hooks/useGapAnalysis';
 import { GapDetectionPanel } from '../gap-detection/GapDetectionPanel';
 
-import { AssessmentGap } from '@/types';
 
 // Mock the useGapAnalysis hook
 jest.mock('../../../hooks/useGapAnalysis');

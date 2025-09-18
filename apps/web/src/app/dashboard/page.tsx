@@ -1,6 +1,5 @@
 'use client';
 
-import { Assessment } from '@/types';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -8,6 +7,7 @@ import { useEffect, useState } from 'react';
 import AssessmentCard from '@/components/AssessmentCard';
 import { useAssessment, ListAssessmentsResult } from '@/hooks/useAssessment';
 import { useAuth } from '@/stores/auth';
+import { Assessment } from '@/types';
 
 export default function DashboardPage() {
   const router = useRouter();

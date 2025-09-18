@@ -1,8 +1,9 @@
 'use client';
 
-import { PasswordResetConfirm, ApiResponse } from '@/types';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
+
+import { PasswordResetConfirm, ApiResponse } from '@/types';
 
 import ResetPasswordForm from '../../components/auth/ResetPasswordForm';
 

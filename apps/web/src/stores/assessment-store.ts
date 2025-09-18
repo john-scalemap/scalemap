@@ -1,3 +1,8 @@
+import { create } from 'zustand';
+import { devtools, persist } from 'zustand/middleware';
+
+import { assessmentService } from '@/lib/api';
+import { QuestionService } from '@/services/question-service';
 import {
   Assessment,
   DomainName,
@@ -8,11 +13,6 @@ import {
   IndustryClassification,
   AssessmentValidation
 } from '@/types';
-import { create } from 'zustand';
-import { devtools, persist } from 'zustand/middleware';
-
-import { assessmentService } from '@/lib/api';
-import { QuestionService } from '@/services/question-service';
 
 interface AssessmentState {
   currentAssessment: Assessment | null;

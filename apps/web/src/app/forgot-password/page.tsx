@@ -1,7 +1,8 @@
 'use client';
 
-import { PasswordResetRequest, ApiResponse } from '@/types';
 import { useState } from 'react';
+
+import { PasswordResetRequest, ApiResponse } from '@/types';
 
 import ForgotPasswordForm from '../../components/auth/ForgotPasswordForm';
 

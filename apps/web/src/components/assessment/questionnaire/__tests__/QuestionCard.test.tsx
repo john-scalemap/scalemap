@@ -1,7 +1,8 @@
-import { Question, QuestionResponse } from '@/types';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
+
+import { Question, QuestionResponse } from '@/types';
 
 import { QuestionCard } from '../QuestionCard';
 

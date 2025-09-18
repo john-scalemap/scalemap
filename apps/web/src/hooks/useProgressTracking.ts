@@ -1,8 +1,8 @@
-import { DomainName } from '@/types';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { progressService, type AssessmentProgress, type ProgressStats } from '@/lib/api';
 import { useAssessmentStore } from '@/stores/assessment-store';
+import { DomainName } from '@/types';
 
 interface UseProgressTrackingReturn {
   progress: AssessmentProgress | null;

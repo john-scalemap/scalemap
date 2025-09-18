@@ -1,6 +1,5 @@
 'use client';
 
-import { DomainName } from '@/types';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
@@ -11,6 +10,7 @@ import { DocumentManager } from '@/components/documents/DocumentManager';
 import { Button } from '@/components/ui/Button';
 import { useAssessment } from '@/hooks/useAssessment';
 import { QuestionService } from '@/services/question-service';
+import { DomainName } from '@/types';
 
 export default function QuestionnairePage() {
   const params = useParams();

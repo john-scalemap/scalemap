@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-deploy-role-884337373956-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-cfn-exec-role-884337373956-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/2ee5e6e4e07d6a55682068981e30b751e4ab79367cd48b8783e61d7593e9e58e.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/31feefb81c360d3565a12f7ef8a57c0a164bc522d944bbdead5a80f126ab8330.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -166,6 +166,30 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "RegisterFunctionLogRetention8E4BDC14"
+          }
+        ],
+        "/ScaleMapDev/VerifyEmailFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VerifyEmailFunctionServiceRole39E7B4E3"
+          }
+        ],
+        "/ScaleMapDev/VerifyEmailFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VerifyEmailFunctionServiceRoleDefaultPolicy7444358B"
+          }
+        ],
+        "/ScaleMapDev/VerifyEmailFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VerifyEmailFunction6AC00EBE"
+          }
+        ],
+        "/ScaleMapDev/VerifyEmailFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VerifyEmailFunctionLogRetentionF7E824CC"
           }
         ],
         "/ScaleMapDev/CreateCompanyFunction/ServiceRole/Resource": [
@@ -405,7 +429,7 @@
         "/ScaleMapDev/ScaleMapApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiDeployment77EBDD9Defb5a1a2af5a4ea9ed711cf36e04cbc8"
+            "data": "ScaleMapApiDeployment77EBDD9De09eea18b1eee8f105992e12fbd4a7a6"
           }
         ],
         "/ScaleMapDev/ScaleMapApi/DeploymentStage.prod/Resource": [
@@ -558,6 +582,36 @@
             "data": "ScaleMapApiauthrefreshPOST6EC4C378"
           }
         ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/verify-email/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthverifyemail0AE6483F"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/verify-email/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthverifyemailOPTIONS1AD637B0"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/verify-email/GET/ApiPermission.ScaleMapDevScaleMapApiE4F3E3DD.GET..auth.verify-email": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthverifyemailGETApiPermissionScaleMapDevScaleMapApiE4F3E3DDGETauthverifyemailA12C4C3C"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/verify-email/GET/ApiPermission.Test.ScaleMapDevScaleMapApiE4F3E3DD.GET..auth.verify-email": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthverifyemailGETApiPermissionTestScaleMapDevScaleMapApiE4F3E3DDGETauthverifyemail499AD104"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/verify-email/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthverifyemailGET703CE8DA"
+          }
+        ],
         "/ScaleMapDev/ScaleMapApi/Default/company/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -588,100 +642,112 @@
             "data": "ScaleMapApicompanyPOST6EAA0F4F"
           }
         ],
-        "/ScaleMapDev/ScaleMapApi/Default/company/GET/ApiPermission.ScaleMapDevScaleMapApiE4F3E3DD.GET..company": [
+        "/ScaleMapDev/ScaleMapApi/Default/company/{id}/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApicompanyGETApiPermissionScaleMapDevScaleMapApiE4F3E3DDGETcompany5C0E9890"
+            "data": "ScaleMapApicompanyid26EF5C04"
           }
         ],
-        "/ScaleMapDev/ScaleMapApi/Default/company/GET/ApiPermission.Test.ScaleMapDevScaleMapApiE4F3E3DD.GET..company": [
+        "/ScaleMapDev/ScaleMapApi/Default/company/{id}/OPTIONS/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApicompanyGETApiPermissionTestScaleMapDevScaleMapApiE4F3E3DDGETcompany5F9ADBF9"
+            "data": "ScaleMapApicompanyidOPTIONS4A46373C"
           }
         ],
-        "/ScaleMapDev/ScaleMapApi/Default/company/GET/Resource": [
+        "/ScaleMapDev/ScaleMapApi/Default/company/{id}/GET/ApiPermission.ScaleMapDevScaleMapApiE4F3E3DD.GET..company.{id}": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApicompanyGET9784E0DD"
+            "data": "ScaleMapApicompanyidGETApiPermissionScaleMapDevScaleMapApiE4F3E3DDGETcompanyid5E71661B"
           }
         ],
-        "/ScaleMapDev/ScaleMapApi/Default/assessment/Resource": [
+        "/ScaleMapDev/ScaleMapApi/Default/company/{id}/GET/ApiPermission.Test.ScaleMapDevScaleMapApiE4F3E3DD.GET..company.{id}": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentC3736B5E"
+            "data": "ScaleMapApicompanyidGETApiPermissionTestScaleMapDevScaleMapApiE4F3E3DDGETcompanyidBCA95346"
           }
         ],
-        "/ScaleMapDev/ScaleMapApi/Default/assessment/OPTIONS/Resource": [
+        "/ScaleMapDev/ScaleMapApi/Default/company/{id}/GET/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentOPTIONSC8FBF396"
+            "data": "ScaleMapApicompanyidGET3C4F96D2"
           }
         ],
-        "/ScaleMapDev/ScaleMapApi/Default/assessment/POST/ApiPermission.ScaleMapDevScaleMapApiE4F3E3DD.POST..assessment": [
+        "/ScaleMapDev/ScaleMapApi/Default/assessments/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentPOSTApiPermissionScaleMapDevScaleMapApiE4F3E3DDPOSTassessment12D9A494"
+            "data": "ScaleMapApiassessmentsCBAE5DB3"
           }
         ],
-        "/ScaleMapDev/ScaleMapApi/Default/assessment/POST/ApiPermission.Test.ScaleMapDevScaleMapApiE4F3E3DD.POST..assessment": [
+        "/ScaleMapDev/ScaleMapApi/Default/assessments/OPTIONS/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentPOSTApiPermissionTestScaleMapDevScaleMapApiE4F3E3DDPOSTassessment7A5E2F00"
+            "data": "ScaleMapApiassessmentsOPTIONSF0586F4E"
           }
         ],
-        "/ScaleMapDev/ScaleMapApi/Default/assessment/POST/Resource": [
+        "/ScaleMapDev/ScaleMapApi/Default/assessments/POST/ApiPermission.ScaleMapDevScaleMapApiE4F3E3DD.POST..assessments": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentPOSTA148887C"
+            "data": "ScaleMapApiassessmentsPOSTApiPermissionScaleMapDevScaleMapApiE4F3E3DDPOSTassessmentsB213EBFD"
           }
         ],
-        "/ScaleMapDev/ScaleMapApi/Default/assessment/GET/ApiPermission.ScaleMapDevScaleMapApiE4F3E3DD.GET..assessment": [
+        "/ScaleMapDev/ScaleMapApi/Default/assessments/POST/ApiPermission.Test.ScaleMapDevScaleMapApiE4F3E3DD.POST..assessments": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentGETApiPermissionScaleMapDevScaleMapApiE4F3E3DDGETassessment19015E8C"
+            "data": "ScaleMapApiassessmentsPOSTApiPermissionTestScaleMapDevScaleMapApiE4F3E3DDPOSTassessments28BF7F20"
           }
         ],
-        "/ScaleMapDev/ScaleMapApi/Default/assessment/GET/ApiPermission.Test.ScaleMapDevScaleMapApiE4F3E3DD.GET..assessment": [
+        "/ScaleMapDev/ScaleMapApi/Default/assessments/POST/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentGETApiPermissionTestScaleMapDevScaleMapApiE4F3E3DDGETassessment40BA6FDF"
+            "data": "ScaleMapApiassessmentsPOST18441130"
           }
         ],
-        "/ScaleMapDev/ScaleMapApi/Default/assessment/GET/Resource": [
+        "/ScaleMapDev/ScaleMapApi/Default/assessments/GET/ApiPermission.ScaleMapDevScaleMapApiE4F3E3DD.GET..assessments": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentGET1FE7CC79"
+            "data": "ScaleMapApiassessmentsGETApiPermissionScaleMapDevScaleMapApiE4F3E3DDGETassessmentsF37D5657"
           }
         ],
-        "/ScaleMapDev/ScaleMapApi/Default/assessment/responses/Resource": [
+        "/ScaleMapDev/ScaleMapApi/Default/assessments/GET/ApiPermission.Test.ScaleMapDevScaleMapApiE4F3E3DD.GET..assessments": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentresponses1B5A68B6"
+            "data": "ScaleMapApiassessmentsGETApiPermissionTestScaleMapDevScaleMapApiE4F3E3DDGETassessments3A760C63"
           }
         ],
-        "/ScaleMapDev/ScaleMapApi/Default/assessment/responses/OPTIONS/Resource": [
+        "/ScaleMapDev/ScaleMapApi/Default/assessments/GET/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentresponsesOPTIONS54E7E8FB"
+            "data": "ScaleMapApiassessmentsGETE6B3723C"
           }
         ],
-        "/ScaleMapDev/ScaleMapApi/Default/assessment/responses/PUT/ApiPermission.ScaleMapDevScaleMapApiE4F3E3DD.PUT..assessment.responses": [
+        "/ScaleMapDev/ScaleMapApi/Default/assessments/responses/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentresponsesPUTApiPermissionScaleMapDevScaleMapApiE4F3E3DDPUTassessmentresponses5B2B01A2"
+            "data": "ScaleMapApiassessmentsresponses32212C8B"
           }
         ],
-        "/ScaleMapDev/ScaleMapApi/Default/assessment/responses/PUT/ApiPermission.Test.ScaleMapDevScaleMapApiE4F3E3DD.PUT..assessment.responses": [
+        "/ScaleMapDev/ScaleMapApi/Default/assessments/responses/OPTIONS/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentresponsesPUTApiPermissionTestScaleMapDevScaleMapApiE4F3E3DDPUTassessmentresponsesEC46383D"
+            "data": "ScaleMapApiassessmentsresponsesOPTIONSF483EBD7"
           }
         ],
-        "/ScaleMapDev/ScaleMapApi/Default/assessment/responses/PUT/Resource": [
+        "/ScaleMapDev/ScaleMapApi/Default/assessments/responses/PUT/ApiPermission.ScaleMapDevScaleMapApiE4F3E3DD.PUT..assessments.responses": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentresponsesPUTE7F381A0"
+            "data": "ScaleMapApiassessmentsresponsesPUTApiPermissionScaleMapDevScaleMapApiE4F3E3DDPUTassessmentsresponses4F1403B3"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/assessments/responses/PUT/ApiPermission.Test.ScaleMapDevScaleMapApiE4F3E3DD.PUT..assessments.responses": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentsresponsesPUTApiPermissionTestScaleMapDevScaleMapApiE4F3E3DDPUTassessmentsresponses66259AE7"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/assessments/responses/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentsresponsesPUT3C6FE69F"
           }
         ],
         "/ScaleMapDev/ScaleMapApi/Default/documents/Resource": [
@@ -806,7 +872,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-deploy-role-884337373956-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-cfn-exec-role-884337373956-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/5f234000b4ec8ffc92f493063c7abc6ed7ef5afffbbb0e2c8fc9a973b7d3cb01.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/ca403a2a7983f12476b1d3c13dac692043c885fc6cb96b5b831cef5bd3eaac49.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -954,6 +1020,30 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "RegisterFunctionLogRetention8E4BDC14"
+          }
+        ],
+        "/ScaleMapStaging/VerifyEmailFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VerifyEmailFunctionServiceRole39E7B4E3"
+          }
+        ],
+        "/ScaleMapStaging/VerifyEmailFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VerifyEmailFunctionServiceRoleDefaultPolicy7444358B"
+          }
+        ],
+        "/ScaleMapStaging/VerifyEmailFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VerifyEmailFunction6AC00EBE"
+          }
+        ],
+        "/ScaleMapStaging/VerifyEmailFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VerifyEmailFunctionLogRetentionF7E824CC"
           }
         ],
         "/ScaleMapStaging/CreateCompanyFunction/ServiceRole/Resource": [
@@ -1193,7 +1283,7 @@
         "/ScaleMapStaging/ScaleMapApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiDeployment77EBDD9Dc8d89f9488bd52ead5439c148d9fba98"
+            "data": "ScaleMapApiDeployment77EBDD9D1fb50d92c99772d0a0b5e37caf944c8e"
           }
         ],
         "/ScaleMapStaging/ScaleMapApi/DeploymentStage.prod/Resource": [
@@ -1346,6 +1436,36 @@
             "data": "ScaleMapApiauthrefreshPOST6EC4C378"
           }
         ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/verify-email/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthverifyemail0AE6483F"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/verify-email/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthverifyemailOPTIONS1AD637B0"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/verify-email/GET/ApiPermission.ScaleMapStagingScaleMapApi0D72BBEB.GET..auth.verify-email": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthverifyemailGETApiPermissionScaleMapStagingScaleMapApi0D72BBEBGETauthverifyemail2BF302ED"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/verify-email/GET/ApiPermission.Test.ScaleMapStagingScaleMapApi0D72BBEB.GET..auth.verify-email": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthverifyemailGETApiPermissionTestScaleMapStagingScaleMapApi0D72BBEBGETauthverifyemailE8B79EC0"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/verify-email/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthverifyemailGET703CE8DA"
+          }
+        ],
         "/ScaleMapStaging/ScaleMapApi/Default/company/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -1376,100 +1496,112 @@
             "data": "ScaleMapApicompanyPOST6EAA0F4F"
           }
         ],
-        "/ScaleMapStaging/ScaleMapApi/Default/company/GET/ApiPermission.ScaleMapStagingScaleMapApi0D72BBEB.GET..company": [
+        "/ScaleMapStaging/ScaleMapApi/Default/company/{id}/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApicompanyGETApiPermissionScaleMapStagingScaleMapApi0D72BBEBGETcompanyC0C6BDC9"
+            "data": "ScaleMapApicompanyid26EF5C04"
           }
         ],
-        "/ScaleMapStaging/ScaleMapApi/Default/company/GET/ApiPermission.Test.ScaleMapStagingScaleMapApi0D72BBEB.GET..company": [
+        "/ScaleMapStaging/ScaleMapApi/Default/company/{id}/OPTIONS/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApicompanyGETApiPermissionTestScaleMapStagingScaleMapApi0D72BBEBGETcompanyC94238E0"
+            "data": "ScaleMapApicompanyidOPTIONS4A46373C"
           }
         ],
-        "/ScaleMapStaging/ScaleMapApi/Default/company/GET/Resource": [
+        "/ScaleMapStaging/ScaleMapApi/Default/company/{id}/GET/ApiPermission.ScaleMapStagingScaleMapApi0D72BBEB.GET..company.{id}": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApicompanyGET9784E0DD"
+            "data": "ScaleMapApicompanyidGETApiPermissionScaleMapStagingScaleMapApi0D72BBEBGETcompanyidDEE9D9E2"
           }
         ],
-        "/ScaleMapStaging/ScaleMapApi/Default/assessment/Resource": [
+        "/ScaleMapStaging/ScaleMapApi/Default/company/{id}/GET/ApiPermission.Test.ScaleMapStagingScaleMapApi0D72BBEB.GET..company.{id}": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentC3736B5E"
+            "data": "ScaleMapApicompanyidGETApiPermissionTestScaleMapStagingScaleMapApi0D72BBEBGETcompanyid7776B8EB"
           }
         ],
-        "/ScaleMapStaging/ScaleMapApi/Default/assessment/OPTIONS/Resource": [
+        "/ScaleMapStaging/ScaleMapApi/Default/company/{id}/GET/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentOPTIONSC8FBF396"
+            "data": "ScaleMapApicompanyidGET3C4F96D2"
           }
         ],
-        "/ScaleMapStaging/ScaleMapApi/Default/assessment/POST/ApiPermission.ScaleMapStagingScaleMapApi0D72BBEB.POST..assessment": [
+        "/ScaleMapStaging/ScaleMapApi/Default/assessments/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentPOSTApiPermissionScaleMapStagingScaleMapApi0D72BBEBPOSTassessment209C9DF9"
+            "data": "ScaleMapApiassessmentsCBAE5DB3"
           }
         ],
-        "/ScaleMapStaging/ScaleMapApi/Default/assessment/POST/ApiPermission.Test.ScaleMapStagingScaleMapApi0D72BBEB.POST..assessment": [
+        "/ScaleMapStaging/ScaleMapApi/Default/assessments/OPTIONS/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentPOSTApiPermissionTestScaleMapStagingScaleMapApi0D72BBEBPOSTassessmentE80DF174"
+            "data": "ScaleMapApiassessmentsOPTIONSF0586F4E"
           }
         ],
-        "/ScaleMapStaging/ScaleMapApi/Default/assessment/POST/Resource": [
+        "/ScaleMapStaging/ScaleMapApi/Default/assessments/POST/ApiPermission.ScaleMapStagingScaleMapApi0D72BBEB.POST..assessments": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentPOSTA148887C"
+            "data": "ScaleMapApiassessmentsPOSTApiPermissionScaleMapStagingScaleMapApi0D72BBEBPOSTassessments380F8C5E"
           }
         ],
-        "/ScaleMapStaging/ScaleMapApi/Default/assessment/GET/ApiPermission.ScaleMapStagingScaleMapApi0D72BBEB.GET..assessment": [
+        "/ScaleMapStaging/ScaleMapApi/Default/assessments/POST/ApiPermission.Test.ScaleMapStagingScaleMapApi0D72BBEB.POST..assessments": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentGETApiPermissionScaleMapStagingScaleMapApi0D72BBEBGETassessment95DBB509"
+            "data": "ScaleMapApiassessmentsPOSTApiPermissionTestScaleMapStagingScaleMapApi0D72BBEBPOSTassessments1BEBC68B"
           }
         ],
-        "/ScaleMapStaging/ScaleMapApi/Default/assessment/GET/ApiPermission.Test.ScaleMapStagingScaleMapApi0D72BBEB.GET..assessment": [
+        "/ScaleMapStaging/ScaleMapApi/Default/assessments/POST/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentGETApiPermissionTestScaleMapStagingScaleMapApi0D72BBEBGETassessmentDCFCA92E"
+            "data": "ScaleMapApiassessmentsPOST18441130"
           }
         ],
-        "/ScaleMapStaging/ScaleMapApi/Default/assessment/GET/Resource": [
+        "/ScaleMapStaging/ScaleMapApi/Default/assessments/GET/ApiPermission.ScaleMapStagingScaleMapApi0D72BBEB.GET..assessments": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentGET1FE7CC79"
+            "data": "ScaleMapApiassessmentsGETApiPermissionScaleMapStagingScaleMapApi0D72BBEBGETassessments3836094E"
           }
         ],
-        "/ScaleMapStaging/ScaleMapApi/Default/assessment/responses/Resource": [
+        "/ScaleMapStaging/ScaleMapApi/Default/assessments/GET/ApiPermission.Test.ScaleMapStagingScaleMapApi0D72BBEB.GET..assessments": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentresponses1B5A68B6"
+            "data": "ScaleMapApiassessmentsGETApiPermissionTestScaleMapStagingScaleMapApi0D72BBEBGETassessmentsA0D416F5"
           }
         ],
-        "/ScaleMapStaging/ScaleMapApi/Default/assessment/responses/OPTIONS/Resource": [
+        "/ScaleMapStaging/ScaleMapApi/Default/assessments/GET/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentresponsesOPTIONS54E7E8FB"
+            "data": "ScaleMapApiassessmentsGETE6B3723C"
           }
         ],
-        "/ScaleMapStaging/ScaleMapApi/Default/assessment/responses/PUT/ApiPermission.ScaleMapStagingScaleMapApi0D72BBEB.PUT..assessment.responses": [
+        "/ScaleMapStaging/ScaleMapApi/Default/assessments/responses/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentresponsesPUTApiPermissionScaleMapStagingScaleMapApi0D72BBEBPUTassessmentresponses184F22D2"
+            "data": "ScaleMapApiassessmentsresponses32212C8B"
           }
         ],
-        "/ScaleMapStaging/ScaleMapApi/Default/assessment/responses/PUT/ApiPermission.Test.ScaleMapStagingScaleMapApi0D72BBEB.PUT..assessment.responses": [
+        "/ScaleMapStaging/ScaleMapApi/Default/assessments/responses/OPTIONS/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentresponsesPUTApiPermissionTestScaleMapStagingScaleMapApi0D72BBEBPUTassessmentresponsesDE1C4F91"
+            "data": "ScaleMapApiassessmentsresponsesOPTIONSF483EBD7"
           }
         ],
-        "/ScaleMapStaging/ScaleMapApi/Default/assessment/responses/PUT/Resource": [
+        "/ScaleMapStaging/ScaleMapApi/Default/assessments/responses/PUT/ApiPermission.ScaleMapStagingScaleMapApi0D72BBEB.PUT..assessments.responses": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentresponsesPUTE7F381A0"
+            "data": "ScaleMapApiassessmentsresponsesPUTApiPermissionScaleMapStagingScaleMapApi0D72BBEBPUTassessmentsresponsesA3EBD2CA"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/assessments/responses/PUT/ApiPermission.Test.ScaleMapStagingScaleMapApi0D72BBEB.PUT..assessments.responses": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentsresponsesPUTApiPermissionTestScaleMapStagingScaleMapApi0D72BBEBPUTassessmentsresponsesA72E5B64"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/assessments/responses/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentsresponsesPUT3C6FE69F"
           }
         ],
         "/ScaleMapStaging/ScaleMapApi/Default/documents/Resource": [
@@ -1594,7 +1726,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-deploy-role-884337373956-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-cfn-exec-role-884337373956-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/c1fd306104f6dd9afc7a0948b9bd3dcfe09f44dddb006c2bb39dbed03d7995e0.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/339d9b71b6710a9c2f8200f73a1d0f40db9a4a253caf506bde50587e75764515.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -1742,6 +1874,30 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "RegisterFunctionLogRetention8E4BDC14"
+          }
+        ],
+        "/ScaleMapProd/VerifyEmailFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VerifyEmailFunctionServiceRole39E7B4E3"
+          }
+        ],
+        "/ScaleMapProd/VerifyEmailFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VerifyEmailFunctionServiceRoleDefaultPolicy7444358B"
+          }
+        ],
+        "/ScaleMapProd/VerifyEmailFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VerifyEmailFunction6AC00EBE"
+          }
+        ],
+        "/ScaleMapProd/VerifyEmailFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VerifyEmailFunctionLogRetentionF7E824CC"
           }
         ],
         "/ScaleMapProd/CreateCompanyFunction/ServiceRole/Resource": [
@@ -1981,7 +2137,7 @@
         "/ScaleMapProd/ScaleMapApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiDeployment77EBDD9Dc74d6a807ebaec6f66f7bc115f9688f3"
+            "data": "ScaleMapApiDeployment77EBDD9D4b5b32a1e91e0ffbeb640fd190ef7a20"
           }
         ],
         "/ScaleMapProd/ScaleMapApi/DeploymentStage.prod/Resource": [
@@ -2134,6 +2290,36 @@
             "data": "ScaleMapApiauthrefreshPOST6EC4C378"
           }
         ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/verify-email/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthverifyemail0AE6483F"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/verify-email/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthverifyemailOPTIONS1AD637B0"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/verify-email/GET/ApiPermission.ScaleMapProdScaleMapApi18A6D135.GET..auth.verify-email": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthverifyemailGETApiPermissionScaleMapProdScaleMapApi18A6D135GETauthverifyemailDF6F2AB2"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/verify-email/GET/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.GET..auth.verify-email": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthverifyemailGETApiPermissionTestScaleMapProdScaleMapApi18A6D135GETauthverifyemail5DA44D83"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/verify-email/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthverifyemailGET703CE8DA"
+          }
+        ],
         "/ScaleMapProd/ScaleMapApi/Default/company/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -2164,100 +2350,112 @@
             "data": "ScaleMapApicompanyPOST6EAA0F4F"
           }
         ],
-        "/ScaleMapProd/ScaleMapApi/Default/company/GET/ApiPermission.ScaleMapProdScaleMapApi18A6D135.GET..company": [
+        "/ScaleMapProd/ScaleMapApi/Default/company/{id}/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApicompanyGETApiPermissionScaleMapProdScaleMapApi18A6D135GETcompanyAB3409F3"
+            "data": "ScaleMapApicompanyid26EF5C04"
           }
         ],
-        "/ScaleMapProd/ScaleMapApi/Default/company/GET/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.GET..company": [
+        "/ScaleMapProd/ScaleMapApi/Default/company/{id}/OPTIONS/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApicompanyGETApiPermissionTestScaleMapProdScaleMapApi18A6D135GETcompany1C9247AB"
+            "data": "ScaleMapApicompanyidOPTIONS4A46373C"
           }
         ],
-        "/ScaleMapProd/ScaleMapApi/Default/company/GET/Resource": [
+        "/ScaleMapProd/ScaleMapApi/Default/company/{id}/GET/ApiPermission.ScaleMapProdScaleMapApi18A6D135.GET..company.{id}": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApicompanyGET9784E0DD"
+            "data": "ScaleMapApicompanyidGETApiPermissionScaleMapProdScaleMapApi18A6D135GETcompanyid81D63147"
           }
         ],
-        "/ScaleMapProd/ScaleMapApi/Default/assessment/Resource": [
+        "/ScaleMapProd/ScaleMapApi/Default/company/{id}/GET/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.GET..company.{id}": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentC3736B5E"
+            "data": "ScaleMapApicompanyidGETApiPermissionTestScaleMapProdScaleMapApi18A6D135GETcompanyidA1B278D0"
           }
         ],
-        "/ScaleMapProd/ScaleMapApi/Default/assessment/OPTIONS/Resource": [
+        "/ScaleMapProd/ScaleMapApi/Default/company/{id}/GET/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentOPTIONSC8FBF396"
+            "data": "ScaleMapApicompanyidGET3C4F96D2"
           }
         ],
-        "/ScaleMapProd/ScaleMapApi/Default/assessment/POST/ApiPermission.ScaleMapProdScaleMapApi18A6D135.POST..assessment": [
+        "/ScaleMapProd/ScaleMapApi/Default/assessments/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentPOSTApiPermissionScaleMapProdScaleMapApi18A6D135POSTassessment1EF7E060"
+            "data": "ScaleMapApiassessmentsCBAE5DB3"
           }
         ],
-        "/ScaleMapProd/ScaleMapApi/Default/assessment/POST/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.POST..assessment": [
+        "/ScaleMapProd/ScaleMapApi/Default/assessments/OPTIONS/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentPOSTApiPermissionTestScaleMapProdScaleMapApi18A6D135POSTassessment736C2070"
+            "data": "ScaleMapApiassessmentsOPTIONSF0586F4E"
           }
         ],
-        "/ScaleMapProd/ScaleMapApi/Default/assessment/POST/Resource": [
+        "/ScaleMapProd/ScaleMapApi/Default/assessments/POST/ApiPermission.ScaleMapProdScaleMapApi18A6D135.POST..assessments": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentPOSTA148887C"
+            "data": "ScaleMapApiassessmentsPOSTApiPermissionScaleMapProdScaleMapApi18A6D135POSTassessments1550BD8F"
           }
         ],
-        "/ScaleMapProd/ScaleMapApi/Default/assessment/GET/ApiPermission.ScaleMapProdScaleMapApi18A6D135.GET..assessment": [
+        "/ScaleMapProd/ScaleMapApi/Default/assessments/POST/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.POST..assessments": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentGETApiPermissionScaleMapProdScaleMapApi18A6D135GETassessment7295A2FF"
+            "data": "ScaleMapApiassessmentsPOSTApiPermissionTestScaleMapProdScaleMapApi18A6D135POSTassessments57584348"
           }
         ],
-        "/ScaleMapProd/ScaleMapApi/Default/assessment/GET/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.GET..assessment": [
+        "/ScaleMapProd/ScaleMapApi/Default/assessments/POST/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentGETApiPermissionTestScaleMapProdScaleMapApi18A6D135GETassessmentAD004BE1"
+            "data": "ScaleMapApiassessmentsPOST18441130"
           }
         ],
-        "/ScaleMapProd/ScaleMapApi/Default/assessment/GET/Resource": [
+        "/ScaleMapProd/ScaleMapApi/Default/assessments/GET/ApiPermission.ScaleMapProdScaleMapApi18A6D135.GET..assessments": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentGET1FE7CC79"
+            "data": "ScaleMapApiassessmentsGETApiPermissionScaleMapProdScaleMapApi18A6D135GETassessmentsA075D392"
           }
         ],
-        "/ScaleMapProd/ScaleMapApi/Default/assessment/responses/Resource": [
+        "/ScaleMapProd/ScaleMapApi/Default/assessments/GET/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.GET..assessments": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentresponses1B5A68B6"
+            "data": "ScaleMapApiassessmentsGETApiPermissionTestScaleMapProdScaleMapApi18A6D135GETassessments99730EF7"
           }
         ],
-        "/ScaleMapProd/ScaleMapApi/Default/assessment/responses/OPTIONS/Resource": [
+        "/ScaleMapProd/ScaleMapApi/Default/assessments/GET/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentresponsesOPTIONS54E7E8FB"
+            "data": "ScaleMapApiassessmentsGETE6B3723C"
           }
         ],
-        "/ScaleMapProd/ScaleMapApi/Default/assessment/responses/PUT/ApiPermission.ScaleMapProdScaleMapApi18A6D135.PUT..assessment.responses": [
+        "/ScaleMapProd/ScaleMapApi/Default/assessments/responses/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentresponsesPUTApiPermissionScaleMapProdScaleMapApi18A6D135PUTassessmentresponsesC5033078"
+            "data": "ScaleMapApiassessmentsresponses32212C8B"
           }
         ],
-        "/ScaleMapProd/ScaleMapApi/Default/assessment/responses/PUT/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.PUT..assessment.responses": [
+        "/ScaleMapProd/ScaleMapApi/Default/assessments/responses/OPTIONS/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentresponsesPUTApiPermissionTestScaleMapProdScaleMapApi18A6D135PUTassessmentresponses9D447126"
+            "data": "ScaleMapApiassessmentsresponsesOPTIONSF483EBD7"
           }
         ],
-        "/ScaleMapProd/ScaleMapApi/Default/assessment/responses/PUT/Resource": [
+        "/ScaleMapProd/ScaleMapApi/Default/assessments/responses/PUT/ApiPermission.ScaleMapProdScaleMapApi18A6D135.PUT..assessments.responses": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiassessmentresponsesPUTE7F381A0"
+            "data": "ScaleMapApiassessmentsresponsesPUTApiPermissionScaleMapProdScaleMapApi18A6D135PUTassessmentsresponses32DD6FF5"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/assessments/responses/PUT/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.PUT..assessments.responses": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentsresponsesPUTApiPermissionTestScaleMapProdScaleMapApi18A6D135PUTassessmentsresponses19F35CD8"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/assessments/responses/PUT/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentsresponsesPUT3C6FE69F"
           }
         ],
         "/ScaleMapProd/ScaleMapApi/Default/documents/Resource": [

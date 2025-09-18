@@ -145,9 +145,12 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
 
   const loadDomainTemplates = useCallback(async () => {
     try {
+      const { TokenManager } = await import('@/lib/auth/token-manager');
+      const accessToken = TokenManager.getAccessToken();
+
       const response = await fetch('/api/assessment/questions', {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${accessToken || ''}`,
         },
       });
 
@@ -452,11 +455,14 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
     }
 
     try {
+      const { TokenManager } = await import('@/lib/auth/token-manager');
+      const accessToken = TokenManager.getAccessToken();
+
       const response = await fetch(`/api/assessment/${currentAssessment.id}/validate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken')}`,
+          Authorization: `Bearer ${accessToken || ''}`,
         },
         body: JSON.stringify({
           domainResponses: currentAssessment.domainResponses,

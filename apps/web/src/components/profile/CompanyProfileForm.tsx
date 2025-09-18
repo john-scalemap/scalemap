@@ -1,7 +1,8 @@
 'use client';
 
-import type { BusinessModel, CompanySize } from '@/types';
 import { useState } from 'react';
+
+import type { BusinessModel, CompanySize } from '@/types';
 
 import { useAuth } from '../../stores/auth';
 import { Button } from '../ui/Button';

@@ -1,7 +1,8 @@
 'use client';
 
-import { RegisterCredentials } from '@/types';
 import { useState } from 'react';
+
+import { RegisterCredentials } from '@/types';
 
 interface UserRegistrationFormProps {
   onSubmit: (data: RegisterCredentials) => void;

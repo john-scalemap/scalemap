@@ -1,9 +1,9 @@
 'use client';
 
-import { DomainName, AssessmentProgress, DomainProgress } from '@/types';
 import React, { useState } from 'react';
 
 import { Button } from '@/components/ui/Button';
+import { DomainName, AssessmentProgress, DomainProgress } from '@/types';
 
 interface QuestionNavigationProps {
   currentDomain: DomainName;

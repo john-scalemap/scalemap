@@ -1,7 +1,8 @@
-import { DomainName, Question, QuestionResponse, DomainProgress, IndustryClassification } from '@/types';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
+
+import { DomainName, Question, QuestionResponse, DomainProgress, IndustryClassification } from '@/types';
 
 import { DomainSection } from '../DomainSection';
 

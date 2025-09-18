@@ -72,8 +72,7 @@ export const handler = async (
       'SET emailVerified = :verified, #status = :status, updatedAt = :updatedAt',
       {
         ':verified': true,
-        ':status': 'active',
-        ':updatedAt': new Date().toISOString()
+        ':status': 'active'
       },
       {
         '#status': 'status'

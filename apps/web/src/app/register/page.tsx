@@ -1,8 +1,9 @@
 'use client';
 
-import { RegisterCredentials, CompanyRegistration, ApiResponse } from '@/types';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+
+import { RegisterCredentials, CompanyRegistration, ApiResponse } from '@/types';
 
 import CompanyRegistrationForm from '../../components/auth/CompanyRegistrationForm';
 import UserRegistrationForm from '../../components/auth/UserRegistrationForm';

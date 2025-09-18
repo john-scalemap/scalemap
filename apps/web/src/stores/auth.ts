@@ -1,9 +1,9 @@
-import type { UserProfile } from '@/types';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import { authService } from '@/lib/api';
 import { TokenManager } from '@/lib/auth/token-manager';
+import type { UserProfile } from '@/types';
 
 interface User extends UserProfile {
   company?: {

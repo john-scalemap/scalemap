@@ -1,6 +1,7 @@
 import { jest } from '@jest/globals';
-import { Assessment } from '@/types';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+
+import { Assessment } from '@/types';
 
 import DashboardPage from '../page';
 

@@ -1,8 +1,9 @@
 'use client';
 
-import { PasswordResetConfirm } from '@/types';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+
+import { PasswordResetConfirm } from '@/types';
 
 interface ResetPasswordFormProps {
   token: string;

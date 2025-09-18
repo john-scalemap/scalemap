@@ -1,8 +1,9 @@
 'use client';
 
-import { AssessmentGap, GapCategory, DomainName } from '@/types';
 import { AlertTriangle, CheckCircle, Clock, HelpCircle } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+
+import { AssessmentGap, GapCategory, DomainName } from '@/types';
 
 import { useGapAnalysis } from '../../../hooks/useGapAnalysis';
 

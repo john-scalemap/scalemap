@@ -1,7 +1,7 @@
-import { DomainName } from '@/types';
 
 import { QuestionService } from '@/services/question-service';
 import { useAssessmentStore } from '@/stores/assessment-store';
+import { DomainName } from '@/types';
 
 describe('Debug Progress Fixes', () => {
   const questionService = QuestionService.getInstance();

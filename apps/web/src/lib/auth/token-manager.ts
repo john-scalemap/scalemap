@@ -1,4 +1,12 @@
-import { JwtUtils } from './jwt-utils';
+// Simple token expiration check
+function isTokenExpired(token: string): boolean {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.exp * 1000 < Date.now();
+  } catch {
+    return true;
+  }
+}
 
 interface AuthTokens {
   accessToken: string;
@@ -94,8 +102,8 @@ export class TokenManager {
       return null;
     }
 
-    // Check if token is expired using secure JWT utils
-    if (JwtUtils.isTokenExpired(accessToken)) {
+    // Check if token is expired
+    if (isTokenExpired(accessToken)) {
       const refreshed = await this.refreshAccessToken();
       return refreshed ? this.getAccessToken() : null;
     }
@@ -110,7 +118,7 @@ export class TokenManager {
     const accessToken = this.getAccessToken();
     if (!accessToken) return true;
 
-    return JwtUtils.isTokenExpired(accessToken);
+    return isTokenExpired(accessToken);
   }
 
   /**
@@ -126,7 +134,7 @@ export class TokenManager {
 
     try {
       // Import auth service dynamically to avoid circular dependency
-      const { authService } = await import('@/lib/api/auth');
+      const { authService } = await import('@/lib/api');
 
       const response = await authService.refreshToken({ refreshToken });
 

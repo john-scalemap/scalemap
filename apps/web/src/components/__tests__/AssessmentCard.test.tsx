@@ -1,6 +1,7 @@
 import { jest } from '@jest/globals';
-import { Assessment } from '@/types';
 import { render, screen, fireEvent } from '@testing-library/react';
+
+import { Assessment } from '@/types';
 
 import AssessmentCard from '../AssessmentCard';
 

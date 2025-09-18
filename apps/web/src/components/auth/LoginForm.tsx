@@ -1,8 +1,9 @@
 'use client';
 
-import { LoginCredentials } from '@/types';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+
+import { LoginCredentials } from '@/types';
 
 interface LoginFormProps {
   onSubmit: (data: LoginCredentials) => void;

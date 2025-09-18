@@ -1,5 +1,7 @@
 'use client';
 
+import { useState, useEffect, useCallback } from 'react';
+
 import {
   AssessmentGap,
   GapAnalysisRequest,
@@ -8,7 +10,6 @@ import {
   GapResolutionRequest,
   GapResolutionResponse
 } from '@/types';
-import { useState, useEffect, useCallback } from 'react';
 
 interface UseGapAnalysisResult {
   gaps: AssessmentGap[];

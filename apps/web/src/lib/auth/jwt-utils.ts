@@ -70,7 +70,7 @@ export class JwtUtils {
    */
   static getUserId(token: string): string | null {
     const payload = this.decodeToken(token);
-    return payload?.userId || null;
+    return payload?.sub || payload?.userId || null;
   }
 
   /**

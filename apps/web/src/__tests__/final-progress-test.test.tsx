@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
-import { DomainName } from '@/types';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
 
 import { AssessmentProgress } from '@/components/assessment/questionnaire/AssessmentProgress';
+import { DomainName } from '@/types';
 
 describe('Final Progress Dashboard Test', () => {
   test('should fix the 13 out of 9 questions display issue', () => {

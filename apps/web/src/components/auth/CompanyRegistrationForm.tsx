@@ -1,12 +1,13 @@
 'use client';
 
+import { useState } from 'react';
+
 import {
   CompanyRegistration,
   CompanyIndustry,
   CompanySize,
   BusinessModel
 } from '@/types';
-import { useState } from 'react';
 
 interface CompanyRegistrationFormProps {
   onSubmit: (data: CompanyRegistration) => void;

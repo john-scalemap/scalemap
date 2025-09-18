@@ -4,7 +4,7 @@ import { logger } from '../utils/logger';
 import { Monitoring } from '../utils/monitoring';
 
 const sesClient = new SESClient({
-  region: process.env.AWS_REGION || 'us-east-1'
+  region: process.env.SES_REGION || 'eu-west-1'
 });
 
 export interface EmailTemplate {
@@ -26,7 +26,7 @@ export class EmailService {
   private baseUrl: string;
 
   constructor() {
-    this.defaultFromAddress = process.env.SES_FROM_ADDRESS || 'noreply@scalemap.com';
+    this.defaultFromAddress = process.env.SES_FROM_EMAIL || 'noreply@scalemap.com';
     this.baseUrl = process.env.FRONTEND_BASE_URL || 'https://app.scalemap.com';
   }
 

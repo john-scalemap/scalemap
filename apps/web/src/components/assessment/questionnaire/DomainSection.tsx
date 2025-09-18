@@ -1,10 +1,10 @@
 'use client';
 
-import { DomainName, Question, QuestionResponse, DomainProgress, IndustryClassification } from '@/types';
 import React, { useState, useEffect } from 'react';
 
 import { Button } from '@/components/ui/Button';
 import { QuestionService } from '@/services/question-service';
+import { DomainName, Question, QuestionResponse, DomainProgress, IndustryClassification } from '@/types';
 
 import { QuestionCard } from './QuestionCard';
 

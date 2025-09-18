@@ -94,11 +94,12 @@ export class ScaleMapStack extends cdk.Stack {
       DOCUMENTS_BUCKET: documentsBucket.bucketName,
       S3_BUCKET_NAME: documentsBucket.bucketName,
       STAGE: stage,
+      SES_REGION: 'eu-west-1',
       REGION: this.region,
       DLQ_URL: dlq.queueUrl,
       SES_FROM_ADDRESS: 'john@scalemap.uk',
       SES_FROM_EMAIL: 'john@scalemap.uk',
-      FRONTEND_BASE_URL: stage === 'production' ? 'https://scalemap.ai' : 'https://dev.scalemap.ai',
+      FRONTEND_BASE_URL: stage === 'production' ? 'https://web-e73oegele-scale-map.vercel.app' : 'https://dev.scalemap.ai',
       JWT_ACCESS_SECRET: jwtAccessSecret,
       JWT_REFRESH_SECRET: jwtRefreshSecret,
       JWT_ACCESS_TTL: '900', // 15 minutes
