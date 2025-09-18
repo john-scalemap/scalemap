@@ -49,7 +49,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setError(null);
 
       const accessToken = TokenManager.getAccessToken();
+      console.log('AuthContext: Loading user data, token present:', !!accessToken);
+
       if (!accessToken) {
+        console.log('AuthContext: No access token found');
         setUser(null);
         setCompany(null);
         return;

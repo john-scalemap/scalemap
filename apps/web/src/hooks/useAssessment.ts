@@ -247,9 +247,32 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
         setError(null);
         setLoading(true);
 
-        // Check authentication
-        if (!isAuthenticated || !user || !company) {
+        // Enhanced authentication check with better error reporting
+        console.log('CreateAssessment auth check:', {
+          isAuthenticated,
+          hasUser: !!user,
+          hasCompany: !!company,
+          userEmail: user?.email,
+          companyName: company?.name,
+        });
+
+        // Check if user is authenticated and has required data
+        if (!user || !user.email) {
+          console.error('User not authenticated or missing email');
           throw new Error('Authentication required. Please log in again.');
+        }
+
+        if (!company || !company.id) {
+          console.error('Company data not available');
+          throw new Error('Company information missing. Please refresh the page and try again.');
+        }
+
+        // Additional token check as fallback
+        const { TokenManager } = await import('@/lib/auth/token-manager');
+        const accessToken = TokenManager.getAccessToken();
+        if (!accessToken) {
+          console.error('No access token found');
+          throw new Error('Authentication token missing. Please log in again.');
         }
 
         const response = await assessmentService.createAssessment({
@@ -269,6 +292,7 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
         return assessment;
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Failed to create assessment';
+        console.error('Failed to create assessment:', err);
         setError(errorMessage);
         throw new Error(errorMessage);
       } finally {
