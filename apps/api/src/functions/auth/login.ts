@@ -7,10 +7,16 @@ import {
   UserRole
 } from '@scalemap/shared';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
+import { authRateLimiters } from '../../services/auth-rate-limiter';
+import { auditLogger } from '../../services/audit-logger';
+import { corsPolicy } from '../../services/cors-policy';
 import { db } from '../../services/database';
 import { jwtService } from '../../services/jwt';
+import { sessionManager } from '../../services/session-manager';
+import { errorHandler } from '../../utils/error-handler';
+import { parseEventBody } from '../../utils/json-parser';
 import { logger } from '../../utils/logger';
 import { Monitoring } from '../../utils/monitoring';
 
@@ -25,6 +31,7 @@ interface LoginResponse {
     emailVerified: boolean;
   };
   tokens: AuthTokens;
+  sessionId: string;
 }
 
 export const handler = async (
@@ -37,17 +44,33 @@ export const handler = async (
     requestLogger.info('Login attempt initiated');
     Monitoring.incrementCounter('LoginAttempts');
 
-    // Parse request body
-    if (!event.body) {
-      return createErrorResponse(400, 'INVALID_CREDENTIALS', 'Request body is required', requestId);
+    // Check rate limit first
+    const rateLimitResult = await authRateLimiters.login.checkRateLimit(event);
+    if (!rateLimitResult.allowed) {
+      requestLogger.warn('Login attempt rate limited', {
+        remaining: rateLimitResult.remaining,
+        resetTime: rateLimitResult.resetTime
+      });
+      return rateLimitResult.result!;
     }
 
-    const credentials: LoginCredentials = JSON.parse(event.body);
+    // Parse request body
+    const parseResult = parseEventBody<LoginCredentials>(event.body, requestId);
+    if (!parseResult.success) {
+      return parseResult.response;
+    }
+    const credentials = parseResult.data;
 
     // Validate required fields
     const validationError = validateCredentials(credentials);
     if (validationError) {
-      return createErrorResponse(400, validationError.code, validationError.message, requestId);
+      return errorHandler.createErrorResponse(400, validationError.code, {
+        requestId,
+        email: credentials.email,
+        endpoint: event.path,
+        method: event.httpMethod,
+        functionName: 'login'
+      }, validationError.message);
     }
 
     // Get user by email
@@ -63,8 +86,27 @@ export const handler = async (
       });
       Monitoring.incrementCounter('LoginFailures', { reason: 'user_not_found' });
 
+      // Log failed authentication attempt
+      await auditLogger.logAuthEvent({
+        eventType: 'LOGIN_FAILED',
+        email: credentials.email,
+        ipAddress: event.requestContext?.identity?.sourceIp,
+        userAgent: event.headers?.['User-Agent'],
+        outcome: 'FAILURE',
+        details: { reason: 'user_not_found' },
+        requestId
+      });
+
       // Use same error message to avoid email enumeration
-      return createErrorResponse(401, 'INVALID_CREDENTIALS', 'Invalid email or password', requestId);
+      return errorHandler.createErrorResponse(401, 'INVALID_CREDENTIALS', {
+        requestId,
+        email: credentials.email,
+        ipAddress: event.requestContext?.identity?.sourceIp,
+        userAgent: event.headers?.['User-Agent'],
+        endpoint: event.path,
+        method: event.httpMethod,
+        functionName: 'login'
+      });
     }
 
     const userRecord = userRecords[0]!; // Safe: we checked length > 0 above
@@ -84,8 +126,29 @@ export const handler = async (
         errorMessage = 'Please verify your email address before logging in';
       }
 
+      // Log failed authentication attempt
+      await auditLogger.logAuthEvent({
+        eventType: 'LOGIN_FAILED',
+        userId: userRecord.id as string,
+        email: credentials.email,
+        ipAddress: event.requestContext?.identity?.sourceIp,
+        userAgent: event.headers?.['User-Agent'],
+        outcome: 'FAILURE',
+        details: { reason: 'account_inactive', status: userRecord.status },
+        requestId
+      });
+
       Monitoring.incrementCounter('LoginFailures', { reason: 'account_inactive' });
-      return createErrorResponse(403, errorCode, errorMessage, requestId);
+      return errorHandler.createErrorResponse(403, errorCode, {
+        requestId,
+        userId: userRecord.id as string,
+        email: credentials.email,
+        ipAddress: event.requestContext?.identity?.sourceIp,
+        userAgent: event.headers?.['User-Agent'],
+        endpoint: event.path,
+        method: event.httpMethod,
+        functionName: 'login'
+      }, errorMessage);
     }
 
     // Verify password
@@ -97,9 +160,31 @@ export const handler = async (
         userId: userRecord.id,
         email: credentials.email
       });
+
+      // Log failed authentication attempt
+      await auditLogger.logAuthEvent({
+        eventType: 'LOGIN_FAILED',
+        userId: userRecord.id as string,
+        email: credentials.email,
+        ipAddress: event.requestContext?.identity?.sourceIp,
+        userAgent: event.headers?.['User-Agent'],
+        outcome: 'FAILURE',
+        details: { reason: 'invalid_password' },
+        requestId
+      });
+
       Monitoring.incrementCounter('LoginFailures', { reason: 'invalid_password' });
 
-      return createErrorResponse(401, 'INVALID_CREDENTIALS', 'Invalid email or password', requestId);
+      return errorHandler.createErrorResponse(401, 'INVALID_CREDENTIALS', {
+        requestId,
+        userId: userRecord.id as string,
+        email: credentials.email,
+        ipAddress: event.requestContext?.identity?.sourceIp,
+        userAgent: event.headers?.['User-Agent'],
+        endpoint: event.path,
+        method: event.httpMethod,
+        functionName: 'login'
+      });
     }
 
     // Get company information
@@ -109,7 +194,13 @@ export const handler = async (
         userId: userRecord.id,
         companyId: userRecord.companyId
       });
-      return createErrorResponse(500, 'INTERNAL_ERROR', 'Account configuration error', requestId);
+      return errorHandler.createErrorResponse(500, 'INTERNAL_ERROR', {
+        requestId,
+        userId: userRecord.id as string,
+        endpoint: event.path,
+        method: event.httpMethod,
+        functionName: 'login'
+      }, 'Account configuration error');
     }
 
     // Build AuthUser object for JWT generation
@@ -127,41 +218,59 @@ export const handler = async (
     // Generate JWT tokens
     const tokens = await jwtService.generateTokens(authUser);
 
-    // Create session record in database
-    const sessionId = `${userRecord.id}:${Date.now()}`;
-    const sessionData = {
-      PK: `SESSION#${sessionId}`,
-      SK: 'METADATA',
-      GSI2PK: `USER#${userRecord.id}`,
-      GSI2SK: `SESSION#${new Date().toISOString()}`,
-      sessionId,
-      userId: userRecord.id,
+    // Create session using session manager
+    const sessionData = await sessionManager.createSession({
+      userId: userRecord.id as string,
       deviceId: event.headers?.['User-Agent']?.substring(0, 50) || 'unknown',
       ipAddress: event.requestContext?.identity?.sourceIp || 'unknown',
       userAgent: event.headers?.['User-Agent'] || 'unknown',
-      expiresAt: new Date(Date.now() + (7 * 24 * 60 * 60 * 1000)).toISOString(), // 7 days
-      refreshToken: tokens.refreshToken,
-      createdAt: new Date().toISOString(),
-      lastUsedAt: new Date().toISOString(),
-      TTL: Math.floor(Date.now() / 1000) + (7 * 24 * 60 * 60) // 7 days TTL
-    };
+      refreshToken: tokens.refreshToken
+    });
 
-    // Store session and update user last login
-    await Promise.all([
-      db.put(sessionData),
-      db.update(
-        `USER#${userRecord.id}`,
-        'METADATA',
-        'SET lastLoginAt = :lastLogin',
-        { ':lastLogin': new Date().toISOString() }
-      )
-    ]);
+    // Update user last login
+    await db.update(
+      `USER#${userRecord.id}`,
+      'METADATA',
+      'SET lastLoginAt = :lastLogin, updatedAt = :updatedAt',
+      { ':lastLogin': new Date().toISOString() }
+    );
 
     requestLogger.info('Login successful', {
       userId: userRecord.id,
       email: credentials.email,
       role: userRecord.role,
-      sessionId
+      sessionId: sessionData.sessionId
+    });
+
+    // Log successful authentication
+    await auditLogger.logAuthEvent({
+      eventType: 'LOGIN',
+      userId: userRecord.id as string,
+      email: credentials.email,
+      sessionId: sessionData.sessionId,
+      ipAddress: event.requestContext?.identity?.sourceIp,
+      userAgent: event.headers?.['User-Agent'],
+      outcome: 'SUCCESS',
+      details: {
+        role: userRecord.role,
+        companyId: userRecord.companyId
+      },
+      requestId
+    });
+
+    // Log session creation
+    await auditLogger.logSessionEvent({
+      eventType: 'SESSION_CREATED',
+      userId: userRecord.id as string,
+      sessionId: sessionData.sessionId,
+      ipAddress: event.requestContext?.identity?.sourceIp,
+      userAgent: event.headers?.['User-Agent'],
+      outcome: 'SUCCESS',
+      details: {
+        deviceId: sessionData.deviceId,
+        expiresAt: sessionData.expiresAt
+      },
+      requestId
     });
 
     Monitoring.incrementCounter('LoginSuccess', {
@@ -179,7 +288,8 @@ export const handler = async (
         role: authUser.role,
         emailVerified: authUser.emailVerified
       },
-      tokens
+      tokens,
+      sessionId: sessionData.sessionId
     };
 
     const response: ApiResponse<LoginResponse> = {
@@ -193,25 +303,19 @@ export const handler = async (
 
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type,Authorization',
-        'Access-Control-Allow-Methods': 'POST,OPTIONS',
-        'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
-        'X-Content-Type-Options': 'nosniff',
-        'X-Frame-Options': 'DENY',
-        'X-XSS-Protection': '1; mode=block',
-        'Content-Security-Policy': "default-src 'none'; frame-ancestors 'none';"
-      },
+      headers: corsPolicy.getAllHeaders(event),
       body: JSON.stringify(response),
     };
 
   } catch (error) {
-    Monitoring.recordError('login', 'UnexpectedError', error as Error);
-    requestLogger.error('Login failed', { error: (error as Error).message });
-
-    return createErrorResponse(500, 'INTERNAL_ERROR', 'Internal server error', requestId);
+    return errorHandler.handleUnexpectedError(error as Error, {
+      requestId,
+      ipAddress: event.requestContext?.identity?.sourceIp,
+      userAgent: event.headers?.['User-Agent'],
+      endpoint: event.path,
+      method: event.httpMethod,
+      functionName: 'login'
+    });
   }
 };
 
@@ -267,33 +371,3 @@ function getPermissionsForRole(role: string): string[] {
   return rolePermissions[role] || rolePermissions['viewer'] || [];
 }
 
-function createErrorResponse(
-  statusCode: number,
-  code: string,
-  message: string,
-  requestId: string
-): APIGatewayProxyResult {
-  const response: ApiResponse = {
-    success: false,
-    error: { code, message },
-    meta: {
-      timestamp: new Date().toISOString(),
-      requestId
-    }
-  };
-
-  return {
-    statusCode,
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Content-Type,Authorization',
-      'Access-Control-Allow-Methods': 'POST,OPTIONS',
-      'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
-      'X-Content-Type-Options': 'nosniff',
-      'X-Frame-Options': 'DENY',
-      'X-XSS-Protection': '1; mode=block'
-    },
-    body: JSON.stringify(response),
-  };
-}

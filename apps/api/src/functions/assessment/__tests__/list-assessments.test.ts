@@ -1,11 +1,16 @@
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { marshall } from '@aws-sdk/util-dynamodb';
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 
-import { handler } from '../list-assessments';
+// Mock AWS SDK BEFORE importing the handler
+const mockDynamoDBSend = jest.fn();
+jest.mock('@aws-sdk/client-dynamodb', () => ({
+  DynamoDBClient: jest.fn().mockImplementation(() => ({
+    send: mockDynamoDBSend
+  })),
+  QueryCommand: jest.fn().mockImplementation((params) => params)
+}));
 
-// Mock AWS SDK
-jest.mock('@aws-sdk/client-dynamodb');
+import { handler } from '../list-assessments';
 
 // Mock JWT service
 jest.mock('../../../services/jwt', () => ({
@@ -18,10 +23,11 @@ jest.mock('../../../services/jwt', () => ({
   }
 }));
 
-const mockDynamoDBSend = jest.fn();
-(DynamoDBClient as jest.Mock).mockImplementation(() => ({
-  send: mockDynamoDBSend
-}));
+// Set default behavior for DynamoDB mock to return empty results
+mockDynamoDBSend.mockResolvedValue({
+  Items: [],
+  Count: 0
+});
 
 const createMockEvent = (queryStringParameters: Record<string, string> | null = null, headers: Record<string, string> = {}): APIGatewayProxyEvent => ({
   body: null,
@@ -171,13 +177,11 @@ describe('list-assessments Lambda function', () => {
       // Verify DynamoDB query was called correctly
       expect(mockDynamoDBSend).toHaveBeenCalledWith(
         expect.objectContaining({
-          input: expect.objectContaining({
-            TableName: 'test-table',
-            IndexName: 'GSI1',
-            KeyConditionExpression: 'GSI1PK = :companyPK AND begins_with(GSI1SK, :assessmentPrefix)',
-            ScanIndexForward: false,
-            Limit: 50
-          })
+          TableName: 'scalemap-table',
+          IndexName: 'GSI1',
+          KeyConditionExpression: 'GSI1PK = :companyPK AND begins_with(GSI1SK, :assessmentPrefix)',
+          ScanIndexForward: false,
+          Limit: 50
         })
       );
     });
@@ -203,10 +207,8 @@ describe('list-assessments Lambda function', () => {
       // Verify status filter was applied
       expect(mockDynamoDBSend).toHaveBeenCalledWith(
         expect.objectContaining({
-          input: expect.objectContaining({
-            FilterExpression: '#status IN (:status0, :status1)',
-            ExpressionAttributeNames: { '#status': 'status' }
-          })
+          FilterExpression: '#status IN (:status0, :status1)',
+          ExpressionAttributeNames: { '#status': 'status' }
         })
       );
     });
@@ -226,9 +228,7 @@ describe('list-assessments Lambda function', () => {
       // Verify limit was applied
       expect(mockDynamoDBSend).toHaveBeenCalledWith(
         expect.objectContaining({
-          input: expect.objectContaining({
-            Limit: 10
-          })
+          Limit: 10
         })
       );
     });

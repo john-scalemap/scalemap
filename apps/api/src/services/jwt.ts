@@ -28,18 +28,86 @@ export class JWTService {
     };
 
     // Enhanced security validation
-    if (process.env.NODE_ENV === 'production') {
-      if (this.config.accessTokenSecret.includes('dev-') ||
-          this.config.refreshTokenSecret.includes('dev-')) {
-        throw new Error('JWT secrets must be configured for production environment');
-      }
+    this.validateSecretSecurity();
+  }
 
-      // Validate secret strength in production
-      if (this.config.accessTokenSecret.length < 32 ||
-          this.config.refreshTokenSecret.length < 32) {
-        throw new Error('JWT secrets must be at least 32 characters long for production');
+  /**
+   * Validate JWT secret security requirements
+   */
+  private validateSecretSecurity(): void {
+    const isProduction = process.env.NODE_ENV === 'production';
+    const isStaging = process.env.NODE_ENV === 'staging';
+    const requiresStrongSecrets = isProduction || isStaging;
+
+    // Check for development secrets in any non-development environment
+    if (requiresStrongSecrets) {
+      if (this.config.accessTokenSecret.includes('dev-') ||
+          this.config.refreshTokenSecret.includes('dev-') ||
+          this.config.accessTokenSecret.includes('change-in-production') ||
+          this.config.refreshTokenSecret.includes('change-in-production')) {
+        throw new Error('Default development JWT secrets detected. Configure production secrets immediately.');
       }
     }
+
+    // Validate secret strength for production and staging
+    if (requiresStrongSecrets) {
+      this.validateSecretStrength(this.config.accessTokenSecret, 'access token');
+      this.validateSecretStrength(this.config.refreshTokenSecret, 'refresh token');
+    }
+
+    // Additional checks for all environments
+    if (this.config.accessTokenSecret === this.config.refreshTokenSecret) {
+      throw new Error('Access token and refresh token secrets must be different');
+    }
+
+    // Basic minimum length check for all environments
+    if (this.config.accessTokenSecret.length < 16 ||
+        this.config.refreshTokenSecret.length < 16) {
+      throw new Error('JWT secrets must be at least 16 characters long');
+    }
+  }
+
+  /**
+   * Validate individual secret strength
+   */
+  private validateSecretStrength(secret: string, type: string): void {
+    if (secret.length < 32) {
+      throw new Error(`${type} secret must be at least 32 characters long for production`);
+    }
+
+    // Check for entropy - secret should contain mixed case, numbers, and symbols
+    const hasLowerCase = /[a-z]/.test(secret);
+    const hasUpperCase = /[A-Z]/.test(secret);
+    const hasNumbers = /[0-9]/.test(secret);
+    const hasSymbols = /[!@#$%^&*(),.?":{}|<>]/.test(secret);
+
+    const complexityScore = [hasLowerCase, hasUpperCase, hasNumbers, hasSymbols].filter(Boolean).length;
+
+    if (complexityScore < 3) {
+      throw new Error(`${type} secret must contain at least 3 of: lowercase, uppercase, numbers, symbols`);
+    }
+
+    // Check for common weak patterns
+    if (this.isWeakSecret(secret)) {
+      throw new Error(`${type} secret appears to be weak. Use a cryptographically secure random string`);
+    }
+  }
+
+  /**
+   * Check for common weak secret patterns
+   */
+  private isWeakSecret(secret: string): boolean {
+    const weakPatterns = [
+      /^123456/,
+      /password/i,
+      /secret/i,
+      /^abc/i,
+      /^qwe/i,
+      /(.)\1{4,}/,  // Repeated characters (5 or more in a row)
+      /^.{0,15}$/   // Too short (already checked but double-check)
+    ];
+
+    return weakPatterns.some(pattern => pattern.test(secret));
   }
 
   /**

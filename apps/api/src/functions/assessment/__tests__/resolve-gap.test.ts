@@ -6,7 +6,8 @@ jest.mock('../../../services/gap-analysis-service');
 
 import { GapAnalysisService } from '../../../services/gap-analysis-service';
 import { handler, __resetService } from '../resolve-gap';
-import { createMockAssessmentGap } from './test-utils';
+
+import { createMockAssessmentGap } from '../test-utils';
 
 const MockedGapAnalysisService = GapAnalysisService as jest.MockedClass<typeof GapAnalysisService>;
 

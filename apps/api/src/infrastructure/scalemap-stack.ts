@@ -3,6 +3,7 @@ import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as nodejsLambda from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as s3n from 'aws-cdk-lib/aws-s3-notifications';
@@ -77,120 +78,157 @@ export class ScaleMapStack extends cdk.Stack {
       retentionPeriod: cdk.Duration.days(14),
     });
 
+    // JWT Secrets (generate secure random secrets for production)
+    const jwtAccessSecret = stage === 'production'
+      ? '-q_OFZbpI0M24rNKHUYibzGmyL_-Jkfhj7HnMhEZZy_I_a2KW0zEZ-u5n5EC2v4z'
+      : 'dev-access-secret-change-in-production';
+
+    const jwtRefreshSecret = stage === 'production'
+      ? 'WX-E-NG6bddW3mQhrSTPR_Hyxz0CJrzKG_WtpvgzMK-i3Mlzgh7BTMhrk8zDxPWc'
+      : 'dev-refresh-secret-change-in-production';
+
     // Common Lambda environment variables
     const commonEnvVars = {
       TABLE_NAME: table.tableName,
+      DYNAMODB_TABLE_NAME: table.tableName,
       DOCUMENTS_BUCKET: documentsBucket.bucketName,
+      S3_BUCKET_NAME: documentsBucket.bucketName,
       STAGE: stage,
       REGION: this.region,
       DLQ_URL: dlq.queueUrl,
+      SES_FROM_ADDRESS: 'john@scalemap.uk',
+      SES_FROM_EMAIL: 'john@scalemap.uk',
+      FRONTEND_BASE_URL: stage === 'production' ? 'https://scalemap.ai' : 'https://dev.scalemap.ai',
+      JWT_ACCESS_SECRET: jwtAccessSecret,
+      JWT_REFRESH_SECRET: jwtRefreshSecret,
+      JWT_ACCESS_TTL: '900', // 15 minutes
+      JWT_REFRESH_TTL: '604800', // 7 days
+      JWT_ISSUER: 'scalemap.com',
+      NODE_ENV: stage === 'production' ? 'production' : 'development',
+    };
+
+    // Common Lambda bundling configuration
+    const bundlingConfig = {
+      minify: true,
+      sourceMap: true,
+      target: 'es2022',
+      define: {
+        'process.env.NODE_ENV': JSON.stringify(stage === 'production' ? 'production' : 'development'),
+      },
+      external: [
+        '@aws-sdk/*', // AWS SDK v3 is available in Lambda runtime
+      ],
+      format: nodejsLambda.OutputFormat.CJS, // Use CommonJS for compatibility
+      mainFields: ['main', 'module'],
     };
 
     // Common Lambda configuration
     const lambdaProps = {
       runtime: lambda.Runtime.NODEJS_18_X,
-      code: lambda.Code.fromAsset('dist'),
       environment: commonEnvVars,
       deadLetterQueue: dlq,
       logRetention: logs.RetentionDays.ONE_MONTH,
+      memorySize: 512,
+      timeout: cdk.Duration.seconds(30),
+      bundling: bundlingConfig,
     };
 
     // Authentication Lambda Functions
-    const loginFunction = new lambda.Function(this, 'LoginFunction', {
+    const loginFunction = new nodejsLambda.NodejsFunction(this, 'LoginFunction', {
       ...lambdaProps,
       functionName: `scalemap-login-${stage}`,
-      handler: 'functions/auth/login.handler',
-      memorySize: 512,
-      timeout: cdk.Duration.seconds(30),
+      entry: 'src/functions/auth/login.ts',
+      handler: 'handler',
     });
 
-    const refreshTokenFunction = new lambda.Function(this, 'RefreshTokenFunction', {
+    const refreshTokenFunction = new nodejsLambda.NodejsFunction(this, 'RefreshTokenFunction', {
       ...lambdaProps,
       functionName: `scalemap-refresh-token-${stage}`,
-      handler: 'functions/auth/refresh-token.handler',
-      memorySize: 512,
-      timeout: cdk.Duration.seconds(30),
+      entry: 'src/functions/auth/refresh-token.ts',
+      handler: 'handler',
     });
 
-    const registerFunction = new lambda.Function(this, 'RegisterFunction', {
+    const registerFunction = new nodejsLambda.NodejsFunction(this, 'RegisterFunction', {
       ...lambdaProps,
       functionName: `scalemap-register-${stage}`,
-      handler: 'functions/auth/register.handler',
-      memorySize: 512,
-      timeout: cdk.Duration.seconds(30),
+      entry: 'src/functions/auth/register.ts',
+      handler: 'handler',
+    });
+
+    const verifyEmailFunction = new nodejsLambda.NodejsFunction(this, 'VerifyEmailFunction', {
+      ...lambdaProps,
+      functionName: `scalemap-verify-email-${stage}`,
+      entry: 'src/functions/auth/verify-email.ts',
+      handler: 'handler',
     });
 
     // Company Management Functions
-    const createCompanyFunction = new lambda.Function(this, 'CreateCompanyFunction', {
+    const createCompanyFunction = new nodejsLambda.NodejsFunction(this, 'CreateCompanyFunction', {
       ...lambdaProps,
       functionName: `scalemap-create-company-${stage}`,
-      handler: 'functions/company/create-company.handler',
-      memorySize: 512,
-      timeout: cdk.Duration.seconds(30),
+      entry: 'src/functions/company/create-company.ts',
+      handler: 'handler',
     });
 
-    const getCompanyFunction = new lambda.Function(this, 'GetCompanyFunction', {
+    const getCompanyFunction = new nodejsLambda.NodejsFunction(this, 'GetCompanyFunction', {
       ...lambdaProps,
       functionName: `scalemap-get-company-${stage}`,
-      handler: 'functions/company/get-company.handler',
-      memorySize: 512,
-      timeout: cdk.Duration.seconds(30),
+      entry: 'src/functions/company/get-company.ts',
+      handler: 'handler',
     });
 
     // Assessment Functions
-    const createAssessmentFunction = new lambda.Function(this, 'CreateAssessmentFunction', {
+    const createAssessmentFunction = new nodejsLambda.NodejsFunction(this, 'CreateAssessmentFunction', {
       ...lambdaProps,
       functionName: `scalemap-create-assessment-${stage}`,
-      handler: 'functions/assessment/create-assessment.handler',
-      memorySize: 512,
-      timeout: cdk.Duration.seconds(30),
+      entry: 'src/functions/assessment/create-assessment.ts',
+      handler: 'handler',
     });
 
-    const getAssessmentFunction = new lambda.Function(this, 'GetAssessmentFunction', {
+    const getAssessmentFunction = new nodejsLambda.NodejsFunction(this, 'GetAssessmentFunction', {
       ...lambdaProps,
       functionName: `scalemap-get-assessment-${stage}`,
-      handler: 'functions/assessment/get-assessment.handler',
-      memorySize: 512,
-      timeout: cdk.Duration.seconds(30),
+      entry: 'src/functions/assessment/get-assessment.ts',
+      handler: 'handler',
     });
 
-    const updateResponsesFunction = new lambda.Function(this, 'UpdateResponsesFunction', {
+    const updateResponsesFunction = new nodejsLambda.NodejsFunction(this, 'UpdateResponsesFunction', {
       ...lambdaProps,
       functionName: `scalemap-update-responses-${stage}`,
-      handler: 'functions/assessment/update-responses.handler',
-      memorySize: 512,
-      timeout: cdk.Duration.seconds(30),
+      entry: 'src/functions/assessment/update-responses.ts',
+      handler: 'handler',
     });
 
     // Document Processing Functions
-    const uploadHandlerFunction = new lambda.Function(this, 'UploadHandlerFunction', {
+    const uploadHandlerFunction = new nodejsLambda.NodejsFunction(this, 'UploadHandlerFunction', {
       ...lambdaProps,
       functionName: `scalemap-upload-handler-${stage}`,
-      handler: 'functions/documents/upload-handler.handler',
+      entry: 'src/functions/documents/upload-handler.ts',
+      handler: 'handler',
       memorySize: 1024,
       timeout: cdk.Duration.minutes(5),
     });
 
-    const processDocumentFunction = new lambda.Function(this, 'ProcessDocumentFunction', {
+    const processDocumentFunction = new nodejsLambda.NodejsFunction(this, 'ProcessDocumentFunction', {
       ...lambdaProps,
       functionName: `scalemap-process-document-${stage}`,
-      handler: 'functions/documents/process-document.handler',
+      entry: 'src/functions/documents/process-document.ts',
+      handler: 'handler',
       memorySize: 2048,
       timeout: cdk.Duration.minutes(15),
     });
 
     // Health Check Function
-    const healthFunction = new lambda.Function(this, 'HealthFunction', {
+    const healthFunction = new nodejsLambda.NodejsFunction(this, 'HealthFunction', {
       ...lambdaProps,
       functionName: `scalemap-health-${stage}`,
-      handler: 'functions/health.handler',
-      memorySize: 512,
-      timeout: cdk.Duration.seconds(30),
+      entry: 'src/functions/health.ts',
+      handler: 'handler',
     });
 
     // Grant DynamoDB permissions to all functions
     const lambdaFunctions = [
-      loginFunction, refreshTokenFunction, registerFunction,
+      loginFunction, refreshTokenFunction, registerFunction, verifyEmailFunction,
       createCompanyFunction, getCompanyFunction,
       createAssessmentFunction, getAssessmentFunction, updateResponsesFunction,
       uploadHandlerFunction, processDocumentFunction,
@@ -263,6 +301,7 @@ export class ScaleMapStack extends cdk.Stack {
     authResource.addResource('login').addMethod('POST', new apigateway.LambdaIntegration(loginFunction));
     authResource.addResource('register').addMethod('POST', new apigateway.LambdaIntegration(registerFunction));
     authResource.addResource('refresh').addMethod('POST', new apigateway.LambdaIntegration(refreshTokenFunction));
+    authResource.addResource('verify-email').addMethod('GET', new apigateway.LambdaIntegration(verifyEmailFunction));
 
     // Protected endpoints (require authentication)
     const protectedMethodOptions = {

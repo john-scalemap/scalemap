@@ -3,12 +3,14 @@ import { APIGatewayProxyResult } from 'aws-lambda';
 
 import { db } from '../../services/database';
 import { jwtService } from '../../services/jwt';
+import { sessionManager } from '../../services/session-manager';
 import { withAuth, AuthenticatedEvent } from '../../shared/middleware/auth-middleware';
 import { logger } from '../../utils/logger';
 import { Monitoring } from '../../utils/monitoring';
 
 interface LogoutRequestBody {
   refreshToken?: string;
+  sessionId?: string;
   logoutAllSessions?: boolean;
 }
 
@@ -26,10 +28,14 @@ const logoutHandler = async (
 
     if (body.logoutAllSessions) {
       // Logout from all sessions
-      await logoutAllSessions(event.user.sub, requestLogger);
+      await sessionManager.revokeSession({
+        userId: event.user.sub,
+        reason: 'user_logout_all',
+        revokedBy: event.user.sub
+      });
     } else {
       // Logout from current session only
-      await logoutCurrentSession(body.refreshToken, event.user.sub, requestLogger);
+      await logoutCurrentSession(body.refreshToken, body.sessionId, event.user.sub, requestLogger);
     }
 
     requestLogger.info('Logout successful', {
@@ -83,45 +89,43 @@ const logoutHandler = async (
 
 async function logoutCurrentSession(
   refreshToken: string | undefined,
+  sessionId: string | undefined,
   userId: string,
   requestLogger: any
 ): Promise<void> {
   try {
-    if (!refreshToken) {
-      // If no refresh token provided, we can't identify the specific session
-      // This is acceptable for access-token-only logout
-      requestLogger.info('No refresh token provided for session-specific logout', { userId });
+    if (sessionId) {
+      // If session ID is provided, revoke that specific session
+      await sessionManager.revokeSession({
+        sessionId,
+        reason: 'user_logout',
+        revokedBy: userId
+      });
+      requestLogger.info('Session revoked by session ID', { userId, sessionId });
       return;
     }
 
-    // Validate and decode refresh token to get session info
-    try {
-      const _refreshPayload = await jwtService.validateRefreshToken(refreshToken);
-
-      // Find and delete the session with this refresh token
-      const sessions = await db.query(
-        'GSI2PK = :userKey',
-        { ':userKey': `USER#${userId}` },
-        { indexName: 'GSI2' }
-      );
-
-      for (const session of sessions) {
-        if (session.refreshToken === refreshToken) {
-          await db.delete(`SESSION#${session.sessionId}`, 'METADATA');
-          requestLogger.info('Session deleted', {
-            userId,
-            sessionId: session.sessionId
-          });
-          break;
-        }
+    if (refreshToken) {
+      // Find session by refresh token and revoke it
+      const session = await sessionManager.getSessionByRefreshToken(refreshToken, userId);
+      if (session) {
+        await sessionManager.revokeSession({
+          sessionId: session.sessionId,
+          reason: 'user_logout',
+          revokedBy: userId
+        });
+        requestLogger.info('Session revoked by refresh token', {
+          userId,
+          sessionId: session.sessionId
+        });
+      } else {
+        requestLogger.warn('Session not found for refresh token', { userId });
       }
-    } catch (tokenError) {
-      // If refresh token is invalid, try to clean up any matching sessions anyway
-      requestLogger.warn('Invalid refresh token during logout', {
-        error: (tokenError as Error).message,
-        userId
-      });
+      return;
     }
+
+    // If neither session ID nor refresh token provided, this is acceptable for access-token-only logout
+    requestLogger.info('No session-specific logout information provided', { userId });
 
   } catch (error) {
     requestLogger.error('Failed to logout current session', {
@@ -132,35 +136,6 @@ async function logoutCurrentSession(
   }
 }
 
-async function logoutAllSessions(userId: string, requestLogger: any): Promise<void> {
-  try {
-    // Get all sessions for the user
-    const sessions = await db.query(
-      'GSI2PK = :userKey',
-      { ':userKey': `USER#${userId}` },
-      { indexName: 'GSI2' }
-    );
-
-    // Delete all sessions
-    const deletePromises = sessions.map(session =>
-      db.delete(`SESSION#${session.sessionId}`, 'METADATA')
-    );
-
-    await Promise.all(deletePromises);
-
-    requestLogger.info('All sessions deleted', {
-      userId,
-      sessionCount: sessions.length
-    });
-
-  } catch (error) {
-    requestLogger.error('Failed to logout all sessions', {
-      error: (error as Error).message,
-      userId
-    });
-    throw error;
-  }
-}
 
 function createErrorResponse(
   statusCode: number,

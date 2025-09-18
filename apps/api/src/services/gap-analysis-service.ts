@@ -21,8 +21,7 @@ import {
   GapResolutionResponse,
   BulkGapResolutionRequest,
   BulkGapResolutionResponse,
-  GapTrackingEntity,
-  GapAnalysisEntity
+  GapTrackingEntity
 } from '@scalemap/shared';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -422,7 +421,7 @@ export class GapAnalysisService {
         temperature: 0.8 // Higher creativity for question generation
       });
 
-      return this.parseFollowUpQuestionResponse(response);
+      return this.parseFollowUpQuestionResponse(response, gapType);
 
     } catch (error) {
       console.warn('Failed to generate intelligent follow-up questions, using fallbacks:', error);
@@ -555,7 +554,7 @@ Only identify genuine gaps that would improve analysis quality. Be conservative.
   /**
    * Parse follow-up question response from OpenAI
    */
-  private parseFollowUpQuestionResponse(response: string): { questions: string[], prompts: string[] } {
+  private parseFollowUpQuestionResponse(response: string, gapType: string = 'general'): { questions: string[], prompts: string[] } {
     try {
       const parsed = JSON.parse(response);
       return {
@@ -564,7 +563,7 @@ Only identify genuine gaps that would improve analysis quality. Be conservative.
       };
     } catch (error) {
       console.warn('Failed to parse follow-up question response:', error);
-      return this.getFallbackQuestions('general');
+      return this.getFallbackQuestions(gapType);
     }
   }
 
@@ -809,7 +808,7 @@ Only identify genuine gaps that would improve analysis quality. Be conservative.
         temperature: 0.7
       });
 
-      return this.parseFollowUpQuestionResponse(response);
+      return this.parseFollowUpQuestionResponse(response, 'general');
 
     } catch (error) {
       console.warn('Failed to generate conflict resolution questions, using fallbacks:', error);
@@ -1121,13 +1120,13 @@ Help the client explain how both aspects of the apparent conflict might coexist 
     return totalWeight > 0 ? Math.round(weightedScore / totalWeight) : 0;
   }
 
-  private getDomainConflictRules(domain: DomainName): any[] {
+  private getDomainConflictRules(_domain: DomainName): any[] {
     // Return domain-specific conflict detection rules
     // This would be expanded with actual business logic
     return [];
   }
 
-  private checkConflictRule(rule: any, domainResponse: DomainResponse): ConflictingResponse | null {
+  private checkConflictRule(_rule: any, _domainResponse: DomainResponse): ConflictingResponse | null {
     // Implement rule checking logic
     return null;
   }
@@ -1142,7 +1141,7 @@ Help the client explain how both aspects of the apparent conflict might coexist 
     return `Question ${questionId} in ${domain.replace('-', ' ')} domain`;
   }
 
-  private getQuestionContext(domain: DomainName, questionId: string): string {
+  private getQuestionContext(domain: DomainName, _questionId: string): string {
     // This would provide context for the question
     return `your ${domain.replace('-', ' ')} practices`;
   }
@@ -1395,7 +1394,7 @@ Help the client explain how both aspects of the apparent conflict might coexist 
     });
   }
 
-  private async analyzeResponseForNewGaps(gap: AssessmentGap, response: string): Promise<AssessmentGap[]> {
+  private async analyzeResponseForNewGaps(_gap: AssessmentGap, _response: string): Promise<AssessmentGap[]> {
     // Placeholder for analyzing if a gap resolution creates new gaps
     // This would use OpenAI to analyze the response
     return [];

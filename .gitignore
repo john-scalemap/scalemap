@@ -12,6 +12,10 @@ dist/
 # Production builds
 build/
 
+# CDK
+cdk.out/
+*.tsbuildinfo
+
 # Environment variables
 .env*
 !.env.example

@@ -5,9 +5,9 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 jest.mock('../../../services/gap-analysis-service');
 
 import { GapAnalysisService } from '../../../services/gap-analysis-service';
-
 import { handler, __resetService } from '../analyze-gaps';
-import { createMockDomainCompletenessRecord } from './test-utils';
+
+import { createMockDomainCompletenessRecord } from '../test-utils';
 
 const MockedGapAnalysisService = GapAnalysisService as jest.MockedClass<typeof GapAnalysisService>;
 

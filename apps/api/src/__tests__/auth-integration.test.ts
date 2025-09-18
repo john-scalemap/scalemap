@@ -118,6 +118,9 @@ describe('Authentication and Authorization Integration', () => {
     });
 
     it('should fail authentication with missing token', async () => {
+      // Setup mock for no token case
+      mockJwtService.extractTokenFromHeader.mockReturnValue(null);
+
       const protectedHandler = withAuth(mockHandler);
 
       const event = createMockEvent(); // No token

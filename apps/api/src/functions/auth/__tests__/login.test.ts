@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 import { db } from '../../../services/database';
 import { jwtService } from '../../../services/jwt';
@@ -8,13 +8,13 @@ import { handler } from '../login';
 // Mock dependencies
 jest.mock('../../../services/database');
 jest.mock('../../../services/jwt');
-jest.mock('bcrypt', () => ({
+jest.mock('bcryptjs', () => ({
   compare: jest.fn()
 }));
 
 const mockDb = db as jest.Mocked<typeof db>;
 const mockJwtService = jwtService as jest.Mocked<typeof jwtService>;
-const mockBcryptCompare = bcrypt.compare as jest.MockedFunction<typeof bcrypt.compare>;
+const mockBcryptCompare = bcrypt.compare as jest.MockedFunction<any>;
 
 describe('Login Function', () => {
   const mockEvent: Partial<APIGatewayProxyEvent> = {
@@ -62,7 +62,7 @@ describe('Login Function', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     // Setup default bcrypt mock behavior
-    // bcrypt already mocked to return true in beforeEach
+    mockBcryptCompare.mockResolvedValue(true);
   });
 
   it('should successfully login with valid credentials', async () => {
@@ -72,7 +72,6 @@ describe('Login Function', () => {
     mockDb.put.mockResolvedValue(undefined as any);
     mockDb.update.mockResolvedValue(null);
 
-    // Password verification already mocked in beforeEach
 
     // Mock JWT token generation
     mockJwtService.generateTokens.mockResolvedValue(mockTokens);
@@ -183,7 +182,6 @@ describe('Login Function', () => {
   it('should handle missing company gracefully', async () => {
     mockDb.query.mockResolvedValue([mockUserRecord]);
     mockDb.get.mockResolvedValue(null); // Company not found
-    // bcrypt already mocked to return true in beforeEach
 
     const result = await handler(mockEvent as APIGatewayProxyEvent);
 
@@ -209,7 +207,6 @@ describe('Login Function', () => {
   it('should handle JWT generation errors gracefully', async () => {
     mockDb.query.mockResolvedValue([mockUserRecord]);
     mockDb.get.mockResolvedValue(mockCompanyRecord);
-    // bcrypt already mocked to return true in beforeEach
     mockJwtService.generateTokens.mockRejectedValue(new Error('JWT error'));
 
     const result = await handler(mockEvent as APIGatewayProxyEvent);

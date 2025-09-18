@@ -7,10 +7,14 @@ import {
   ApiResponse
 } from '@scalemap/shared';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
+import { authRateLimiters } from '../../services/auth-rate-limiter';
+import { corsPolicy } from '../../services/cors-policy';
 import { db } from '../../services/database';
 import { emailService } from '../../services/email';
+import { passwordPolicy } from '../../services/password-policy';
+import { parseEventBody } from '../../utils/json-parser';
 import { logger } from '../../utils/logger';
 import { Monitoring } from '../../utils/monitoring';
 
@@ -30,12 +34,22 @@ export const handler = async (
     requestLogger.info('User registration requested');
     Monitoring.incrementCounter('RegistrationRequests');
 
-    // Parse and validate request body
-    if (!event.body) {
-      return createErrorResponse(400, 'INVALID_REQUEST', 'Request body is required', requestId);
+    // Check rate limit first
+    const rateLimitResult = await authRateLimiters.register.checkRateLimit(event);
+    if (!rateLimitResult.allowed) {
+      requestLogger.warn('Registration attempt rate limited', {
+        remaining: rateLimitResult.remaining,
+        resetTime: rateLimitResult.resetTime
+      });
+      return rateLimitResult.result!;
     }
 
-    const { user, company }: RegisterRequestBody = JSON.parse(event.body);
+    // Parse and validate request body
+    const parseResult = parseEventBody<RegisterRequestBody>(event.body, requestId);
+    if (!parseResult.success) {
+      return parseResult.response;
+    }
+    const { user, company } = parseResult.data;
 
     // Validate required fields
     const validationError = validateRegistrationData(user, company);
@@ -56,7 +70,7 @@ export const handler = async (
     const cognitoUserId = randomUUID(); // In real implementation, this would come from Cognito
     const verificationToken = randomUUID();
 
-    // Hash password
+    // Hash password using bcryptjs
     const hashedPassword = await bcrypt.hash(user.password, 12);
 
     // Create user record
@@ -141,11 +155,16 @@ export const handler = async (
     };
 
     // Store all records in database
-    await Promise.all([
-      db.put(userData),
-      db.put(companyData),
-      db.put(verificationData)
-    ]);
+    try {
+      await Promise.all([
+        db.put(userData),
+        db.put(companyData),
+        db.put(verificationData)
+      ]);
+    } catch (dbError) {
+      requestLogger.error('Database error', { error: (dbError as Error).message });
+      return createErrorResponse(500, 'INTERNAL_ERROR', 'Database operation failed', requestId);
+    }
 
     requestLogger.info('User and company created successfully', {
       userId,
@@ -153,13 +172,21 @@ export const handler = async (
       email: user.email
     });
 
-    // Send verification email
-    await emailService.sendVerificationEmail(user.email, verificationToken);
-
-    requestLogger.info('Verification email sent', {
-      userId,
-      email: user.email
-    });
+    // Send verification email (optional for debugging)
+    try {
+      await emailService.sendVerificationEmail(user.email, verificationToken);
+      requestLogger.info('Verification email sent', {
+        userId,
+        email: user.email
+      });
+    } catch (emailError) {
+      requestLogger.error('Failed to send verification email, but continuing', {
+        userId,
+        email: user.email,
+        error: (emailError as Error).message
+      });
+      // Continue with registration even if email fails
+    }
 
     Monitoring.incrementCounter('RegistrationSuccess');
 
@@ -179,12 +206,7 @@ export const handler = async (
 
     return {
       statusCode: 201,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type,Authorization',
-        'Access-Control-Allow-Methods': 'POST,OPTIONS',
-      },
+      headers: corsPolicy.getAllHeaders(event),
       body: JSON.stringify(response),
     };
 
@@ -203,13 +225,22 @@ function validateRegistrationData(user: RegisterCredentials, company: CompanyReg
     return { code: 'INVALID_EMAIL_FORMAT', message: 'Invalid email format' };
   }
 
-  // Password validation
-  if (user.password.length < 8) {
-    return { code: 'PASSWORD_TOO_WEAK', message: 'Password must be at least 8 characters long' };
-  }
-
+  // Password confirmation validation
   if (user.password !== user.confirmPassword) {
     return { code: 'PASSWORD_MISMATCH', message: 'Passwords do not match' };
+  }
+
+  // Enhanced password validation using password policy
+  const passwordValidation = passwordPolicy.validatePassword(
+    user.password,
+    user.email,
+    user.firstName,
+    user.lastName
+  );
+
+  if (!passwordValidation.isValid && passwordValidation.errors.length > 0) {
+    // Return the first validation error
+    return passwordValidation.errors[0] || null;
   }
 
   // GDPR consent validation
@@ -268,12 +299,7 @@ function createErrorResponse(
 
   return {
     statusCode,
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Content-Type,Authorization',
-      'Access-Control-Allow-Methods': 'POST,OPTIONS',
-    },
+    headers: corsPolicy.getAllHeaders(),
     body: JSON.stringify(response),
   };
 }

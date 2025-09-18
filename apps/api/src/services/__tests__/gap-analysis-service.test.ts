@@ -31,7 +31,19 @@ jest.mock('@aws-sdk/util-dynamodb', () => ({
 // Mock OpenAI service
 jest.mock('../openai-service', () => ({
   OpenAIService: jest.fn().mockImplementation(() => ({
-    // Mock methods as needed
+    generateCompletion: jest.fn().mockResolvedValue({
+      choices: [{
+        message: {
+          content: JSON.stringify([
+            {
+              "question": "Can you provide more details about your current process?",
+              "priority": "high",
+              "category": "process_clarity"
+            }
+          ])
+        }
+      }]
+    })
   }))
 }));
 
@@ -554,9 +566,9 @@ describe('GapAnalysisService', () => {
       const domainResponse: DomainResponse = {
         domain: 'strategic-alignment',
         questions: {
-          '1.1': createMockQuestionResponse('Strong strategic vision'),
-          '1.2': createMockQuestionResponse('Clear market positioning'),
-          '1.3': createMockQuestionResponse('Well-defined objectives')
+          '1.1': createMockQuestionResponse('Strong strategic vision with clear objectives and measurable outcomes'),
+          '1.2': createMockQuestionResponse('Clear market positioning strategy that differentiates us from competitors'),
+          '1.3': createMockQuestionResponse('Well-defined objectives with specific targets and detailed implementation plans')
         },
         completeness: 90,
         lastUpdated: new Date().toISOString()

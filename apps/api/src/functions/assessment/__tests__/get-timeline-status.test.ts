@@ -5,7 +5,8 @@ jest.mock('../../../services/timeline-manager');
 
 import { TimelineManager } from '../../../services/timeline-manager';
 import { handler, __resetService } from '../get-timeline-status';
-import { createMockTimelineStatus, createMockTimelinePauseEvent, createMockTimelineExtension } from './test-utils';
+
+import { createMockTimelineStatus, createMockTimelinePauseEvent, createMockTimelineExtension } from '../test-utils';
 
 const MockedTimelineManager = TimelineManager as jest.MockedClass<typeof TimelineManager>;
 

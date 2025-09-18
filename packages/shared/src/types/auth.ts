@@ -4,12 +4,35 @@ export interface AuthError {
   details?: Record<string, unknown>;
 }
 
+export interface PasswordStrength {
+  score: number; // 0-4 (very weak to very strong)
+  feedback: string[];
+  isValid: boolean;
+}
+
+export interface PasswordValidationResult {
+  isValid: boolean;
+  errors: AuthError[];
+  strength: PasswordStrength;
+}
+
 export type AuthErrorCode =
   | 'INVALID_CREDENTIALS'
   | 'USER_NOT_FOUND'
   | 'EMAIL_NOT_VERIFIED'
   | 'ACCOUNT_SUSPENDED'
   | 'PASSWORD_TOO_WEAK'
+  | 'PASSWORD_TOO_SHORT'
+  | 'PASSWORD_TOO_LONG'
+  | 'PASSWORD_MISSING_UPPERCASE'
+  | 'PASSWORD_MISSING_LOWERCASE'
+  | 'PASSWORD_MISSING_NUMBERS'
+  | 'PASSWORD_MISSING_SPECIAL_CHARS'
+  | 'PASSWORD_COMMON_PATTERN'
+  | 'PASSWORD_COMMON_WORD'
+  | 'PASSWORD_CONTAINS_EMAIL'
+  | 'PASSWORD_CONTAINS_NAME'
+  | 'PASSWORD_REPETITIVE'
   | 'EMAIL_ALREADY_EXISTS'
   | 'INVALID_TOKEN'
   | 'TOKEN_EXPIRED'

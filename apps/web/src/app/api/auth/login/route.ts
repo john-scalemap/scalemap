@@ -5,7 +5,9 @@ export async function POST(request: NextRequest) {
   const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'https://nb3pzj6u65.execute-api.eu-west-1.amazonaws.com/prod';
 
   try {
-    const body = await request.text();
+    // Clone the request to avoid "Body already read" errors
+    const clonedRequest = request.clone();
+    const bodyText = await clonedRequest.text();
 
     const response = await fetch(`${backendUrl}/auth/login`, {
       method: 'POST',
@@ -13,7 +15,7 @@ export async function POST(request: NextRequest) {
         'Content-Type': 'application/json',
         'Authorization': request.headers.get('Authorization') || '',
       },
-      body,
+      body: bodyText,
     });
 
     const data = await response.json();

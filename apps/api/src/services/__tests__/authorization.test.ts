@@ -224,13 +224,11 @@ describe('AuthorizationService', () => {
       const canAdd = await AuthorizationService.validateSingleUserPerCompany('company-123');
 
       expect(canAdd).toBe(true);
-      expect(mockDb.query).toHaveBeenCalledWith({
-        IndexName: 'GSI2',
-        KeyConditionExpression: 'GSI2PK = :pk',
-        ExpressionAttributeValues: {
-          ':pk': 'COMPANY#company-123#USERS'
-        }
-      });
+      expect(mockDb.query).toHaveBeenCalledWith(
+        'GSI2PK = :pk',
+        { ':pk': 'COMPANY#company-123#USERS' },
+        { indexName: 'GSI2' }
+      );
     });
 
     it('should deny adding user to company with active user', async () => {
