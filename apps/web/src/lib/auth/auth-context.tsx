@@ -97,6 +97,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             updatedAt: parsedUser.updatedAt || new Date().toISOString(),
           };
 
+          console.log('AuthContext: Created user from sessionStorage:', userData);
           setUser(userData);
 
           // Create company from user data or fallback
@@ -119,6 +120,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
           };
+          console.log('AuthContext: Created company from sessionStorage:', fallbackCompany);
           setCompany(fallbackCompany);
           return;
         } catch (parseError) {
