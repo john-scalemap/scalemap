@@ -260,7 +260,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
 export function useAuth(): AuthContextValue {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    console.error(
+      '🚨 useAuth called outside AuthProvider! This will cause authentication to fail.'
+    );
+
+    // Return a safe fallback instead of throwing
+    return {
+      user: null,
+      company: null,
+      isLoading: false,
+      isAuthenticated: false,
+      error: 'AuthProvider not found - please ensure this component is wrapped in AuthProvider',
+      refreshData: async () => {
+        console.warn('refreshData called but AuthProvider not available');
+      },
+    };
   }
   return context;
 }
