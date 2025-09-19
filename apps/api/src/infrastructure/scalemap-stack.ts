@@ -218,6 +218,17 @@ export class ScaleMapStack extends cdk.Stack {
       handler: 'handler',
     });
 
+    const listAssessmentsFunction = new nodejsLambda.NodejsFunction(
+      this,
+      'ListAssessmentsFunction',
+      {
+        ...lambdaProps,
+        functionName: `scalemap-list-assessments-${stage}`,
+        entry: 'src/functions/assessment/list-assessments.ts',
+        handler: 'handler',
+      }
+    );
+
     const updateResponsesFunction = new nodejsLambda.NodejsFunction(
       this,
       'UpdateResponsesFunction',
@@ -293,6 +304,7 @@ export class ScaleMapStack extends cdk.Stack {
       getCompanyFunction,
       createAssessmentFunction,
       getAssessmentFunction,
+      listAssessmentsFunction,
       updateResponsesFunction,
       startAssessmentFunction,
       updateAssessmentFunction,
@@ -358,7 +370,8 @@ export class ScaleMapStack extends cdk.Stack {
       type: apigateway.ResponseType.UNAUTHORIZED,
       responseHeaders: {
         'Access-Control-Allow-Origin': `'*'`,
-        'Access-Control-Allow-Headers': "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        'Access-Control-Allow-Headers':
+          "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
         'Access-Control-Allow-Methods': "'GET,POST,PUT,DELETE,OPTIONS'",
         'Access-Control-Allow-Credentials': "'true'",
       },
@@ -368,7 +381,8 @@ export class ScaleMapStack extends cdk.Stack {
       type: apigateway.ResponseType.ACCESS_DENIED,
       responseHeaders: {
         'Access-Control-Allow-Origin': `'*'`,
-        'Access-Control-Allow-Headers': "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+        'Access-Control-Allow-Headers':
+          "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
         'Access-Control-Allow-Methods': "'GET,POST,PUT,DELETE,OPTIONS'",
         'Access-Control-Allow-Credentials': "'true'",
       },
@@ -424,7 +438,7 @@ export class ScaleMapStack extends cdk.Stack {
     );
     assessmentResource.addMethod(
       'GET',
-      new apigateway.LambdaIntegration(getAssessmentFunction),
+      new apigateway.LambdaIntegration(listAssessmentsFunction),
       protectedMethodOptions
     );
     assessmentResource
