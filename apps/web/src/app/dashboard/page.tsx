@@ -48,7 +48,27 @@ export default function DashboardPage() {
     if (isAuthenticated && user && !isLoading) {
       loadDraftAssessments();
     }
-  }, [isAuthenticated, user, isLoading, loadDraftAssessments]);
+  }, [isAuthenticated, user, isLoading]); // Removed loadDraftAssessments from deps to prevent recreation issues
+
+  // Fallback: Load assessments after a short delay if not loaded yet
+  // This handles cases where auth state changes don't trigger the above effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (
+        isAuthenticated &&
+        user &&
+        !isLoading &&
+        assessments.length === 0 &&
+        !assessmentsLoading &&
+        !assessmentsError
+      ) {
+        console.log('Fallback: Loading assessments after delay');
+        loadDraftAssessments();
+      }
+    }, 1000); // 1 second delay
+
+    return () => clearTimeout(timer);
+  }, [isAuthenticated, user, isLoading, assessments.length, assessmentsLoading, assessmentsError]);
 
   const handleResumeAssessment = (assessmentId: string) => {
     router.push(`/assessment/${assessmentId}/questionnaire`);
