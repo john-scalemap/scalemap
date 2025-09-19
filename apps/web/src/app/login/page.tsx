@@ -3,9 +3,10 @@
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
+import { LoginCredentials, ApiResponse } from '@/types';
+
 import LoginForm from '../../components/auth/LoginForm';
 
-import { LoginCredentials, ApiResponse } from '@/types';
 
 export const dynamic = 'force-dynamic';
 

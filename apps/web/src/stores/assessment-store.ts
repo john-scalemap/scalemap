@@ -671,6 +671,11 @@ export const useAssessmentStore = create<AssessmentStore>()(
           const state = get();
           if (!state.currentAssessment) return;
 
+          // Debug logging
+          console.log('assessmentService:', assessmentService);
+          console.log('assessmentService methods:', Object.getOwnPropertyNames(Object.getPrototypeOf(assessmentService)));
+          console.log('updateAssessment method:', assessmentService.updateAssessment);
+
           const updateData = {
             domainResponses: state.currentAssessment.domainResponses,
             progress: state.progressState,
