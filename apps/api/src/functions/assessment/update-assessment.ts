@@ -21,7 +21,11 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
         statusCode: 400,
         headers: corsHeaders,
         body: JSON.stringify({
-          error: 'Assessment ID is required',
+          success: false,
+          error: {
+            code: 'VALIDATION_ERROR',
+            message: 'Assessment ID is required',
+          },
         }),
       };
     }
@@ -33,7 +37,11 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
         statusCode: 401,
         headers: corsHeaders,
         body: JSON.stringify({
-          error: 'Authentication token required',
+          success: false,
+          error: {
+            code: 'UNAUTHORIZED',
+            message: 'Authentication token required',
+          },
         }),
       };
     }
@@ -47,7 +55,11 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
         statusCode: 400,
         headers: corsHeaders,
         body: JSON.stringify({
-          error: 'Invalid JSON in request body',
+          success: false,
+          error: {
+            code: 'VALIDATION_ERROR',
+            message: 'Invalid JSON in request body',
+          },
         }),
       };
     }
@@ -68,7 +80,11 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
         statusCode: 404,
         headers: corsHeaders,
         body: JSON.stringify({
-          error: 'Assessment not found',
+          success: false,
+          error: {
+            code: 'NOT_FOUND',
+            message: 'Assessment not found',
+          },
         }),
       };
     }
@@ -101,7 +117,11 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
         statusCode: 400,
         headers: corsHeaders,
         body: JSON.stringify({
-          error: 'No valid fields to update',
+          success: false,
+          error: {
+            code: 'VALIDATION_ERROR',
+            message: 'No valid fields to update',
+          },
         }),
       };
     }
@@ -130,7 +150,11 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
         statusCode: 500,
         headers: corsHeaders,
         body: JSON.stringify({
-          error: 'Failed to update assessment',
+          success: false,
+          error: {
+            code: 'INTERNAL_ERROR',
+            message: 'Failed to update assessment',
+          },
         }),
       };
     }
@@ -152,7 +176,10 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
         ...corsHeaders,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(updatedAssessment),
+      body: JSON.stringify({
+        success: true,
+        data: updatedAssessment,
+      }),
     };
   } catch (error) {
     console.error('Error updating assessment:', error);
@@ -161,8 +188,11 @@ export const handler: APIGatewayProxyHandler = async (event): Promise<APIGateway
       statusCode: 500,
       headers: corsHeaders,
       body: JSON.stringify({
-        error: 'Internal server error',
-        message: error instanceof Error ? error.message : 'Unknown error occurred',
+        success: false,
+        error: {
+          code: 'INTERNAL_ERROR',
+          message: error instanceof Error ? error.message : 'Unknown error occurred',
+        },
       }),
     };
   }
