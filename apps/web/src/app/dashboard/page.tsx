@@ -31,7 +31,10 @@ export default function DashboardPage() {
         'synthesizing',
         'validating',
       ]);
-      setAssessments(result.assessments);
+
+      // Defensive programming: ensure assessments is always an array
+      const assessments = Array.isArray(result?.assessments) ? result.assessments : [];
+      setAssessments(assessments);
     } catch (error) {
       console.error('Failed to load assessments:', error);
       setAssessmentsError(error instanceof Error ? error.message : 'Failed to load assessments');
@@ -269,7 +272,7 @@ export default function DashboardPage() {
                 Try Again
               </button>
             </div>
-          ) : assessments.length === 0 ? (
+          ) : !assessments || assessments.length === 0 ? (
             <div className="text-center py-8">
               <div className="w-16 h-16 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-4">
                 <span className="text-2xl text-gray-400">📊</span>
@@ -287,14 +290,14 @@ export default function DashboardPage() {
             </div>
           ) : (
             <div className="space-y-4">
-              {assessments.map((assessment) => (
+              {(assessments || []).map((assessment) => (
                 <AssessmentCard
                   key={assessment.id}
                   assessment={assessment}
                   onResume={() => handleResumeAssessment(assessment.id)}
                 />
               ))}
-              {assessments.length > 0 && (
+              {assessments && assessments.length > 0 && (
                 <div className="pt-4 border-t border-gray-100">
                   <Link
                     href="/assessments"

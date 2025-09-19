@@ -657,7 +657,14 @@ export const useAssessment = (options: UseAssessmentOptions = {}): UseAssessment
         throw new Error(response.error?.message || 'Failed to list assessments');
       }
 
-      return response.data!;
+      // Ensure we always return a valid structure even if API response is malformed
+      const data = response.data;
+      return {
+        assessments: Array.isArray(data?.assessments) ? data.assessments : [],
+        count: data?.count ?? 0,
+        hasMore: data?.hasMore ?? false,
+        ...(data?.totalCount !== undefined && { totalCount: data.totalCount }),
+      };
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to list assessments';
       setError(errorMessage);
