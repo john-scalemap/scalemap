@@ -13,11 +13,15 @@ interface ListAssessmentsQuery {
   limit?: string;
 }
 
-export const handler: APIGatewayProxyHandler = async (event, _context, _callback): Promise<APIGatewayProxyResult> => {
+export const handler: APIGatewayProxyHandler = async (
+  event,
+  _context,
+  _callback
+): Promise<APIGatewayProxyResult> => {
   const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type,Authorization',
-    'Access-Control-Allow-Methods': 'OPTIONS,GET'
+    'Access-Control-Allow-Methods': 'OPTIONS,GET',
   };
 
   try {
@@ -28,8 +32,8 @@ export const handler: APIGatewayProxyHandler = async (event, _context, _callback
         statusCode: 401,
         headers: corsHeaders,
         body: JSON.stringify({
-          error: 'Authentication token required'
-        })
+          error: 'Authentication token required',
+        }),
       };
     }
 
@@ -41,8 +45,8 @@ export const handler: APIGatewayProxyHandler = async (event, _context, _callback
           statusCode: 401,
           headers: corsHeaders,
           body: JSON.stringify({
-            error: 'Authentication token malformed'
-          })
+            error: 'Authentication token malformed',
+          }),
         };
       }
 
@@ -55,8 +59,8 @@ export const handler: APIGatewayProxyHandler = async (event, _context, _callback
           statusCode: 403,
           headers: corsHeaders,
           body: JSON.stringify({
-            error: 'Email verification required'
-          })
+            error: 'Email verification required',
+          }),
         };
       }
     } catch (error) {
@@ -64,8 +68,8 @@ export const handler: APIGatewayProxyHandler = async (event, _context, _callback
         statusCode: 401,
         headers: corsHeaders,
         body: JSON.stringify({
-          error: 'Invalid or expired authentication token'
-        })
+          error: 'Invalid or expired authentication token',
+        }),
       };
     }
 
@@ -74,7 +78,16 @@ export const handler: APIGatewayProxyHandler = async (event, _context, _callback
     const { status, limit } = queryParams as ListAssessmentsQuery;
 
     // Parse status filter - default to draft and in-progress assessments
-    const statusFilter = status ? status.split(',') : ['document-processing', 'triaging', 'analyzing', 'synthesizing', 'validating'];
+    const statusFilter = status
+      ? status.split(',')
+      : [
+          'payment-pending',
+          'document-processing',
+          'triaging',
+          'analyzing',
+          'synthesizing',
+          'validating',
+        ];
     const limitValue = limit ? parseInt(limit, 10) : 50;
 
     // Validate limit
@@ -83,8 +96,8 @@ export const handler: APIGatewayProxyHandler = async (event, _context, _callback
         statusCode: 400,
         headers: corsHeaders,
         body: JSON.stringify({
-          error: 'Limit must be between 1 and 100'
-        })
+          error: 'Limit must be between 1 and 100',
+        }),
       };
     }
 
@@ -95,15 +108,16 @@ export const handler: APIGatewayProxyHandler = async (event, _context, _callback
       KeyConditionExpression: 'GSI1PK = :companyPK AND begins_with(GSI1SK, :assessmentPrefix)',
       ExpressionAttributeValues: marshall({
         ':companyPK': `COMPANY#${companyId}`,
-        ':assessmentPrefix': 'ASSESSMENT#'
+        ':assessmentPrefix': 'ASSESSMENT#',
       }),
       ScanIndexForward: false, // Sort by newest first (GSI1SK has timestamp)
-      Limit: limitValue
+      Limit: limitValue,
     };
 
     // Add filter expression for status if needed
     if (statusFilter.length > 0) {
-      dynamoQueryParams.FilterExpression = '#status IN (' + statusFilter.map((_, i) => `:status${i}`).join(', ') + ')';
+      dynamoQueryParams.FilterExpression =
+        '#status IN (' + statusFilter.map((_, i) => `:status${i}`).join(', ') + ')';
       dynamoQueryParams.ExpressionAttributeNames = { '#status': 'status' };
 
       // Add status values to expression attribute values
@@ -114,7 +128,7 @@ export const handler: APIGatewayProxyHandler = async (event, _context, _callback
 
       dynamoQueryParams.ExpressionAttributeValues = marshall({
         ...unmarshall(dynamoQueryParams.ExpressionAttributeValues || {}),
-        ...statusValues
+        ...statusValues,
       });
     }
 
@@ -145,15 +159,14 @@ export const handler: APIGatewayProxyHandler = async (event, _context, _callback
       statusCode: 200,
       headers: {
         ...corsHeaders,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         assessments,
         count: assessments.length,
-        hasMore: result && result.LastEvaluatedKey !== undefined
-      })
+        hasMore: result && result.LastEvaluatedKey !== undefined,
+      }),
     };
-
   } catch (error) {
     console.error('Error listing assessments:', error);
 
@@ -162,8 +175,8 @@ export const handler: APIGatewayProxyHandler = async (event, _context, _callback
       headers: corsHeaders,
       body: JSON.stringify({
         error: 'Internal server error',
-        message: error instanceof Error ? error.message : 'Unknown error occurred'
-      })
+        message: error instanceof Error ? error.message : 'Unknown error occurred',
+      }),
     };
   }
 };

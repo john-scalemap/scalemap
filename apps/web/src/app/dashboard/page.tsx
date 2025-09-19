@@ -24,6 +24,7 @@ export default function DashboardPage() {
 
       // Load draft/in-progress assessments
       const result = await listAssessments([
+        'payment-pending',
         'document-processing',
         'triaging',
         'analyzing',
