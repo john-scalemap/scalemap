@@ -60,6 +60,7 @@ export interface ValidationFeedbackRequest {
 }
 
 export class AssessmentService {
+  // Force rebuild - all methods should be available
   async createAssessment(data: CreateAssessmentRequest): Promise<ApiResponse<Assessment>> {
     return withRetry(() => apiClient.post<Assessment>('/assessments', data), {
       maxRetries: 2, // Assessment creation is important but should fail fast
