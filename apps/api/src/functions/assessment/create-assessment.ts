@@ -4,10 +4,10 @@ import { Assessment, AssessmentStatus, DomainName, DomainProgress } from '@scale
 import { APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda';
 import { v4 as uuidv4 } from 'uuid';
 
+import { corsPolicy } from '../../services/cors-policy';
 import { jwtService } from '../../services/jwt';
 import { rateLimiters } from '../../services/rate-limiter';
 import { parseEventBody } from '../../utils/json-parser';
-import { corsPolicy } from '../../services/cors-policy';
 
 const dynamoDb = new DynamoDBClient({ region: process.env.AWS_REGION || 'us-east-1' });
 const TABLE_NAME = process.env.DYNAMODB_TABLE_NAME || 'scalemap-table';

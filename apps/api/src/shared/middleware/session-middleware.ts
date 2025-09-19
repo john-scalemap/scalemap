@@ -1,8 +1,8 @@
 import { JWTPayload, ApiResponse } from '@scalemap/shared';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 
-import { sessionManager } from '../../services/session-manager';
 import { jwtService } from '../../services/jwt';
+import { sessionManager } from '../../services/session-manager';
 import { logger } from '../../utils/logger';
 import { Monitoring } from '../../utils/monitoring';
 

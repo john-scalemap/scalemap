@@ -9,7 +9,7 @@ describe('CorsPolicy', () => {
     mockEvent = {
       body: null,
       headers: {
-        origin: 'https://scalemap.ai'
+        origin: 'https://web-abc123-scale-map.vercel.app'
       },
       httpMethod: 'POST',
       isBase64Encoded: false,
@@ -84,8 +84,7 @@ describe('CorsPolicy', () => {
       const policy = new (CorsPolicy as any)();
       const config = policy.getConfig();
 
-      expect(config.allowedOrigins).toContain('https://scalemap.ai');
-      expect(config.allowedOrigins).toContain('https://www.scalemap.ai');
+      expect(config.allowedOrigins).toEqual([]); // Relies on Vercel pattern matching
       expect(config.allowedOrigins).not.toContain('http://localhost:3000');
     });
   });
@@ -98,13 +97,13 @@ describe('CorsPolicy', () => {
     it('should return correct CORS headers for allowed origin', () => {
       const event = {
         ...mockEvent,
-        headers: { origin: 'https://scalemap.ai' }
+        headers: { origin: 'https://web-abc123-scale-map.vercel.app' }
       };
 
       const policy = new (CorsPolicy as any)();
       const headers = policy.getCorsHeaders(event);
 
-      expect(headers['Access-Control-Allow-Origin']).toBe('https://scalemap.ai');
+      expect(headers['Access-Control-Allow-Origin']).toBe('https://web-abc123-scale-map.vercel.app');
       expect(headers['Access-Control-Allow-Methods']).toContain('GET');
       expect(headers['Access-Control-Allow-Methods']).toContain('POST');
       expect(headers['Access-Control-Allow-Headers']).toContain('Content-Type');
@@ -112,7 +111,7 @@ describe('CorsPolicy', () => {
       expect(headers['Access-Control-Allow-Credentials']).toBe('true');
     });
 
-    it('should return default origin for disallowed origin', () => {
+    it('should return null origin for disallowed origin', () => {
       const event = {
         ...mockEvent,
         headers: { origin: 'https://malicious-site.com' }
@@ -121,7 +120,7 @@ describe('CorsPolicy', () => {
       const policy = new (CorsPolicy as any)();
       const headers = policy.getCorsHeaders(event);
 
-      expect(headers['Access-Control-Allow-Origin']).toBe('https://scalemap.ai');
+      expect(headers['Access-Control-Allow-Origin']).toBe('null');
     });
 
     it('should handle missing origin header', () => {
@@ -133,7 +132,7 @@ describe('CorsPolicy', () => {
       const policy = new (CorsPolicy as any)();
       const headers = policy.getCorsHeaders(event);
 
-      expect(headers['Access-Control-Allow-Origin']).toBe('https://scalemap.ai');
+      expect(headers['Access-Control-Allow-Origin']).toBe('null');
     });
   });
 
@@ -176,12 +175,12 @@ describe('CorsPolicy', () => {
       process.env.NODE_ENV = 'production';
     });
 
-    it('should allow configured origins', () => {
+    it('should allow Vercel deployments with scale-map pattern', () => {
       const policy = new (CorsPolicy as any)();
 
-      expect(policy.isOriginAllowed('https://scalemap.ai')).toBe(true);
-      expect(policy.isOriginAllowed('https://www.scalemap.ai')).toBe(true);
-      expect(policy.isOriginAllowed('https://app.scalemap.ai')).toBe(true);
+      expect(policy.isOriginAllowed('https://web-abc123-scale-map.vercel.app')).toBe(true);
+      expect(policy.isOriginAllowed('https://web-xyz789-scale-map.vercel.app')).toBe(true);
+      expect(policy.isOriginAllowed('https://other-project.vercel.app')).toBe(false);
     });
 
     it('should reject non-configured origins', () => {
@@ -238,7 +237,7 @@ describe('CorsPolicy', () => {
     it('should validate allowed origin and method', () => {
       const event = {
         ...mockEvent,
-        headers: { origin: 'https://scalemap.ai' },
+        headers: { origin: 'https://web-abc123-scale-map.vercel.app' },
         httpMethod: 'POST'
       };
 
@@ -267,7 +266,7 @@ describe('CorsPolicy', () => {
     it('should reject disallowed method', () => {
       const event = {
         ...mockEvent,
-        headers: { origin: 'https://scalemap.ai' },
+        headers: { origin: 'https://web-abc123-scale-map.vercel.app' },
         httpMethod: 'TRACE'
       };
 
@@ -335,23 +334,23 @@ describe('CorsPolicy', () => {
       process.env.NODE_ENV = 'production';
       const policy = new (CorsPolicy as any)();
 
-      expect(policy.isOriginAllowed('https://ScaleMap.ai')).toBe(false); // Wrong case
-      expect(policy.isOriginAllowed('https://scalemap.ai')).toBe(true); // Correct case
+      expect(policy.isOriginAllowed('https://web-ABC123-scale-map.vercel.app')).toBe(true); // Mixed case allowed
+      expect(policy.isOriginAllowed('https://web-abc123-SCALE-map.vercel.app')).toBe(false); // Wrong case pattern
     });
 
     it('should handle origins with trailing slashes', () => {
       process.env.NODE_ENV = 'production';
       const policy = new (CorsPolicy as any)();
 
-      expect(policy.isOriginAllowed('https://scalemap.ai/')).toBe(false); // With trailing slash
-      expect(policy.isOriginAllowed('https://scalemap.ai')).toBe(true); // Without trailing slash
+      expect(policy.isOriginAllowed('https://web-abc123-scale-map.vercel.app/')).toBe(false); // With trailing slash
+      expect(policy.isOriginAllowed('https://web-abc123-scale-map.vercel.app')).toBe(true); // Without trailing slash
     });
 
     it('should handle different header case variations', () => {
       const events = [
-        { ...mockEvent, headers: { origin: 'https://scalemap.ai' } },
-        { ...mockEvent, headers: { Origin: 'https://scalemap.ai' } },
-        { ...mockEvent, headers: { ORIGIN: 'https://scalemap.ai' } }
+        { ...mockEvent, headers: { origin: 'https://web-abc123-scale-map.vercel.app' } },
+        { ...mockEvent, headers: { Origin: 'https://web-abc123-scale-map.vercel.app' } },
+        { ...mockEvent, headers: { ORIGIN: 'https://web-abc123-scale-map.vercel.app' } }
       ];
 
       events.forEach(event => {

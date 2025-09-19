@@ -9,8 +9,8 @@ import {
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import * as bcrypt from 'bcryptjs';
 
-import { authRateLimiters } from '../../services/auth-rate-limiter';
 import { auditLogger } from '../../services/audit-logger';
+import { authRateLimiters } from '../../services/auth-rate-limiter';
 import { corsPolicy } from '../../services/cors-policy';
 import { db } from '../../services/database';
 import { jwtService } from '../../services/jwt';

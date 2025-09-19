@@ -1,9 +1,10 @@
 import { randomUUID } from 'crypto';
 
-import { auditLogger } from './audit-logger';
-import { db } from './database';
 import { logger } from '../utils/logger';
 import { Monitoring } from '../utils/monitoring';
+
+import { auditLogger } from './audit-logger';
+import { db } from './database';
 
 export interface SessionData {
   sessionId: string;

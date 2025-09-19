@@ -45,7 +45,7 @@ const CORS_CONFIGS: Record<string, CorsConfig> = {
   },
 
   production: {
-    allowedOrigins: ['https://scalemap.ai', 'https://www.scalemap.ai', 'https://app.scalemap.ai'],
+    allowedOrigins: [], // Rely on Vercel pattern matching in isOriginAllowed()
     allowedMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: [
       'Content-Type',
@@ -152,9 +152,9 @@ export class CorsPolicy {
    * Get the allowed origin for the request
    */
   private getAllowedOrigin(requestOrigin?: string): string {
-    // If no origin in request, return first allowed origin
+    // If no origin in request, return first allowed origin or reject
     if (!requestOrigin) {
-      return this.config.allowedOrigins[0] || '*';
+      return this.config.allowedOrigins[0] || 'null';
     }
 
     // Check if request origin is allowed
@@ -176,8 +176,8 @@ export class CorsPolicy {
       }
     }
 
-    // For production, return the first allowed origin (never *)
-    return this.config.allowedOrigins[0] || 'https://scalemap.ai';
+    // For production with empty allowedOrigins, reject unknown origins
+    return this.config.allowedOrigins[0] || 'null';
   }
 
   /**

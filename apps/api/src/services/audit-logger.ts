@@ -1,8 +1,9 @@
 import { randomUUID } from 'crypto';
 
-import { db } from './database';
 import { logger } from '../utils/logger';
 import { Monitoring } from '../utils/monitoring';
+
+import { db } from './database';
 
 export interface AuditEvent {
   eventId: string;
@@ -322,7 +323,7 @@ export class AuditLogger {
         filterExpression = conditions.join(' AND ');
       }
 
-      let queryOptions: any = {
+      const queryOptions: any = {
         limit,
         scanIndexForward: false // Most recent first
       };

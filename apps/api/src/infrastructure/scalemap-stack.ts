@@ -110,8 +110,8 @@ export class ScaleMapStack extends cdk.Stack {
       SES_FROM_EMAIL: 'john@scalemap.uk',
       FRONTEND_BASE_URL:
         stage === 'production'
-          ? 'https://web-e73oegele-scale-map.vercel.app'
-          : 'https://dev.scalemap.ai',
+          ? 'https://scalemap.vercel.app' // Generic URL - actual CORS handled dynamically
+          : 'http://localhost:3000',
       JWT_ACCESS_SECRET: jwtAccessSecret,
       JWT_REFRESH_SECRET: jwtRefreshSecret,
       JWT_ACCESS_TTL: '900', // 15 minutes
@@ -177,6 +177,13 @@ export class ScaleMapStack extends cdk.Stack {
       handler: 'handler',
     });
 
+    const jwtAuthorizerFunction = new nodejsLambda.NodejsFunction(this, 'JwtAuthorizerFunction', {
+      ...lambdaProps,
+      functionName: `scalemap-jwt-authorizer-${stage}`,
+      entry: 'src/functions/auth/jwt-authorizer.ts',
+      handler: 'handler',
+    });
+
     // Company Management Functions
     const createCompanyFunction = new nodejsLambda.NodejsFunction(this, 'CreateCompanyFunction', {
       ...lambdaProps,
@@ -222,6 +229,28 @@ export class ScaleMapStack extends cdk.Stack {
       }
     );
 
+    const startAssessmentFunction = new nodejsLambda.NodejsFunction(
+      this,
+      'StartAssessmentFunction',
+      {
+        ...lambdaProps,
+        functionName: `scalemap-start-assessment-${stage}`,
+        entry: 'src/functions/assessment/start-assessment.ts',
+        handler: 'handler',
+      }
+    );
+
+    const updateAssessmentFunction = new nodejsLambda.NodejsFunction(
+      this,
+      'UpdateAssessmentFunction',
+      {
+        ...lambdaProps,
+        functionName: `scalemap-update-assessment-${stage}`,
+        entry: 'src/functions/assessment/update-assessment.ts',
+        handler: 'handler',
+      }
+    );
+
     // Document Processing Functions
     const uploadHandlerFunction = new nodejsLambda.NodejsFunction(this, 'UploadHandlerFunction', {
       ...lambdaProps,
@@ -259,11 +288,14 @@ export class ScaleMapStack extends cdk.Stack {
       refreshTokenFunction,
       registerFunction,
       verifyEmailFunction,
+      jwtAuthorizerFunction,
       createCompanyFunction,
       getCompanyFunction,
       createAssessmentFunction,
       getAssessmentFunction,
       updateResponsesFunction,
+      startAssessmentFunction,
+      updateAssessmentFunction,
       uploadHandlerFunction,
       processDocumentFunction,
       healthFunction,
@@ -307,38 +339,17 @@ export class ScaleMapStack extends cdk.Stack {
 
     // JWT Authorizer for API Gateway
     const jwtAuthorizer = new apigateway.TokenAuthorizer(this, 'JwtAuthorizer', {
-      handler: refreshTokenFunction, // Use refresh token function for JWT validation
+      handler: jwtAuthorizerFunction,
       identitySource: 'method.request.header.Authorization',
       authorizerName: `scalemap-jwt-authorizer-${stage}`,
       resultsCacheTtl: cdk.Duration.minutes(5),
     });
 
-    // API Gateway with proper CORS and rate limiting
+    // API Gateway without default CORS - handled by Lambda functions
     const api = new apigateway.RestApi(this, 'ScaleMapApi', {
       restApiName: `ScaleMap API - ${stage}`,
       description: `ScaleMap API for ${stage} environment`,
-      defaultCorsPreflightOptions: {
-        allowOrigins:
-          stage === 'production'
-            ? [
-                'https://scalemap.ai',
-                'https://www.scalemap.ai',
-                'https://app.scalemap.ai',
-                'https://web-5jgiv2tsg-scale-map.vercel.app',
-                'https://web-qtq3fyntv-scale-map.vercel.app',
-                'https://web-2o7w6lzvk-scale-map.vercel.app',
-              ]
-            : apigateway.Cors.ALL_ORIGINS,
-        allowMethods: apigateway.Cors.ALL_METHODS,
-        allowHeaders: [
-          'Content-Type',
-          'Authorization',
-          'X-Amz-Date',
-          'X-Api-Key',
-          'X-Amz-Security-Token',
-        ],
-        allowCredentials: true,
-      },
+      // No default CORS - each Lambda handles CORS dynamically via cors-policy.ts
     });
 
     // Add CORS headers to error responses
@@ -346,7 +357,7 @@ export class ScaleMapStack extends cdk.Stack {
     api.addGatewayResponse('UnauthorizedResponse', {
       type: apigateway.ResponseType.UNAUTHORIZED,
       responseHeaders: {
-        'Access-Control-Allow-Origin': `'\${request.header.Origin}'`,
+        'Access-Control-Allow-Origin': `'*'`,
         'Access-Control-Allow-Headers': "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
         'Access-Control-Allow-Methods': "'GET,POST,PUT,DELETE,OPTIONS'",
         'Access-Control-Allow-Credentials': "'true'",
@@ -356,7 +367,7 @@ export class ScaleMapStack extends cdk.Stack {
     api.addGatewayResponse('ForbiddenResponse', {
       type: apigateway.ResponseType.ACCESS_DENIED,
       responseHeaders: {
-        'Access-Control-Allow-Origin': `'\${request.header.Origin}'`,
+        'Access-Control-Allow-Origin': `'*'`,
         'Access-Control-Allow-Headers': "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
         'Access-Control-Allow-Methods': "'GET,POST,PUT,DELETE,OPTIONS'",
         'Access-Control-Allow-Credentials': "'true'",
@@ -423,6 +434,27 @@ export class ScaleMapStack extends cdk.Stack {
         new apigateway.LambdaIntegration(updateResponsesFunction),
         protectedMethodOptions
       );
+
+    // Individual assessment endpoints: /assessments/{id}
+    const assessmentByIdResource = assessmentResource.addResource('{id}');
+    assessmentByIdResource.addMethod(
+      'GET',
+      new apigateway.LambdaIntegration(getAssessmentFunction),
+      protectedMethodOptions
+    );
+    assessmentByIdResource.addMethod(
+      'PATCH',
+      new apigateway.LambdaIntegration(updateAssessmentFunction),
+      protectedMethodOptions
+    );
+
+    // Assessment action endpoints: /assessments/{id}/start
+    const assessmentStartResource = assessmentByIdResource.addResource('start');
+    assessmentStartResource.addMethod(
+      'POST',
+      new apigateway.LambdaIntegration(startAssessmentFunction),
+      protectedMethodOptions
+    );
 
     // Document endpoints
     const documentsResource = api.root.addResource('documents');

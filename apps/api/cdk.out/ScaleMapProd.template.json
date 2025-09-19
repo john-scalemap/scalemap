@@ -385,7 +385,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-884337373956-eu-west-1",
-     "S3Key": "364f3dbc43b48ceee49eb28bb92092de54333b6d5f95354cfb49482c242b5cf1.zip"
+     "S3Key": "e912ad424645f7a8d7b3fe95f413daa154738d22b33ac79568930378000162d8.zip"
     },
     "DeadLetterConfig": {
      "TargetArn": {
@@ -417,7 +417,7 @@
       },
       "SES_FROM_ADDRESS": "john@scalemap.uk",
       "SES_FROM_EMAIL": "john@scalemap.uk",
-      "FRONTEND_BASE_URL": "https://web-e73oegele-scale-map.vercel.app",
+      "FRONTEND_BASE_URL": "https://scalemap.vercel.app",
       "JWT_ACCESS_SECRET": "-q_OFZbpI0M24rNKHUYibzGmyL_-Jkfhj7HnMhEZZy_I_a2KW0zEZ-u5n5EC2v4z",
       "JWT_REFRESH_SECRET": "WX-E-NG6bddW3mQhrSTPR_Hyxz0CJrzKG_WtpvgzMK-i3Mlzgh7BTMhrk8zDxPWc",
       "JWT_ACCESS_TTL": "900",
@@ -444,7 +444,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/LoginFunction/Resource",
-    "aws:asset:path": "asset.364f3dbc43b48ceee49eb28bb92092de54333b6d5f95354cfb49482c242b5cf1",
+    "aws:asset:path": "asset.e912ad424645f7a8d7b3fe95f413daa154738d22b33ac79568930378000162d8",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -748,7 +748,7 @@
       },
       "SES_FROM_ADDRESS": "john@scalemap.uk",
       "SES_FROM_EMAIL": "john@scalemap.uk",
-      "FRONTEND_BASE_URL": "https://web-e73oegele-scale-map.vercel.app",
+      "FRONTEND_BASE_URL": "https://scalemap.vercel.app",
       "JWT_ACCESS_SECRET": "-q_OFZbpI0M24rNKHUYibzGmyL_-Jkfhj7HnMhEZZy_I_a2KW0zEZ-u5n5EC2v4z",
       "JWT_REFRESH_SECRET": "WX-E-NG6bddW3mQhrSTPR_Hyxz0CJrzKG_WtpvgzMK-i3Mlzgh7BTMhrk8zDxPWc",
       "JWT_ACCESS_TTL": "900",
@@ -804,37 +804,6 @@
    },
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/RefreshTokenFunction/LogRetention/Resource"
-   }
-  },
-  "RefreshTokenFunctionScaleMapProdJwtAuthorizer0418A32FPermissions149C84D2": {
-   "Type": "AWS::Lambda::Permission",
-   "Properties": {
-    "Action": "lambda:InvokeFunction",
-    "FunctionName": {
-     "Fn::GetAtt": [
-      "RefreshTokenFunction37E34807",
-      "Arn"
-     ]
-    },
-    "Principal": "apigateway.amazonaws.com",
-    "SourceArn": {
-     "Fn::Join": [
-      "",
-      [
-       "arn:aws:execute-api:eu-west-1:884337373956:",
-       {
-        "Ref": "ScaleMapApi2204383E"
-       },
-       "/authorizers/",
-       {
-        "Ref": "JwtAuthorizer08CECD9F"
-       }
-      ]
-     ]
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "ScaleMapProd/RefreshTokenFunction/ScaleMapProdJwtAuthorizer0418A32F:Permissions"
    }
   },
   "RegisterFunctionServiceRoleDB8F6C89": {
@@ -989,7 +958,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-884337373956-eu-west-1",
-     "S3Key": "08c58e59637fa8c1388b6ecc32bba5511fb486434fd997f39979f746a1727a01.zip"
+     "S3Key": "48c79b9fabd5cacc084e47d2eb0610e50837c56c35552342b3a66efad07cb931.zip"
     },
     "DeadLetterConfig": {
      "TargetArn": {
@@ -1021,7 +990,7 @@
       },
       "SES_FROM_ADDRESS": "john@scalemap.uk",
       "SES_FROM_EMAIL": "john@scalemap.uk",
-      "FRONTEND_BASE_URL": "https://web-e73oegele-scale-map.vercel.app",
+      "FRONTEND_BASE_URL": "https://scalemap.vercel.app",
       "JWT_ACCESS_SECRET": "-q_OFZbpI0M24rNKHUYibzGmyL_-Jkfhj7HnMhEZZy_I_a2KW0zEZ-u5n5EC2v4z",
       "JWT_REFRESH_SECRET": "WX-E-NG6bddW3mQhrSTPR_Hyxz0CJrzKG_WtpvgzMK-i3Mlzgh7BTMhrk8zDxPWc",
       "JWT_ACCESS_TTL": "900",
@@ -1048,7 +1017,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/RegisterFunction/Resource",
-    "aws:asset:path": "asset.08c58e59637fa8c1388b6ecc32bba5511fb486434fd997f39979f746a1727a01",
+    "aws:asset:path": "asset.48c79b9fabd5cacc084e47d2eb0610e50837c56c35552342b3a66efad07cb931",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -1263,7 +1232,7 @@
       },
       "SES_FROM_ADDRESS": "john@scalemap.uk",
       "SES_FROM_EMAIL": "john@scalemap.uk",
-      "FRONTEND_BASE_URL": "https://web-e73oegele-scale-map.vercel.app",
+      "FRONTEND_BASE_URL": "https://scalemap.vercel.app",
       "JWT_ACCESS_SECRET": "-q_OFZbpI0M24rNKHUYibzGmyL_-Jkfhj7HnMhEZZy_I_a2KW0zEZ-u5n5EC2v4z",
       "JWT_REFRESH_SECRET": "WX-E-NG6bddW3mQhrSTPR_Hyxz0CJrzKG_WtpvgzMK-i3Mlzgh7BTMhrk8zDxPWc",
       "JWT_ACCESS_TTL": "900",
@@ -1319,6 +1288,279 @@
    },
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/VerifyEmailFunction/LogRetention/Resource"
+   }
+  },
+  "JwtAuthorizerFunctionServiceRole853A48B7": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/JwtAuthorizerFunction/ServiceRole/Resource"
+   }
+  },
+  "JwtAuthorizerFunctionServiceRoleDefaultPolicy960B2E64": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sqs:SendMessage",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "DeadLetterQueue9F481546",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ScaleMapTableD1C6C54B",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ScaleMapTableD1C6C54B",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DocumentsBucket9EC9DEB9",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DocumentsBucket9EC9DEB9",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "ses:SendEmail",
+        "ses:SendRawEmail"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "JwtAuthorizerFunctionServiceRoleDefaultPolicy960B2E64",
+    "Roles": [
+     {
+      "Ref": "JwtAuthorizerFunctionServiceRole853A48B7"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/JwtAuthorizerFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "JwtAuthorizerFunction724D312A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-884337373956-eu-west-1",
+     "S3Key": "e9f932087372997a9ccf0960fba0f1968a85b37c6c11c7838a5445e1cc70d776.zip"
+    },
+    "DeadLetterConfig": {
+     "TargetArn": {
+      "Fn::GetAtt": [
+       "DeadLetterQueue9F481546",
+       "Arn"
+      ]
+     }
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "ScaleMapTableD1C6C54B"
+      },
+      "DYNAMODB_TABLE_NAME": {
+       "Ref": "ScaleMapTableD1C6C54B"
+      },
+      "DOCUMENTS_BUCKET": {
+       "Ref": "DocumentsBucket9EC9DEB9"
+      },
+      "S3_BUCKET_NAME": {
+       "Ref": "DocumentsBucket9EC9DEB9"
+      },
+      "STAGE": "production",
+      "SES_REGION": "eu-west-1",
+      "REGION": "eu-west-1",
+      "DLQ_URL": {
+       "Ref": "DeadLetterQueue9F481546"
+      },
+      "SES_FROM_ADDRESS": "john@scalemap.uk",
+      "SES_FROM_EMAIL": "john@scalemap.uk",
+      "FRONTEND_BASE_URL": "https://scalemap.vercel.app",
+      "JWT_ACCESS_SECRET": "-q_OFZbpI0M24rNKHUYibzGmyL_-Jkfhj7HnMhEZZy_I_a2KW0zEZ-u5n5EC2v4z",
+      "JWT_REFRESH_SECRET": "WX-E-NG6bddW3mQhrSTPR_Hyxz0CJrzKG_WtpvgzMK-i3Mlzgh7BTMhrk8zDxPWc",
+      "JWT_ACCESS_TTL": "900",
+      "JWT_REFRESH_TTL": "604800",
+      "JWT_ISSUER": "scalemap.com",
+      "NODE_ENV": "production"
+     }
+    },
+    "FunctionName": "scalemap-jwt-authorizer-production",
+    "Handler": "index.handler",
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "JwtAuthorizerFunctionServiceRole853A48B7",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "JwtAuthorizerFunctionServiceRoleDefaultPolicy960B2E64",
+    "JwtAuthorizerFunctionServiceRole853A48B7"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/JwtAuthorizerFunction/Resource",
+    "aws:asset:path": "asset.e9f932087372997a9ccf0960fba0f1968a85b37c6c11c7838a5445e1cc70d776",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "JwtAuthorizerFunctionLogRetentionD7F5AABE": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "JwtAuthorizerFunction724D312A"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 30
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/JwtAuthorizerFunction/LogRetention/Resource"
+   }
+  },
+  "JwtAuthorizerFunctionScaleMapProdJwtAuthorizer0418A32FPermissions6AA1CF2B": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "JwtAuthorizerFunction724D312A",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:eu-west-1:884337373956:",
+       {
+        "Ref": "ScaleMapApi2204383E"
+       },
+       "/authorizers/",
+       {
+        "Ref": "JwtAuthorizer08CECD9F"
+       }
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/JwtAuthorizerFunction/ScaleMapProdJwtAuthorizer0418A32F:Permissions"
    }
   },
   "CreateCompanyFunctionServiceRoleDBB9C1CF": {
@@ -1505,7 +1747,7 @@
       },
       "SES_FROM_ADDRESS": "john@scalemap.uk",
       "SES_FROM_EMAIL": "john@scalemap.uk",
-      "FRONTEND_BASE_URL": "https://web-e73oegele-scale-map.vercel.app",
+      "FRONTEND_BASE_URL": "https://scalemap.vercel.app",
       "JWT_ACCESS_SECRET": "-q_OFZbpI0M24rNKHUYibzGmyL_-Jkfhj7HnMhEZZy_I_a2KW0zEZ-u5n5EC2v4z",
       "JWT_REFRESH_SECRET": "WX-E-NG6bddW3mQhrSTPR_Hyxz0CJrzKG_WtpvgzMK-i3Mlzgh7BTMhrk8zDxPWc",
       "JWT_ACCESS_TTL": "900",
@@ -1747,7 +1989,7 @@
       },
       "SES_FROM_ADDRESS": "john@scalemap.uk",
       "SES_FROM_EMAIL": "john@scalemap.uk",
-      "FRONTEND_BASE_URL": "https://web-e73oegele-scale-map.vercel.app",
+      "FRONTEND_BASE_URL": "https://scalemap.vercel.app",
       "JWT_ACCESS_SECRET": "-q_OFZbpI0M24rNKHUYibzGmyL_-Jkfhj7HnMhEZZy_I_a2KW0zEZ-u5n5EC2v4z",
       "JWT_REFRESH_SECRET": "WX-E-NG6bddW3mQhrSTPR_Hyxz0CJrzKG_WtpvgzMK-i3Mlzgh7BTMhrk8zDxPWc",
       "JWT_ACCESS_TTL": "900",
@@ -1957,7 +2199,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-884337373956-eu-west-1",
-     "S3Key": "34bc965dd1d59072de10a0824a0f2af875c55982bc2431ff39dae61fb2cb0b48.zip"
+     "S3Key": "d036d931acb85e2ea4fd17a5cde0dc061c9531d360ea2414de6039ce612d002a.zip"
     },
     "DeadLetterConfig": {
      "TargetArn": {
@@ -1989,7 +2231,7 @@
       },
       "SES_FROM_ADDRESS": "john@scalemap.uk",
       "SES_FROM_EMAIL": "john@scalemap.uk",
-      "FRONTEND_BASE_URL": "https://web-e73oegele-scale-map.vercel.app",
+      "FRONTEND_BASE_URL": "https://scalemap.vercel.app",
       "JWT_ACCESS_SECRET": "-q_OFZbpI0M24rNKHUYibzGmyL_-Jkfhj7HnMhEZZy_I_a2KW0zEZ-u5n5EC2v4z",
       "JWT_REFRESH_SECRET": "WX-E-NG6bddW3mQhrSTPR_Hyxz0CJrzKG_WtpvgzMK-i3Mlzgh7BTMhrk8zDxPWc",
       "JWT_ACCESS_TTL": "900",
@@ -2016,7 +2258,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/CreateAssessmentFunction/Resource",
-    "aws:asset:path": "asset.34bc965dd1d59072de10a0824a0f2af875c55982bc2431ff39dae61fb2cb0b48",
+    "aws:asset:path": "asset.d036d931acb85e2ea4fd17a5cde0dc061c9531d360ea2414de6039ce612d002a",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -2231,7 +2473,7 @@
       },
       "SES_FROM_ADDRESS": "john@scalemap.uk",
       "SES_FROM_EMAIL": "john@scalemap.uk",
-      "FRONTEND_BASE_URL": "https://web-e73oegele-scale-map.vercel.app",
+      "FRONTEND_BASE_URL": "https://scalemap.vercel.app",
       "JWT_ACCESS_SECRET": "-q_OFZbpI0M24rNKHUYibzGmyL_-Jkfhj7HnMhEZZy_I_a2KW0zEZ-u5n5EC2v4z",
       "JWT_REFRESH_SECRET": "WX-E-NG6bddW3mQhrSTPR_Hyxz0CJrzKG_WtpvgzMK-i3Mlzgh7BTMhrk8zDxPWc",
       "JWT_ACCESS_TTL": "900",
@@ -2473,7 +2715,7 @@
       },
       "SES_FROM_ADDRESS": "john@scalemap.uk",
       "SES_FROM_EMAIL": "john@scalemap.uk",
-      "FRONTEND_BASE_URL": "https://web-e73oegele-scale-map.vercel.app",
+      "FRONTEND_BASE_URL": "https://scalemap.vercel.app",
       "JWT_ACCESS_SECRET": "-q_OFZbpI0M24rNKHUYibzGmyL_-Jkfhj7HnMhEZZy_I_a2KW0zEZ-u5n5EC2v4z",
       "JWT_REFRESH_SECRET": "WX-E-NG6bddW3mQhrSTPR_Hyxz0CJrzKG_WtpvgzMK-i3Mlzgh7BTMhrk8zDxPWc",
       "JWT_ACCESS_TTL": "900",
@@ -2529,6 +2771,490 @@
    },
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/UpdateResponsesFunction/LogRetention/Resource"
+   }
+  },
+  "StartAssessmentFunctionServiceRole602EBE8E": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/StartAssessmentFunction/ServiceRole/Resource"
+   }
+  },
+  "StartAssessmentFunctionServiceRoleDefaultPolicy1E0911CB": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sqs:SendMessage",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "DeadLetterQueue9F481546",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ScaleMapTableD1C6C54B",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ScaleMapTableD1C6C54B",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DocumentsBucket9EC9DEB9",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DocumentsBucket9EC9DEB9",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "ses:SendEmail",
+        "ses:SendRawEmail"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "StartAssessmentFunctionServiceRoleDefaultPolicy1E0911CB",
+    "Roles": [
+     {
+      "Ref": "StartAssessmentFunctionServiceRole602EBE8E"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/StartAssessmentFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "StartAssessmentFunctionF90B719B": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-884337373956-eu-west-1",
+     "S3Key": "df8c6000a97837453d7e5f757ed257ba4361ef8a6bf780fddc064b90d8dc60b7.zip"
+    },
+    "DeadLetterConfig": {
+     "TargetArn": {
+      "Fn::GetAtt": [
+       "DeadLetterQueue9F481546",
+       "Arn"
+      ]
+     }
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "ScaleMapTableD1C6C54B"
+      },
+      "DYNAMODB_TABLE_NAME": {
+       "Ref": "ScaleMapTableD1C6C54B"
+      },
+      "DOCUMENTS_BUCKET": {
+       "Ref": "DocumentsBucket9EC9DEB9"
+      },
+      "S3_BUCKET_NAME": {
+       "Ref": "DocumentsBucket9EC9DEB9"
+      },
+      "STAGE": "production",
+      "SES_REGION": "eu-west-1",
+      "REGION": "eu-west-1",
+      "DLQ_URL": {
+       "Ref": "DeadLetterQueue9F481546"
+      },
+      "SES_FROM_ADDRESS": "john@scalemap.uk",
+      "SES_FROM_EMAIL": "john@scalemap.uk",
+      "FRONTEND_BASE_URL": "https://scalemap.vercel.app",
+      "JWT_ACCESS_SECRET": "-q_OFZbpI0M24rNKHUYibzGmyL_-Jkfhj7HnMhEZZy_I_a2KW0zEZ-u5n5EC2v4z",
+      "JWT_REFRESH_SECRET": "WX-E-NG6bddW3mQhrSTPR_Hyxz0CJrzKG_WtpvgzMK-i3Mlzgh7BTMhrk8zDxPWc",
+      "JWT_ACCESS_TTL": "900",
+      "JWT_REFRESH_TTL": "604800",
+      "JWT_ISSUER": "scalemap.com",
+      "NODE_ENV": "production"
+     }
+    },
+    "FunctionName": "scalemap-start-assessment-production",
+    "Handler": "index.handler",
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "StartAssessmentFunctionServiceRole602EBE8E",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "StartAssessmentFunctionServiceRoleDefaultPolicy1E0911CB",
+    "StartAssessmentFunctionServiceRole602EBE8E"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/StartAssessmentFunction/Resource",
+    "aws:asset:path": "asset.df8c6000a97837453d7e5f757ed257ba4361ef8a6bf780fddc064b90d8dc60b7",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "StartAssessmentFunctionLogRetention113CD48B": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "StartAssessmentFunctionF90B719B"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 30
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/StartAssessmentFunction/LogRetention/Resource"
+   }
+  },
+  "UpdateAssessmentFunctionServiceRole7C2B2F8E": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/UpdateAssessmentFunction/ServiceRole/Resource"
+   }
+  },
+  "UpdateAssessmentFunctionServiceRoleDefaultPolicy3563A845": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sqs:SendMessage",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "DeadLetterQueue9F481546",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ScaleMapTableD1C6C54B",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ScaleMapTableD1C6C54B",
+             "Arn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DocumentsBucket9EC9DEB9",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DocumentsBucket9EC9DEB9",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "ses:SendEmail",
+        "ses:SendRawEmail"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "UpdateAssessmentFunctionServiceRoleDefaultPolicy3563A845",
+    "Roles": [
+     {
+      "Ref": "UpdateAssessmentFunctionServiceRole7C2B2F8E"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/UpdateAssessmentFunction/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "UpdateAssessmentFunctionA3148056": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-884337373956-eu-west-1",
+     "S3Key": "6dc458c16ea82492ee06b5ee292a5f5de56b3cbca319e87997970baa2add889c.zip"
+    },
+    "DeadLetterConfig": {
+     "TargetArn": {
+      "Fn::GetAtt": [
+       "DeadLetterQueue9F481546",
+       "Arn"
+      ]
+     }
+    },
+    "Environment": {
+     "Variables": {
+      "TABLE_NAME": {
+       "Ref": "ScaleMapTableD1C6C54B"
+      },
+      "DYNAMODB_TABLE_NAME": {
+       "Ref": "ScaleMapTableD1C6C54B"
+      },
+      "DOCUMENTS_BUCKET": {
+       "Ref": "DocumentsBucket9EC9DEB9"
+      },
+      "S3_BUCKET_NAME": {
+       "Ref": "DocumentsBucket9EC9DEB9"
+      },
+      "STAGE": "production",
+      "SES_REGION": "eu-west-1",
+      "REGION": "eu-west-1",
+      "DLQ_URL": {
+       "Ref": "DeadLetterQueue9F481546"
+      },
+      "SES_FROM_ADDRESS": "john@scalemap.uk",
+      "SES_FROM_EMAIL": "john@scalemap.uk",
+      "FRONTEND_BASE_URL": "https://scalemap.vercel.app",
+      "JWT_ACCESS_SECRET": "-q_OFZbpI0M24rNKHUYibzGmyL_-Jkfhj7HnMhEZZy_I_a2KW0zEZ-u5n5EC2v4z",
+      "JWT_REFRESH_SECRET": "WX-E-NG6bddW3mQhrSTPR_Hyxz0CJrzKG_WtpvgzMK-i3Mlzgh7BTMhrk8zDxPWc",
+      "JWT_ACCESS_TTL": "900",
+      "JWT_REFRESH_TTL": "604800",
+      "JWT_ISSUER": "scalemap.com",
+      "NODE_ENV": "production"
+     }
+    },
+    "FunctionName": "scalemap-update-assessment-production",
+    "Handler": "index.handler",
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "UpdateAssessmentFunctionServiceRole7C2B2F8E",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Timeout": 30
+   },
+   "DependsOn": [
+    "UpdateAssessmentFunctionServiceRoleDefaultPolicy3563A845",
+    "UpdateAssessmentFunctionServiceRole7C2B2F8E"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/UpdateAssessmentFunction/Resource",
+    "aws:asset:path": "asset.6dc458c16ea82492ee06b5ee292a5f5de56b3cbca319e87997970baa2add889c",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
+  "UpdateAssessmentFunctionLogRetentionDD84E98F": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "UpdateAssessmentFunctionA3148056"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 30
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/UpdateAssessmentFunction/LogRetention/Resource"
    }
   },
   "UploadHandlerFunctionServiceRole483D683C": {
@@ -2715,7 +3441,7 @@
       },
       "SES_FROM_ADDRESS": "john@scalemap.uk",
       "SES_FROM_EMAIL": "john@scalemap.uk",
-      "FRONTEND_BASE_URL": "https://web-e73oegele-scale-map.vercel.app",
+      "FRONTEND_BASE_URL": "https://scalemap.vercel.app",
       "JWT_ACCESS_SECRET": "-q_OFZbpI0M24rNKHUYibzGmyL_-Jkfhj7HnMhEZZy_I_a2KW0zEZ-u5n5EC2v4z",
       "JWT_REFRESH_SECRET": "WX-E-NG6bddW3mQhrSTPR_Hyxz0CJrzKG_WtpvgzMK-i3Mlzgh7BTMhrk8zDxPWc",
       "JWT_ACCESS_TTL": "900",
@@ -2960,7 +3686,7 @@
       },
       "SES_FROM_ADDRESS": "john@scalemap.uk",
       "SES_FROM_EMAIL": "john@scalemap.uk",
-      "FRONTEND_BASE_URL": "https://web-e73oegele-scale-map.vercel.app",
+      "FRONTEND_BASE_URL": "https://scalemap.vercel.app",
       "JWT_ACCESS_SECRET": "-q_OFZbpI0M24rNKHUYibzGmyL_-Jkfhj7HnMhEZZy_I_a2KW0zEZ-u5n5EC2v4z",
       "JWT_REFRESH_SECRET": "WX-E-NG6bddW3mQhrSTPR_Hyxz0CJrzKG_WtpvgzMK-i3Mlzgh7BTMhrk8zDxPWc",
       "JWT_ACCESS_TTL": "900",
@@ -3202,7 +3928,7 @@
       },
       "SES_FROM_ADDRESS": "john@scalemap.uk",
       "SES_FROM_EMAIL": "john@scalemap.uk",
-      "FRONTEND_BASE_URL": "https://web-e73oegele-scale-map.vercel.app",
+      "FRONTEND_BASE_URL": "https://scalemap.vercel.app",
       "JWT_ACCESS_SECRET": "-q_OFZbpI0M24rNKHUYibzGmyL_-Jkfhj7HnMhEZZy_I_a2KW0zEZ-u5n5EC2v4z",
       "JWT_REFRESH_SECRET": "WX-E-NG6bddW3mQhrSTPR_Hyxz0CJrzKG_WtpvgzMK-i3Mlzgh7BTMhrk8zDxPWc",
       "JWT_ACCESS_TTL": "900",
@@ -3360,7 +4086,7 @@
            ":",
            {
             "Fn::GetAtt": [
-             "RefreshTokenFunction37E34807",
+             "JwtAuthorizerFunction724D312A",
              "Arn"
             ]
            }
@@ -3377,7 +4103,7 @@
            ":",
            {
             "Fn::GetAtt": [
-             "RefreshTokenFunction37E34807",
+             "JwtAuthorizerFunction724D312A",
              "Arn"
             ]
            }
@@ -3388,7 +4114,7 @@
        ":lambda:path/2015-03-31/functions/",
        {
         "Fn::GetAtt": [
-         "RefreshTokenFunction37E34807",
+         "JwtAuthorizerFunction724D312A",
          "Arn"
         ]
        },
@@ -3472,7 +4198,7 @@
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Account"
    }
   },
-  "ScaleMapApiDeployment77EBDD9D15ade3309ee4f15215d68146c46de626": {
+  "ScaleMapApiDeployment77EBDD9D520ff1b8f5a4fbcac0d75962240357c6": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "ScaleMap API for production environment",
@@ -3482,42 +4208,34 @@
    },
    "DependsOn": [
     "JwtAuthorizer08CECD9F",
+    "ScaleMapApiassessmentsidGETFBC9BB73",
+    "ScaleMapApiassessmentsidPATCHB67B265B",
+    "ScaleMapApiassessmentsidE0ED92E3",
+    "ScaleMapApiassessmentsidstartPOST60ABCB2A",
+    "ScaleMapApiassessmentsidstartDBCB7CDF",
     "ScaleMapApiassessmentsGETE6B3723C",
-    "ScaleMapApiassessmentsOPTIONSF0586F4E",
     "ScaleMapApiassessmentsPOST18441130",
     "ScaleMapApiassessmentsCBAE5DB3",
-    "ScaleMapApiassessmentsresponsesOPTIONSF483EBD7",
     "ScaleMapApiassessmentsresponsesPUT3C6FE69F",
     "ScaleMapApiassessmentsresponses32212C8B",
-    "ScaleMapApiauthloginOPTIONS86D709F4",
     "ScaleMapApiauthloginPOSTE1CB51A5",
     "ScaleMapApiauthlogin7F8100CE",
-    "ScaleMapApiauthOPTIONSEE73EF88",
-    "ScaleMapApiauthrefreshOPTIONSF8DE41B6",
     "ScaleMapApiauthrefreshPOST6EC4C378",
     "ScaleMapApiauthrefresh503A46F4",
-    "ScaleMapApiauthregisterOPTIONSFEDF5216",
     "ScaleMapApiauthregisterPOST1086F82F",
     "ScaleMapApiauthregisterBB7044BD",
     "ScaleMapApiauthBA436AC9",
     "ScaleMapApiauthverifyemailGET703CE8DA",
-    "ScaleMapApiauthverifyemailOPTIONS1AD637B0",
     "ScaleMapApiauthverifyemail0AE6483F",
     "ScaleMapApicompanyidGET3C4F96D2",
-    "ScaleMapApicompanyidOPTIONS4A46373C",
     "ScaleMapApicompanyid26EF5C04",
-    "ScaleMapApicompanyOPTIONS38C4F9CB",
     "ScaleMapApicompanyPOST6EAA0F4F",
     "ScaleMapApicompanyE86C5AA2",
-    "ScaleMapApidocumentsOPTIONSA3A85304",
     "ScaleMapApidocumentsF359908A",
-    "ScaleMapApidocumentsuploadOPTIONS2F20AF31",
     "ScaleMapApidocumentsuploadPOST8F5412FD",
     "ScaleMapApidocumentsupload9463C0ED",
     "ScaleMapApihealthGET37CFB43A",
-    "ScaleMapApihealthOPTIONSB7ECEA33",
     "ScaleMapApihealthD68D4E2A",
-    "ScaleMapApiOPTIONS1BF74AAB",
     "ScaleMapApiForbiddenResponse84C3610E",
     "ScaleMapApiUnauthorizedResponseC4515272"
    ],
@@ -3530,7 +4248,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "ScaleMapApiDeployment77EBDD9D15ade3309ee4f15215d68146c46de626"
+     "Ref": "ScaleMapApiDeployment77EBDD9D520ff1b8f5a4fbcac0d75962240357c6"
     },
     "RestApiId": {
      "Ref": "ScaleMapApi2204383E"
@@ -3542,59 +4260,6 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/DeploymentStage.prod/Resource"
-   }
-  },
-  "ScaleMapApiOPTIONS1BF74AAB": {
-   "Type": "AWS::ApiGateway::Method",
-   "Properties": {
-    "ApiKeyRequired": false,
-    "AuthorizationType": "NONE",
-    "HttpMethod": "OPTIONS",
-    "Integration": {
-     "IntegrationResponses": [
-      {
-       "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
-        "method.response.header.Access-Control-Allow-Origin": "'https://scalemap.ai'",
-        "method.response.header.Vary": "'Origin'",
-        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
-        "method.response.header.Access-Control-Allow-Credentials": "'true'"
-       },
-       "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
-       },
-       "StatusCode": "204"
-      }
-     ],
-     "RequestTemplates": {
-      "application/json": "{ statusCode: 200 }"
-     },
-     "Type": "MOCK"
-    },
-    "MethodResponses": [
-     {
-      "ResponseParameters": {
-       "method.response.header.Access-Control-Allow-Headers": true,
-       "method.response.header.Access-Control-Allow-Origin": true,
-       "method.response.header.Vary": true,
-       "method.response.header.Access-Control-Allow-Methods": true,
-       "method.response.header.Access-Control-Allow-Credentials": true
-      },
-      "StatusCode": "204"
-     }
-    ],
-    "ResourceId": {
-     "Fn::GetAtt": [
-      "ScaleMapApi2204383E",
-      "RootResourceId"
-     ]
-    },
-    "RestApiId": {
-     "Ref": "ScaleMapApi2204383E"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/OPTIONS/Resource"
    }
   },
   "ScaleMapApihealthD68D4E2A": {
@@ -3613,56 +4278,6 @@
    },
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/health/Resource"
-   }
-  },
-  "ScaleMapApihealthOPTIONSB7ECEA33": {
-   "Type": "AWS::ApiGateway::Method",
-   "Properties": {
-    "ApiKeyRequired": false,
-    "AuthorizationType": "NONE",
-    "HttpMethod": "OPTIONS",
-    "Integration": {
-     "IntegrationResponses": [
-      {
-       "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
-        "method.response.header.Access-Control-Allow-Origin": "'https://scalemap.ai'",
-        "method.response.header.Vary": "'Origin'",
-        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
-        "method.response.header.Access-Control-Allow-Credentials": "'true'"
-       },
-       "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
-       },
-       "StatusCode": "204"
-      }
-     ],
-     "RequestTemplates": {
-      "application/json": "{ statusCode: 200 }"
-     },
-     "Type": "MOCK"
-    },
-    "MethodResponses": [
-     {
-      "ResponseParameters": {
-       "method.response.header.Access-Control-Allow-Headers": true,
-       "method.response.header.Access-Control-Allow-Origin": true,
-       "method.response.header.Vary": true,
-       "method.response.header.Access-Control-Allow-Methods": true,
-       "method.response.header.Access-Control-Allow-Credentials": true
-      },
-      "StatusCode": "204"
-     }
-    ],
-    "ResourceId": {
-     "Ref": "ScaleMapApihealthD68D4E2A"
-    },
-    "RestApiId": {
-     "Ref": "ScaleMapApi2204383E"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/health/OPTIONS/Resource"
    }
   },
   "ScaleMapApihealthGETApiPermissionScaleMapProdScaleMapApi18A6D135GEThealth35E653E7": {
@@ -3778,56 +4393,6 @@
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/auth/Resource"
    }
   },
-  "ScaleMapApiauthOPTIONSEE73EF88": {
-   "Type": "AWS::ApiGateway::Method",
-   "Properties": {
-    "ApiKeyRequired": false,
-    "AuthorizationType": "NONE",
-    "HttpMethod": "OPTIONS",
-    "Integration": {
-     "IntegrationResponses": [
-      {
-       "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
-        "method.response.header.Access-Control-Allow-Origin": "'https://scalemap.ai'",
-        "method.response.header.Vary": "'Origin'",
-        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
-        "method.response.header.Access-Control-Allow-Credentials": "'true'"
-       },
-       "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
-       },
-       "StatusCode": "204"
-      }
-     ],
-     "RequestTemplates": {
-      "application/json": "{ statusCode: 200 }"
-     },
-     "Type": "MOCK"
-    },
-    "MethodResponses": [
-     {
-      "ResponseParameters": {
-       "method.response.header.Access-Control-Allow-Headers": true,
-       "method.response.header.Access-Control-Allow-Origin": true,
-       "method.response.header.Vary": true,
-       "method.response.header.Access-Control-Allow-Methods": true,
-       "method.response.header.Access-Control-Allow-Credentials": true
-      },
-      "StatusCode": "204"
-     }
-    ],
-    "ResourceId": {
-     "Ref": "ScaleMapApiauthBA436AC9"
-    },
-    "RestApiId": {
-     "Ref": "ScaleMapApi2204383E"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/auth/OPTIONS/Resource"
-   }
-  },
   "ScaleMapApiauthlogin7F8100CE": {
    "Type": "AWS::ApiGateway::Resource",
    "Properties": {
@@ -3841,56 +4406,6 @@
    },
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/auth/login/Resource"
-   }
-  },
-  "ScaleMapApiauthloginOPTIONS86D709F4": {
-   "Type": "AWS::ApiGateway::Method",
-   "Properties": {
-    "ApiKeyRequired": false,
-    "AuthorizationType": "NONE",
-    "HttpMethod": "OPTIONS",
-    "Integration": {
-     "IntegrationResponses": [
-      {
-       "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
-        "method.response.header.Access-Control-Allow-Origin": "'https://scalemap.ai'",
-        "method.response.header.Vary": "'Origin'",
-        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
-        "method.response.header.Access-Control-Allow-Credentials": "'true'"
-       },
-       "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
-       },
-       "StatusCode": "204"
-      }
-     ],
-     "RequestTemplates": {
-      "application/json": "{ statusCode: 200 }"
-     },
-     "Type": "MOCK"
-    },
-    "MethodResponses": [
-     {
-      "ResponseParameters": {
-       "method.response.header.Access-Control-Allow-Headers": true,
-       "method.response.header.Access-Control-Allow-Origin": true,
-       "method.response.header.Vary": true,
-       "method.response.header.Access-Control-Allow-Methods": true,
-       "method.response.header.Access-Control-Allow-Credentials": true
-      },
-      "StatusCode": "204"
-     }
-    ],
-    "ResourceId": {
-     "Ref": "ScaleMapApiauthlogin7F8100CE"
-    },
-    "RestApiId": {
-     "Ref": "ScaleMapApi2204383E"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/auth/login/OPTIONS/Resource"
    }
   },
   "ScaleMapApiauthloginPOSTApiPermissionScaleMapProdScaleMapApi18A6D135POSTauthloginE5498F32": {
@@ -4003,56 +4518,6 @@
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/auth/register/Resource"
    }
   },
-  "ScaleMapApiauthregisterOPTIONSFEDF5216": {
-   "Type": "AWS::ApiGateway::Method",
-   "Properties": {
-    "ApiKeyRequired": false,
-    "AuthorizationType": "NONE",
-    "HttpMethod": "OPTIONS",
-    "Integration": {
-     "IntegrationResponses": [
-      {
-       "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
-        "method.response.header.Access-Control-Allow-Origin": "'https://scalemap.ai'",
-        "method.response.header.Vary": "'Origin'",
-        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
-        "method.response.header.Access-Control-Allow-Credentials": "'true'"
-       },
-       "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
-       },
-       "StatusCode": "204"
-      }
-     ],
-     "RequestTemplates": {
-      "application/json": "{ statusCode: 200 }"
-     },
-     "Type": "MOCK"
-    },
-    "MethodResponses": [
-     {
-      "ResponseParameters": {
-       "method.response.header.Access-Control-Allow-Headers": true,
-       "method.response.header.Access-Control-Allow-Origin": true,
-       "method.response.header.Vary": true,
-       "method.response.header.Access-Control-Allow-Methods": true,
-       "method.response.header.Access-Control-Allow-Credentials": true
-      },
-      "StatusCode": "204"
-     }
-    ],
-    "ResourceId": {
-     "Ref": "ScaleMapApiauthregisterBB7044BD"
-    },
-    "RestApiId": {
-     "Ref": "ScaleMapApi2204383E"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/auth/register/OPTIONS/Resource"
-   }
-  },
   "ScaleMapApiauthregisterPOSTApiPermissionScaleMapProdScaleMapApi18A6D135POSTauthregister5C9D7C0B": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
@@ -4163,56 +4628,6 @@
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/auth/refresh/Resource"
    }
   },
-  "ScaleMapApiauthrefreshOPTIONSF8DE41B6": {
-   "Type": "AWS::ApiGateway::Method",
-   "Properties": {
-    "ApiKeyRequired": false,
-    "AuthorizationType": "NONE",
-    "HttpMethod": "OPTIONS",
-    "Integration": {
-     "IntegrationResponses": [
-      {
-       "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
-        "method.response.header.Access-Control-Allow-Origin": "'https://scalemap.ai'",
-        "method.response.header.Vary": "'Origin'",
-        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
-        "method.response.header.Access-Control-Allow-Credentials": "'true'"
-       },
-       "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
-       },
-       "StatusCode": "204"
-      }
-     ],
-     "RequestTemplates": {
-      "application/json": "{ statusCode: 200 }"
-     },
-     "Type": "MOCK"
-    },
-    "MethodResponses": [
-     {
-      "ResponseParameters": {
-       "method.response.header.Access-Control-Allow-Headers": true,
-       "method.response.header.Access-Control-Allow-Origin": true,
-       "method.response.header.Vary": true,
-       "method.response.header.Access-Control-Allow-Methods": true,
-       "method.response.header.Access-Control-Allow-Credentials": true
-      },
-      "StatusCode": "204"
-     }
-    ],
-    "ResourceId": {
-     "Ref": "ScaleMapApiauthrefresh503A46F4"
-    },
-    "RestApiId": {
-     "Ref": "ScaleMapApi2204383E"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/auth/refresh/OPTIONS/Resource"
-   }
-  },
   "ScaleMapApiauthrefreshPOSTApiPermissionScaleMapProdScaleMapApi18A6D135POSTauthrefresh06EB456F": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
@@ -4321,56 +4736,6 @@
    },
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/auth/verify-email/Resource"
-   }
-  },
-  "ScaleMapApiauthverifyemailOPTIONS1AD637B0": {
-   "Type": "AWS::ApiGateway::Method",
-   "Properties": {
-    "ApiKeyRequired": false,
-    "AuthorizationType": "NONE",
-    "HttpMethod": "OPTIONS",
-    "Integration": {
-     "IntegrationResponses": [
-      {
-       "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
-        "method.response.header.Access-Control-Allow-Origin": "'https://scalemap.ai'",
-        "method.response.header.Vary": "'Origin'",
-        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
-        "method.response.header.Access-Control-Allow-Credentials": "'true'"
-       },
-       "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
-       },
-       "StatusCode": "204"
-      }
-     ],
-     "RequestTemplates": {
-      "application/json": "{ statusCode: 200 }"
-     },
-     "Type": "MOCK"
-    },
-    "MethodResponses": [
-     {
-      "ResponseParameters": {
-       "method.response.header.Access-Control-Allow-Headers": true,
-       "method.response.header.Access-Control-Allow-Origin": true,
-       "method.response.header.Vary": true,
-       "method.response.header.Access-Control-Allow-Methods": true,
-       "method.response.header.Access-Control-Allow-Credentials": true
-      },
-      "StatusCode": "204"
-     }
-    ],
-    "ResourceId": {
-     "Ref": "ScaleMapApiauthverifyemail0AE6483F"
-    },
-    "RestApiId": {
-     "Ref": "ScaleMapApi2204383E"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/auth/verify-email/OPTIONS/Resource"
    }
   },
   "ScaleMapApiauthverifyemailGETApiPermissionScaleMapProdScaleMapApi18A6D135GETauthverifyemailDF6F2AB2": {
@@ -4486,56 +4851,6 @@
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/company/Resource"
    }
   },
-  "ScaleMapApicompanyOPTIONS38C4F9CB": {
-   "Type": "AWS::ApiGateway::Method",
-   "Properties": {
-    "ApiKeyRequired": false,
-    "AuthorizationType": "NONE",
-    "HttpMethod": "OPTIONS",
-    "Integration": {
-     "IntegrationResponses": [
-      {
-       "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
-        "method.response.header.Access-Control-Allow-Origin": "'https://scalemap.ai'",
-        "method.response.header.Vary": "'Origin'",
-        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
-        "method.response.header.Access-Control-Allow-Credentials": "'true'"
-       },
-       "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
-       },
-       "StatusCode": "204"
-      }
-     ],
-     "RequestTemplates": {
-      "application/json": "{ statusCode: 200 }"
-     },
-     "Type": "MOCK"
-    },
-    "MethodResponses": [
-     {
-      "ResponseParameters": {
-       "method.response.header.Access-Control-Allow-Headers": true,
-       "method.response.header.Access-Control-Allow-Origin": true,
-       "method.response.header.Vary": true,
-       "method.response.header.Access-Control-Allow-Methods": true,
-       "method.response.header.Access-Control-Allow-Credentials": true
-      },
-      "StatusCode": "204"
-     }
-    ],
-    "ResourceId": {
-     "Ref": "ScaleMapApicompanyE86C5AA2"
-    },
-    "RestApiId": {
-     "Ref": "ScaleMapApi2204383E"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/company/OPTIONS/Resource"
-   }
-  },
   "ScaleMapApicompanyPOSTApiPermissionScaleMapProdScaleMapApi18A6D135POSTcompany7E91196C": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
@@ -4647,56 +4962,6 @@
    },
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/company/{id}/Resource"
-   }
-  },
-  "ScaleMapApicompanyidOPTIONS4A46373C": {
-   "Type": "AWS::ApiGateway::Method",
-   "Properties": {
-    "ApiKeyRequired": false,
-    "AuthorizationType": "NONE",
-    "HttpMethod": "OPTIONS",
-    "Integration": {
-     "IntegrationResponses": [
-      {
-       "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
-        "method.response.header.Access-Control-Allow-Origin": "'https://scalemap.ai'",
-        "method.response.header.Vary": "'Origin'",
-        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
-        "method.response.header.Access-Control-Allow-Credentials": "'true'"
-       },
-       "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
-       },
-       "StatusCode": "204"
-      }
-     ],
-     "RequestTemplates": {
-      "application/json": "{ statusCode: 200 }"
-     },
-     "Type": "MOCK"
-    },
-    "MethodResponses": [
-     {
-      "ResponseParameters": {
-       "method.response.header.Access-Control-Allow-Headers": true,
-       "method.response.header.Access-Control-Allow-Origin": true,
-       "method.response.header.Vary": true,
-       "method.response.header.Access-Control-Allow-Methods": true,
-       "method.response.header.Access-Control-Allow-Credentials": true
-      },
-      "StatusCode": "204"
-     }
-    ],
-    "ResourceId": {
-     "Ref": "ScaleMapApicompanyid26EF5C04"
-    },
-    "RestApiId": {
-     "Ref": "ScaleMapApi2204383E"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/company/{id}/OPTIONS/Resource"
    }
   },
   "ScaleMapApicompanyidGETApiPermissionScaleMapProdScaleMapApi18A6D135GETcompanyid81D63147": {
@@ -4813,56 +5078,6 @@
    },
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/assessments/Resource"
-   }
-  },
-  "ScaleMapApiassessmentsOPTIONSF0586F4E": {
-   "Type": "AWS::ApiGateway::Method",
-   "Properties": {
-    "ApiKeyRequired": false,
-    "AuthorizationType": "NONE",
-    "HttpMethod": "OPTIONS",
-    "Integration": {
-     "IntegrationResponses": [
-      {
-       "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
-        "method.response.header.Access-Control-Allow-Origin": "'https://scalemap.ai'",
-        "method.response.header.Vary": "'Origin'",
-        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
-        "method.response.header.Access-Control-Allow-Credentials": "'true'"
-       },
-       "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
-       },
-       "StatusCode": "204"
-      }
-     ],
-     "RequestTemplates": {
-      "application/json": "{ statusCode: 200 }"
-     },
-     "Type": "MOCK"
-    },
-    "MethodResponses": [
-     {
-      "ResponseParameters": {
-       "method.response.header.Access-Control-Allow-Headers": true,
-       "method.response.header.Access-Control-Allow-Origin": true,
-       "method.response.header.Vary": true,
-       "method.response.header.Access-Control-Allow-Methods": true,
-       "method.response.header.Access-Control-Allow-Credentials": true
-      },
-      "StatusCode": "204"
-     }
-    ],
-    "ResourceId": {
-     "Ref": "ScaleMapApiassessmentsCBAE5DB3"
-    },
-    "RestApiId": {
-     "Ref": "ScaleMapApi2204383E"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/assessments/OPTIONS/Resource"
    }
   },
   "ScaleMapApiassessmentsPOSTApiPermissionScaleMapProdScaleMapApi18A6D135POSTassessments1550BD8F": {
@@ -5076,56 +5291,6 @@
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/assessments/responses/Resource"
    }
   },
-  "ScaleMapApiassessmentsresponsesOPTIONSF483EBD7": {
-   "Type": "AWS::ApiGateway::Method",
-   "Properties": {
-    "ApiKeyRequired": false,
-    "AuthorizationType": "NONE",
-    "HttpMethod": "OPTIONS",
-    "Integration": {
-     "IntegrationResponses": [
-      {
-       "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
-        "method.response.header.Access-Control-Allow-Origin": "'https://scalemap.ai'",
-        "method.response.header.Vary": "'Origin'",
-        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
-        "method.response.header.Access-Control-Allow-Credentials": "'true'"
-       },
-       "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
-       },
-       "StatusCode": "204"
-      }
-     ],
-     "RequestTemplates": {
-      "application/json": "{ statusCode: 200 }"
-     },
-     "Type": "MOCK"
-    },
-    "MethodResponses": [
-     {
-      "ResponseParameters": {
-       "method.response.header.Access-Control-Allow-Headers": true,
-       "method.response.header.Access-Control-Allow-Origin": true,
-       "method.response.header.Vary": true,
-       "method.response.header.Access-Control-Allow-Methods": true,
-       "method.response.header.Access-Control-Allow-Credentials": true
-      },
-      "StatusCode": "204"
-     }
-    ],
-    "ResourceId": {
-     "Ref": "ScaleMapApiassessmentsresponses32212C8B"
-    },
-    "RestApiId": {
-     "Ref": "ScaleMapApi2204383E"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/assessments/responses/OPTIONS/Resource"
-   }
-  },
   "ScaleMapApiassessmentsresponsesPUTApiPermissionScaleMapProdScaleMapApi18A6D135PUTassessmentsresponses32DD6FF5": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
@@ -5224,6 +5389,330 @@
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/assessments/responses/PUT/Resource"
    }
   },
+  "ScaleMapApiassessmentsidE0ED92E3": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "ScaleMapApiassessmentsCBAE5DB3"
+    },
+    "PathPart": "{id}",
+    "RestApiId": {
+     "Ref": "ScaleMapApi2204383E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/assessments/{id}/Resource"
+   }
+  },
+  "ScaleMapApiassessmentsidGETApiPermissionScaleMapProdScaleMapApi18A6D135GETassessmentsidE919847D": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "GetAssessmentFunction53DE8AFB",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:eu-west-1:884337373956:",
+       {
+        "Ref": "ScaleMapApi2204383E"
+       },
+       "/",
+       {
+        "Ref": "ScaleMapApiDeploymentStageprodF4DD3120"
+       },
+       "/GET/assessments/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/assessments/{id}/GET/ApiPermission.ScaleMapProdScaleMapApi18A6D135.GET..assessments.{id}"
+   }
+  },
+  "ScaleMapApiassessmentsidGETApiPermissionTestScaleMapProdScaleMapApi18A6D135GETassessmentsidBD022E08": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "GetAssessmentFunction53DE8AFB",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:eu-west-1:884337373956:",
+       {
+        "Ref": "ScaleMapApi2204383E"
+       },
+       "/test-invoke-stage/GET/assessments/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/assessments/{id}/GET/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.GET..assessments.{id}"
+   }
+  },
+  "ScaleMapApiassessmentsidGETFBC9BB73": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "CUSTOM",
+    "AuthorizerId": {
+     "Ref": "JwtAuthorizer08CECD9F"
+    },
+    "HttpMethod": "GET",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "GetAssessmentFunction53DE8AFB",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ScaleMapApiassessmentsidE0ED92E3"
+    },
+    "RestApiId": {
+     "Ref": "ScaleMapApi2204383E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/assessments/{id}/GET/Resource"
+   }
+  },
+  "ScaleMapApiassessmentsidPATCHApiPermissionScaleMapProdScaleMapApi18A6D135PATCHassessmentsid5BD2A929": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "UpdateAssessmentFunctionA3148056",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:eu-west-1:884337373956:",
+       {
+        "Ref": "ScaleMapApi2204383E"
+       },
+       "/",
+       {
+        "Ref": "ScaleMapApiDeploymentStageprodF4DD3120"
+       },
+       "/PATCH/assessments/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/assessments/{id}/PATCH/ApiPermission.ScaleMapProdScaleMapApi18A6D135.PATCH..assessments.{id}"
+   }
+  },
+  "ScaleMapApiassessmentsidPATCHApiPermissionTestScaleMapProdScaleMapApi18A6D135PATCHassessmentsid924A80CF": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "UpdateAssessmentFunctionA3148056",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:eu-west-1:884337373956:",
+       {
+        "Ref": "ScaleMapApi2204383E"
+       },
+       "/test-invoke-stage/PATCH/assessments/*"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/assessments/{id}/PATCH/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.PATCH..assessments.{id}"
+   }
+  },
+  "ScaleMapApiassessmentsidPATCHB67B265B": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "CUSTOM",
+    "AuthorizerId": {
+     "Ref": "JwtAuthorizer08CECD9F"
+    },
+    "HttpMethod": "PATCH",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "UpdateAssessmentFunctionA3148056",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ScaleMapApiassessmentsidE0ED92E3"
+    },
+    "RestApiId": {
+     "Ref": "ScaleMapApi2204383E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/assessments/{id}/PATCH/Resource"
+   }
+  },
+  "ScaleMapApiassessmentsidstartDBCB7CDF": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "ScaleMapApiassessmentsidE0ED92E3"
+    },
+    "PathPart": "start",
+    "RestApiId": {
+     "Ref": "ScaleMapApi2204383E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/assessments/{id}/start/Resource"
+   }
+  },
+  "ScaleMapApiassessmentsidstartPOSTApiPermissionScaleMapProdScaleMapApi18A6D135POSTassessmentsidstart1BA298F5": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "StartAssessmentFunctionF90B719B",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:eu-west-1:884337373956:",
+       {
+        "Ref": "ScaleMapApi2204383E"
+       },
+       "/",
+       {
+        "Ref": "ScaleMapApiDeploymentStageprodF4DD3120"
+       },
+       "/POST/assessments/*/start"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/assessments/{id}/start/POST/ApiPermission.ScaleMapProdScaleMapApi18A6D135.POST..assessments.{id}.start"
+   }
+  },
+  "ScaleMapApiassessmentsidstartPOSTApiPermissionTestScaleMapProdScaleMapApi18A6D135POSTassessmentsidstart91F89C57": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "StartAssessmentFunctionF90B719B",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:eu-west-1:884337373956:",
+       {
+        "Ref": "ScaleMapApi2204383E"
+       },
+       "/test-invoke-stage/POST/assessments/*/start"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/assessments/{id}/start/POST/ApiPermission.Test.ScaleMapProdScaleMapApi18A6D135.POST..assessments.{id}.start"
+   }
+  },
+  "ScaleMapApiassessmentsidstartPOST60ABCB2A": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "CUSTOM",
+    "AuthorizerId": {
+     "Ref": "JwtAuthorizer08CECD9F"
+    },
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "StartAssessmentFunctionF90B719B",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "ScaleMapApiassessmentsidstartDBCB7CDF"
+    },
+    "RestApiId": {
+     "Ref": "ScaleMapApi2204383E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/assessments/{id}/start/POST/Resource"
+   }
+  },
   "ScaleMapApidocumentsF359908A": {
    "Type": "AWS::ApiGateway::Resource",
    "Properties": {
@@ -5242,56 +5731,6 @@
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/documents/Resource"
    }
   },
-  "ScaleMapApidocumentsOPTIONSA3A85304": {
-   "Type": "AWS::ApiGateway::Method",
-   "Properties": {
-    "ApiKeyRequired": false,
-    "AuthorizationType": "NONE",
-    "HttpMethod": "OPTIONS",
-    "Integration": {
-     "IntegrationResponses": [
-      {
-       "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
-        "method.response.header.Access-Control-Allow-Origin": "'https://scalemap.ai'",
-        "method.response.header.Vary": "'Origin'",
-        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
-        "method.response.header.Access-Control-Allow-Credentials": "'true'"
-       },
-       "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
-       },
-       "StatusCode": "204"
-      }
-     ],
-     "RequestTemplates": {
-      "application/json": "{ statusCode: 200 }"
-     },
-     "Type": "MOCK"
-    },
-    "MethodResponses": [
-     {
-      "ResponseParameters": {
-       "method.response.header.Access-Control-Allow-Headers": true,
-       "method.response.header.Access-Control-Allow-Origin": true,
-       "method.response.header.Vary": true,
-       "method.response.header.Access-Control-Allow-Methods": true,
-       "method.response.header.Access-Control-Allow-Credentials": true
-      },
-      "StatusCode": "204"
-     }
-    ],
-    "ResourceId": {
-     "Ref": "ScaleMapApidocumentsF359908A"
-    },
-    "RestApiId": {
-     "Ref": "ScaleMapApi2204383E"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/documents/OPTIONS/Resource"
-   }
-  },
   "ScaleMapApidocumentsupload9463C0ED": {
    "Type": "AWS::ApiGateway::Resource",
    "Properties": {
@@ -5305,56 +5744,6 @@
    },
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/documents/upload/Resource"
-   }
-  },
-  "ScaleMapApidocumentsuploadOPTIONS2F20AF31": {
-   "Type": "AWS::ApiGateway::Method",
-   "Properties": {
-    "ApiKeyRequired": false,
-    "AuthorizationType": "NONE",
-    "HttpMethod": "OPTIONS",
-    "Integration": {
-     "IntegrationResponses": [
-      {
-       "ResponseParameters": {
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
-        "method.response.header.Access-Control-Allow-Origin": "'https://scalemap.ai'",
-        "method.response.header.Vary": "'Origin'",
-        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'",
-        "method.response.header.Access-Control-Allow-Credentials": "'true'"
-       },
-       "ResponseTemplates": {
-        "application/json": "#set($origin = $input.params().header.get(\"Origin\"))\n#if($origin == \"\")\n  #set($origin = $input.params().header.get(\"origin\"))\n#end\n#if($origin == \"https://www.scalemap.ai\" || $origin == \"https://app.scalemap.ai\" || $origin == \"https://web-5jgiv2tsg-scale-map.vercel.app\" || $origin == \"https://web-qtq3fyntv-scale-map.vercel.app\" || $origin == \"https://web-2o7w6lzvk-scale-map.vercel.app\")\n  #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin)\n#end"
-       },
-       "StatusCode": "204"
-      }
-     ],
-     "RequestTemplates": {
-      "application/json": "{ statusCode: 200 }"
-     },
-     "Type": "MOCK"
-    },
-    "MethodResponses": [
-     {
-      "ResponseParameters": {
-       "method.response.header.Access-Control-Allow-Headers": true,
-       "method.response.header.Access-Control-Allow-Origin": true,
-       "method.response.header.Vary": true,
-       "method.response.header.Access-Control-Allow-Methods": true,
-       "method.response.header.Access-Control-Allow-Credentials": true
-      },
-      "StatusCode": "204"
-     }
-    ],
-    "ResourceId": {
-     "Ref": "ScaleMapApidocumentsupload9463C0ED"
-    },
-    "RestApiId": {
-     "Ref": "ScaleMapApi2204383E"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/documents/upload/OPTIONS/Resource"
    }
   },
   "ScaleMapApidocumentsuploadPOSTApiPermissionScaleMapProdScaleMapApi18A6D135POSTdocumentsupload118C9F81": {
@@ -5459,7 +5848,7 @@
    "Type": "AWS::ApiGateway::GatewayResponse",
    "Properties": {
     "ResponseParameters": {
-     "gatewayresponse.header.Access-Control-Allow-Origin": "'${request.header.Origin}'",
+     "gatewayresponse.header.Access-Control-Allow-Origin": "'*'",
      "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
      "gatewayresponse.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
      "gatewayresponse.header.Access-Control-Allow-Credentials": "'true'"
@@ -5477,7 +5866,7 @@
    "Type": "AWS::ApiGateway::GatewayResponse",
    "Properties": {
     "ResponseParameters": {
-     "gatewayresponse.header.Access-Control-Allow-Origin": "'${request.header.Origin}'",
+     "gatewayresponse.header.Access-Control-Allow-Origin": "'*'",
      "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
      "gatewayresponse.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
      "gatewayresponse.header.Access-Control-Allow-Credentials": "'true'"
@@ -5565,7 +5954,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22QT0/DMAzFPwv3zGyFC8duCC78Gd3uk5t6XdY0KXVCNaJ+d5R0ExPi9H62k+cnZ5At7mF+gwPPZNXMtCohbBzKRuDAu1CdDLa2KiFssdQkVnuTYBR8B2HpZUMuNs80yRKZRqGxLSuEsNqbNfWtYlbWxLdP3kinrBkFfzKED08+GSe4/NsZW9GR4S3J5YtQ2EIo7JQk6dpqJU+xnCgm2yEzOYY8itC2ZnixdUGOTHLBTtXoaMAThK1tyOTeHWyvvqmPRldVQezyTqVtv5hLab1x4pE6bU8tmXSDq2rjsE4RJyiIre8lxcOIV3IHW8XhmS7T85KJn6d8BXFnDafZn9YopLa+GtDJA4RcY9+mbBHG8X/XdJCYSZk6Dt6967wbRTw2HPn2K8tg8QDzmyMrNeu9caolKCb9AamPU7EsAgAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22QT0/DMAzFP8vumdkKF47dEFz4M7rdpzT1uqxtXOqEqkT97ijpBhPi9H52nOcnJ5As72Axkz3PVVHNa52D31qpKiF73vtiMLKhIge/k3mNYn0wEUbBt+BXTlVoQ/NMk6wk4yhq2eSFBL8+mA12jWbWZMLsozPKajKj4A8G/+7QReMIl397QwWeGF6jXL4ILRvwGU1Jom6o1moI5UQh2V4yo2VIg4iaSoZnKjO0aKKLbHUpLfZyAL+jCk3q7JE6/YVdMLqqMmSbtjpu+8VUKXLGigdsaxoaNPEGV9XWyjJGnCBDJtcpDIf5Kc6eE7+gPVIRWmd6mvJlyC0ZjsN/WqNQNbmil1Ydwae17JqYLcA4/r8mHiRk0qYMD2/Ots6OIhwbTnzzmSSwvIfF7MRazztnrG4Qskm/ATQIIdosAgAA"
    },
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/CDKMetadata/Default"

@@ -1,8 +1,8 @@
-import { SessionManager } from '../session-manager';
-import { auditLogger } from '../audit-logger';
-import { db } from '../database';
 import { logger } from '../../utils/logger';
 import { Monitoring } from '../../utils/monitoring';
+import { auditLogger } from '../audit-logger';
+import { db } from '../database';
+import { SessionManager } from '../session-manager';
 
 // Mock dependencies
 jest.mock('../audit-logger');
