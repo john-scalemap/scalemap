@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 
 import { Button } from '@/components/ui/Button';
-import { DomainName, AssessmentProgress, DomainProgress } from '@/types';
+import { DomainName, AssessmentProgress } from '@/types';
 
 interface QuestionNavigationProps {
   currentDomain: DomainName;
@@ -13,6 +13,8 @@ interface QuestionNavigationProps {
   canProceed?: boolean;
   isAutoSaving?: boolean;
   lastSaved?: string;
+  isSaving?: boolean;
+  saveError?: string | null;
   className?: string;
 }
 
@@ -28,7 +30,7 @@ const DOMAIN_ORDER: DomainName[] = [
   'risk-compliance',
   'partnerships',
   'customer-success',
-  'change-management'
+  'change-management',
 ];
 
 const DOMAIN_LABELS: Record<DomainName, string> = {
@@ -41,9 +43,9 @@ const DOMAIN_LABELS: Record<DomainName, string> = {
   'customer-experience': 'Customer Experience',
   'supply-chain': 'Supply Chain',
   'risk-compliance': 'Risk & Compliance',
-  'partnerships': 'Partnerships',
+  partnerships: 'Partnerships',
   'customer-success': 'Customer Success',
-  'change-management': 'Change Management'
+  'change-management': 'Change Management',
 };
 
 export const QuestionNavigation: React.FC<QuestionNavigationProps> = ({
@@ -54,7 +56,9 @@ export const QuestionNavigation: React.FC<QuestionNavigationProps> = ({
   canProceed = true,
   isAutoSaving = false,
   lastSaved,
-  className = ''
+  isSaving = false,
+  saveError,
+  className = '',
 }) => {
   const [showAllDomains, setShowAllDomains] = useState(false);
 
@@ -79,10 +83,15 @@ export const QuestionNavigation: React.FC<QuestionNavigationProps> = ({
     if (!currentDomainProgress) return false;
     const requiredCompletion = Math.ceil(currentDomainProgress.requiredQuestions * 0.6); // 60% of required questions
 
-    return domainIndex === currentDomainIndex + 1 && currentDomainProgress.completed >= requiredCompletion;
+    return (
+      domainIndex === currentDomainIndex + 1 &&
+      currentDomainProgress.completed >= requiredCompletion
+    );
   };
 
-  const getDomainAccessibilityInfo = (domain: DomainName): { accessible: boolean; reason?: string } => {
+  const getDomainAccessibilityInfo = (
+    domain: DomainName
+  ): { accessible: boolean; reason?: string } => {
     if (canAccessDomain(domain)) {
       return { accessible: true };
     }
@@ -93,7 +102,7 @@ export const QuestionNavigation: React.FC<QuestionNavigationProps> = ({
     if (domainIndex > currentDomainIndex + 1) {
       return {
         accessible: false,
-        reason: 'Complete previous domains first'
+        reason: 'Complete previous domains first',
       };
     }
 
@@ -105,7 +114,7 @@ export const QuestionNavigation: React.FC<QuestionNavigationProps> = ({
 
     return {
       accessible: false,
-      reason: `Complete ${requiredCompletion} required questions in ${DOMAIN_LABELS[currentDomain]} first`
+      reason: `Complete ${requiredCompletion} required questions in ${DOMAIN_LABELS[currentDomain]} first`,
     };
   };
 
@@ -155,7 +164,9 @@ export const QuestionNavigation: React.FC<QuestionNavigationProps> = ({
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-4">
             <div className="text-sm text-gray-600">
-              <span className="font-medium">Domain {currentIndex + 1} of {DOMAIN_ORDER.length}</span>
+              <span className="font-medium">
+                Domain {currentIndex + 1} of {DOMAIN_ORDER.length}
+              </span>
             </div>
             <div className="text-sm text-gray-600">
               <span className="font-medium">{progress.overall}% Complete</span>
@@ -176,7 +187,11 @@ export const QuestionNavigation: React.FC<QuestionNavigationProps> = ({
               ) : lastSaved ? (
                 <>
                   <svg className="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    <path
+                      fillRule="evenodd"
+                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                   <span>{formatLastSaved()}</span>
                 </>
@@ -185,9 +200,25 @@ export const QuestionNavigation: React.FC<QuestionNavigationProps> = ({
 
             {/* Save and Exit */}
             {onSaveAndExit && (
-              <Button variant="outline" onClick={onSaveAndExit} size="sm">
-                Save & Exit
-              </Button>
+              <div className="flex items-center space-x-2">
+                <Button
+                  variant="outline"
+                  onClick={onSaveAndExit}
+                  size="sm"
+                  disabled={isSaving}
+                  className={saveError ? 'border-red-300 text-red-600' : ''}
+                >
+                  {isSaving ? (
+                    <>
+                      <div className="animate-spin w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full mr-2" />
+                      Saving...
+                    </>
+                  ) : (
+                    'Save & Exit'
+                  )}
+                </Button>
+                {saveError && <div className="text-sm text-red-600 max-w-xs">{saveError}</div>}
+              </div>
             )}
           </div>
         </div>
@@ -203,7 +234,11 @@ export const QuestionNavigation: React.FC<QuestionNavigationProps> = ({
             className="flex-shrink-0"
           >
             <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+              <path
+                fillRule="evenodd"
+                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                clipRule="evenodd"
+              />
             </svg>
             Previous
           </Button>
@@ -233,11 +268,12 @@ export const QuestionNavigation: React.FC<QuestionNavigationProps> = ({
                   title={accessible ? DOMAIN_LABELS[domain] : reason}
                   className={`
                     relative px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 flex-shrink-0
-                    ${isActive
-                      ? 'bg-blue-600 text-white shadow-md'
-                      : accessible
-                      ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      : 'bg-gray-50 text-gray-400 cursor-not-allowed'
+                    ${
+                      isActive
+                        ? 'bg-blue-600 text-white shadow-md'
+                        : accessible
+                          ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          : 'bg-gray-50 text-gray-400 cursor-not-allowed'
                     }
                   `}
                 >
@@ -248,20 +284,28 @@ export const QuestionNavigation: React.FC<QuestionNavigationProps> = ({
                     <div
                       className={`
                         absolute -top-1 -right-1 w-3 h-3 rounded-full text-xs flex items-center justify-center
-                        ${domainProgress.status === 'completed'
-                          ? 'bg-green-500 text-white'
-                          : domainProgress.status === 'in-progress'
-                          ? 'bg-blue-500 text-white'
-                          : 'bg-gray-300 text-gray-600'
+                        ${
+                          domainProgress.status === 'completed'
+                            ? 'bg-green-500 text-white'
+                            : domainProgress.status === 'in-progress'
+                              ? 'bg-blue-500 text-white'
+                              : 'bg-gray-300 text-gray-600'
                         }
                       `}
                     >
                       {domainProgress.status === 'completed' ? (
                         <svg className="w-2 h-2" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
                         </svg>
                       ) : (
-                        <span>{Math.round((domainProgress.completed / domainProgress.total) * 100) || 0}%</span>
+                        <span>
+                          {Math.round((domainProgress.completed / domainProgress.total) * 100) || 0}
+                          %
+                        </span>
                       )}
                     </div>
                   )}
@@ -297,7 +341,11 @@ export const QuestionNavigation: React.FC<QuestionNavigationProps> = ({
           >
             Next
             <svg className="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+              <path
+                fillRule="evenodd"
+                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                clipRule="evenodd"
+              />
             </svg>
           </Button>
         </div>
@@ -307,16 +355,23 @@ export const QuestionNavigation: React.FC<QuestionNavigationProps> = ({
           <div className="flex justify-between text-xs text-gray-600 mb-1">
             <span>{DOMAIN_LABELS[currentDomain]}</span>
             <span>
-              {progress.domains?.[currentDomain]?.completed || 0} of {progress.domains?.[currentDomain]?.total || 0} questions
+              {progress.domains?.[currentDomain]?.completed || 0} of{' '}
+              {progress.domains?.[currentDomain]?.total || 0} questions
             </span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-1.5">
             <div
               className="bg-blue-600 h-1.5 rounded-full transition-all duration-300"
               style={{
-                width: `${(progress.domains?.[currentDomain]?.total || 0) > 0
-                  ? Math.round(((progress.domains?.[currentDomain]?.completed || 0) / (progress.domains?.[currentDomain]?.total || 1)) * 100)
-                  : 0}%`
+                width: `${
+                  (progress.domains?.[currentDomain]?.total || 0) > 0
+                    ? Math.round(
+                        ((progress.domains?.[currentDomain]?.completed || 0) /
+                          (progress.domains?.[currentDomain]?.total || 1)) *
+                          100
+                      )
+                    : 0
+                }%`,
               }}
             />
           </div>

@@ -29,16 +29,20 @@ export default function QuestionnairePage() {
     submitAssessment,
     canAccessDomain,
     isAutoSaveEnabled,
-    lastAutoSave
+    lastAutoSave,
   } = useAssessment({
     assessmentId,
-    autoSave: true
+    autoSave: true,
   });
 
   const [questionService] = useState(() => QuestionService.getInstance());
-  const [showProgress, setShowProgress] = useState(false);
-  const [currentView, setCurrentView] = useState<'questionnaire' | 'progress' | 'summary' | 'documents'>('questionnaire');
+  // const [showProgress, setShowProgress] = useState(false);
+  const [currentView, setCurrentView] = useState<
+    'questionnaire' | 'progress' | 'summary' | 'documents'
+  >('questionnaire');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
     questionService.loadQuestionDatabase();
@@ -58,7 +62,7 @@ export default function QuestionnairePage() {
     }
   };
 
-  const handleAnswerQuestion = async (questionId: string, value: any) => {
+  const handleAnswerQuestion = async (questionId: string, value: unknown) => {
     try {
       await answerQuestion(questionId, value);
     } catch (err) {
@@ -67,11 +71,24 @@ export default function QuestionnairePage() {
   };
 
   const handleSaveAndExit = async () => {
+    setIsSaving(true);
+    setSaveError(null);
+
     try {
       await saveAssessment();
+      // Small delay to show success state
+      await new Promise((resolve) => setTimeout(resolve, 500));
       router.push('/dashboard');
     } catch (err) {
       console.error('Failed to save assessment:', err);
+      const errorMessage =
+        err instanceof Error ? err.message : 'Failed to save assessment. Please try again.';
+      setSaveError(errorMessage);
+
+      // Auto-clear error after 5 seconds
+      setTimeout(() => setSaveError(null), 5000);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -100,7 +117,7 @@ export default function QuestionnairePage() {
       domain,
       progress: domainProgress,
       questions,
-      responses
+      responses,
     };
   };
 
@@ -109,17 +126,21 @@ export default function QuestionnairePage() {
       return { completedRequired: 0, totalRequired: 0 };
     }
 
-    const totalRequired = Object.values(progress.domains)
-      .reduce((sum, domain) => sum + domain.requiredQuestions, 0);
-    const completedRequired = Object.entries(assessment?.domainResponses || {})
-      .reduce((sum, [domainName, domainResponse]) => {
+    const totalRequired = Object.values(progress.domains).reduce(
+      (sum, domain) => sum + domain.requiredQuestions,
+      0
+    );
+    const completedRequired = Object.entries(assessment?.domainResponses || {}).reduce(
+      (sum, [domainName, domainResponse]) => {
         const domainProgress = progress.domains[domainName as DomainName];
         if (!domainProgress) return sum;
-        return sum + Math.min(
-          Object.keys(domainResponse.questions).length,
-          domainProgress.requiredQuestions
+        return (
+          sum +
+          Math.min(Object.keys(domainResponse.questions).length, domainProgress.requiredQuestions)
         );
-      }, 0);
+      },
+      0
+    );
 
     return { completedRequired, totalRequired };
   };
@@ -147,9 +168,7 @@ export default function QuestionnairePage() {
           <div className="text-red-500 text-6xl mb-4">⚠️</div>
           <h1 className="text-xl font-semibold text-gray-900 mb-2">Assessment Not Found</h1>
           <p className="text-gray-600 mb-4">{error || 'The assessment could not be loaded.'}</p>
-          <Button onClick={() => router.push('/dashboard')}>
-            Return to Dashboard
-          </Button>
+          <Button onClick={() => router.push('/dashboard')}>Return to Dashboard</Button>
         </div>
       </div>
     );
@@ -169,6 +188,8 @@ export default function QuestionnairePage() {
         canProceed={true}
         isAutoSaving={isLoading && isAutoSaveEnabled}
         lastSaved={lastAutoSave}
+        isSaving={isSaving}
+        saveError={saveError}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -244,7 +265,9 @@ export default function QuestionnairePage() {
                     handleDomainChange(previousDomain);
                   }
                 }}
-                canProceed={canAccessDomain(getNextDomain(currentDomainInfo.domain) || currentDomainInfo.domain)}
+                canProceed={canAccessDomain(
+                  getNextDomain(currentDomainInfo.domain) || currentDomainInfo.domain
+                )}
                 isLastDomain={currentDomainInfo.domain === 'change-management'}
               />
             </div>
@@ -262,7 +285,9 @@ export default function QuestionnairePage() {
                     </div>
                     <div className="flex justify-between">
                       <span>Required:</span>
-                      <span className="font-medium">{completedRequired}/{totalRequired}</span>
+                      <span className="font-medium">
+                        {completedRequired}/{totalRequired}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span>Time Left:</span>
@@ -285,7 +310,8 @@ export default function QuestionnairePage() {
                   <div className="bg-green-50 border border-green-200 rounded-lg p-4">
                     <h3 className="text-sm font-medium text-green-900 mb-2">Ready to Submit</h3>
                     <p className="text-sm text-green-700 mb-3">
-                      You've completed enough questions for analysis. Submit now or continue to improve accuracy.
+                      You&apos;ve completed enough questions for analysis. Submit now or continue to
+                      improve accuracy.
                     </p>
                     <Button
                       onClick={handleSubmitAssessment}
@@ -315,7 +341,8 @@ export default function QuestionnairePage() {
             <div className="mb-6">
               <h2 className="text-xl font-semibold text-gray-900 mb-2">Supporting Documents</h2>
               <p className="text-gray-600">
-                Upload documents to support your assessment responses. These documents help provide context and evidence for your answers across all domains.
+                Upload documents to support your assessment responses. These documents help provide
+                context and evidence for your answers across all domains.
               </p>
             </div>
             <DocumentManager
@@ -341,15 +368,21 @@ export default function QuestionnairePage() {
                   </div>
                   <div className="flex justify-between">
                     <span>Required Questions:</span>
-                    <span className="font-medium">{completedRequired} of {totalRequired}</span>
+                    <span className="font-medium">
+                      {completedRequired} of {totalRequired}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span>Quality Score:</span>
-                    <span className={`font-medium ${
-                      progress.completeness >= 85 ? 'text-green-600' :
-                      progress.completeness >= 70 ? 'text-yellow-600' :
-                      'text-red-600'
-                    }`}>
+                    <span
+                      className={`font-medium ${
+                        progress.completeness >= 85
+                          ? 'text-green-600'
+                          : progress.completeness >= 70
+                            ? 'text-yellow-600'
+                            : 'text-red-600'
+                      }`}
+                    >
                       {progress.completeness}%
                     </span>
                   </div>
@@ -359,13 +392,27 @@ export default function QuestionnairePage() {
               <div>
                 <h3 className="text-lg font-medium text-gray-900 mb-2">Assessment Details</h3>
                 <div className="space-y-2 text-sm">
-                  <div><span className="font-medium">Title:</span> {assessment.title}</div>
-                  <div><span className="font-medium">Created:</span> {new Date(assessment.createdAt).toLocaleDateString()}</div>
-                  <div><span className="font-medium">Last Updated:</span> {new Date(assessment.updatedAt).toLocaleDateString()}</div>
+                  <div>
+                    <span className="font-medium">Title:</span> {assessment.title}
+                  </div>
+                  <div>
+                    <span className="font-medium">Created:</span>{' '}
+                    {new Date(assessment.createdAt).toLocaleDateString()}
+                  </div>
+                  <div>
+                    <span className="font-medium">Last Updated:</span>{' '}
+                    {new Date(assessment.updatedAt).toLocaleDateString()}
+                  </div>
                   {assessment.industryClassification && (
                     <>
-                      <div><span className="font-medium">Sector:</span> {assessment.industryClassification.sector}</div>
-                      <div><span className="font-medium">Stage:</span> {assessment.industryClassification.companyStage}</div>
+                      <div>
+                        <span className="font-medium">Sector:</span>{' '}
+                        {assessment.industryClassification.sector}
+                      </div>
+                      <div>
+                        <span className="font-medium">Stage:</span>{' '}
+                        {assessment.industryClassification.companyStage}
+                      </div>
                     </>
                   )}
                 </div>
@@ -377,20 +424,19 @@ export default function QuestionnairePage() {
                 <div>
                   {canSubmit() ? (
                     <div className="text-green-600">
-                      <span className="font-medium">✓ Ready to submit</span> - You have sufficient responses for analysis
+                      <span className="font-medium">✓ Ready to submit</span> - You have sufficient
+                      responses for analysis
                     </div>
                   ) : (
                     <div className="text-yellow-600">
-                      <span className="font-medium">⏳ In progress</span> - Complete more required questions to submit
+                      <span className="font-medium">⏳ In progress</span> - Complete more required
+                      questions to submit
                     </div>
                   )}
                 </div>
 
                 <div className="flex space-x-3">
-                  <Button
-                    variant="outline"
-                    onClick={() => setCurrentView('questionnaire')}
-                  >
+                  <Button variant="outline" onClick={() => setCurrentView('questionnaire')}>
                     Continue Assessment
                   </Button>
                   {canSubmit() && (
@@ -423,31 +469,46 @@ const DOMAIN_TITLES: Record<DomainName, string> = {
   'customer-experience': 'Customer Experience & Product Development',
   'supply-chain': 'Supply Chain & Operations',
   'risk-compliance': 'Risk Management & Compliance',
-  'partnerships': 'External Partnerships & Ecosystem',
+  partnerships: 'External Partnerships & Ecosystem',
   'customer-success': 'Customer Success & Growth',
-  'change-management': 'Change Management & Implementation'
+  'change-management': 'Change Management & Implementation',
 };
 
 const DOMAIN_DESCRIPTIONS: Record<DomainName, string> = {
-  'strategic-alignment': 'Assess how well your organization aligns strategy across all levels and adapts to market changes.',
-  'financial-management': 'Evaluate financial planning, cash flow management, and capital efficiency practices.',
+  'strategic-alignment':
+    'Assess how well your organization aligns strategy across all levels and adapts to market changes.',
+  'financial-management':
+    'Evaluate financial planning, cash flow management, and capital efficiency practices.',
   'revenue-engine': 'Analyze sales processes, customer acquisition, and revenue growth systems.',
   'operational-excellence': 'Review process management, efficiency, and scalability of operations.',
-  'people-organization': 'Examine talent management, culture, and organizational development capabilities.',
+  'people-organization':
+    'Examine talent management, culture, and organizational development capabilities.',
   'technology-data': 'Assess technology infrastructure, data management, and digital capabilities.',
-  'customer-experience': 'Evaluate customer satisfaction, product development, and experience optimization.',
-  'supply-chain': 'Review supply chain efficiency, vendor relationships, and operational resilience.',
+  'customer-experience':
+    'Evaluate customer satisfaction, product development, and experience optimization.',
+  'supply-chain':
+    'Review supply chain efficiency, vendor relationships, and operational resilience.',
   'risk-compliance': 'Analyze risk management practices and regulatory compliance capabilities.',
-  'partnerships': 'Assess strategic partnerships, ecosystem integration, and external relationships.',
-  'customer-success': 'Evaluate customer lifecycle management, retention, and expansion strategies.',
-  'change-management': 'Review organizational change capabilities and implementation effectiveness.'
+  partnerships: 'Assess strategic partnerships, ecosystem integration, and external relationships.',
+  'customer-success':
+    'Evaluate customer lifecycle management, retention, and expansion strategies.',
+  'change-management':
+    'Review organizational change capabilities and implementation effectiveness.',
 };
 
 const DOMAIN_ORDER: DomainName[] = [
-  'strategic-alignment', 'financial-management', 'revenue-engine',
-  'operational-excellence', 'people-organization', 'technology-data',
-  'customer-experience', 'supply-chain', 'risk-compliance',
-  'partnerships', 'customer-success', 'change-management'
+  'strategic-alignment',
+  'financial-management',
+  'revenue-engine',
+  'operational-excellence',
+  'people-organization',
+  'technology-data',
+  'customer-experience',
+  'supply-chain',
+  'risk-compliance',
+  'partnerships',
+  'customer-success',
+  'change-management',
 ];
 
 function getDomainTitle(domain: DomainName): string {
@@ -460,10 +521,10 @@ function getDomainDescription(domain: DomainName): string {
 
 function getNextDomain(current: DomainName): DomainName | null {
   const currentIndex = DOMAIN_ORDER.indexOf(current);
-  return currentIndex < DOMAIN_ORDER.length - 1 ? DOMAIN_ORDER[currentIndex + 1] ?? null : null;
+  return currentIndex < DOMAIN_ORDER.length - 1 ? (DOMAIN_ORDER[currentIndex + 1] ?? null) : null;
 }
 
 function getPreviousDomain(current: DomainName): DomainName | null {
   const currentIndex = DOMAIN_ORDER.indexOf(current);
-  return currentIndex > 0 ? DOMAIN_ORDER[currentIndex - 1] ?? null : null;
+  return currentIndex > 0 ? (DOMAIN_ORDER[currentIndex - 1] ?? null) : null;
 }

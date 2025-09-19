@@ -59,7 +59,7 @@ export class TimelineManager {
     maxTotalExtensions: 3,
     requiresApprovalThreshold: 6 * 60 * 60 * 1000, // 6 hours
     autoResumeOnResolution: true,
-    notificationEscalationHours: 2
+    notificationEscalationHours: 2,
   };
 
   constructor() {
@@ -76,7 +76,9 @@ export class TimelineManager {
     criticalGaps: AssessmentGap[],
     pausedBy: 'system' | 'agent' = 'system'
   ): Promise<TimelinePauseEvent> {
-    console.log(`Pausing timeline for assessment ${assessmentId} due to ${criticalGaps.length} critical gaps`);
+    console.log(
+      `Pausing timeline for assessment ${assessmentId} due to ${criticalGaps.length} critical gaps`
+    );
 
     const assessment = await this.getAssessment(assessmentId);
     if (!assessment) {
@@ -94,10 +96,10 @@ export class TimelineManager {
       pauseReason: 'critical-gaps',
       pausedAt: new Date().toISOString(),
       pausedBy,
-      affectedGaps: criticalGaps.map(gap => gap.gapId),
+      affectedGaps: criticalGaps.map((gap) => gap.gapId),
       estimatedResolutionTime,
       nextStepsDescription: nextSteps,
-      resumeBy: new Date(Date.now() + estimatedResolutionTime * 60 * 1000).toISOString()
+      resumeBy: new Date(Date.now() + estimatedResolutionTime * 60 * 1000).toISOString(),
     };
 
     // Store pause event
@@ -109,7 +111,9 @@ export class TimelineManager {
     // Send notifications
     await this.sendTimelinePauseNotifications(assessment, pauseEvent, criticalGaps);
 
-    console.log(`Timeline paused for assessment ${assessmentId}. Estimated resolution: ${estimatedResolutionTime} minutes`);
+    console.log(
+      `Timeline paused for assessment ${assessmentId}. Estimated resolution: ${estimatedResolutionTime} minutes`
+    );
 
     return pauseEvent;
   }
@@ -122,7 +126,9 @@ export class TimelineManager {
     resolvedGapIds: string[],
     resumedBy: 'system' | 'founder' | 'agent' = 'system'
   ): Promise<boolean> {
-    console.log(`Attempting to resume timeline for assessment ${assessmentId} after resolving ${resolvedGapIds.length} gaps`);
+    console.log(
+      `Attempting to resume timeline for assessment ${assessmentId} after resolving ${resolvedGapIds.length} gaps`
+    );
 
     const pauseEvent = await this.getActivePauseEvent(assessmentId);
     if (!pauseEvent) {
@@ -131,7 +137,9 @@ export class TimelineManager {
     }
 
     // Check if all critical gaps are resolved
-    const unresolvedCriticalGaps = pauseEvent.affectedGaps.filter(gapId => !resolvedGapIds.includes(gapId));
+    const unresolvedCriticalGaps = pauseEvent.affectedGaps.filter(
+      (gapId) => !resolvedGapIds.includes(gapId)
+    );
 
     if (unresolvedCriticalGaps.length > 0) {
       console.log(`Cannot resume: ${unresolvedCriticalGaps.length} critical gaps still unresolved`);
@@ -187,18 +195,24 @@ export class TimelineManager {
       originalDeadlines: {
         executive24h: assessment.deliverySchedule.executive24h,
         detailed48h: assessment.deliverySchedule.detailed48h,
-        implementation72h: assessment.deliverySchedule.implementation72h
+        implementation72h: assessment.deliverySchedule.implementation72h,
       },
       newDeadlines: {
-        executive24h: new Date(new Date(assessment.deliverySchedule.executive24h).getTime() + durationMs).toISOString(),
-        detailed48h: new Date(new Date(assessment.deliverySchedule.detailed48h).getTime() + durationMs).toISOString(),
-        implementation72h: new Date(new Date(assessment.deliverySchedule.implementation72h).getTime() + durationMs).toISOString()
+        executive24h: new Date(
+          new Date(assessment.deliverySchedule.executive24h).getTime() + durationMs
+        ).toISOString(),
+        detailed48h: new Date(
+          new Date(assessment.deliverySchedule.detailed48h).getTime() + durationMs
+        ).toISOString(),
+        implementation72h: new Date(
+          new Date(assessment.deliverySchedule.implementation72h).getTime() + durationMs
+        ).toISOString(),
       },
       extensionDuration: durationMs,
       requestedBy,
       requestedAt: new Date().toISOString(),
       justification,
-      affectedStakeholders: [assessment.contactEmail]
+      affectedStakeholders: [assessment.contactEmail],
     };
 
     // Auto-approve if under threshold, otherwise require manual approval
@@ -243,7 +257,7 @@ export class TimelineManager {
     const remainingTime = {
       executive24h: new Date(assessment.deliverySchedule.executive24h).getTime() - now,
       detailed48h: new Date(assessment.deliverySchedule.detailed48h).getTime() - now,
-      implementation72h: new Date(assessment.deliverySchedule.implementation72h).getTime() - now
+      implementation72h: new Date(assessment.deliverySchedule.implementation72h).getTime() - now,
     };
 
     let status: 'on-track' | 'paused' | 'extended' | 'at-risk' | 'overdue' = 'on-track';
@@ -253,10 +267,15 @@ export class TimelineManager {
       status = 'paused';
     } else if (extensions.length > 0) {
       status = 'extended';
-    } else if (remainingTime.executive24h < 0 || remainingTime.detailed48h < 0 || remainingTime.implementation72h < 0) {
+    } else if (
+      remainingTime.executive24h < 0 ||
+      remainingTime.detailed48h < 0 ||
+      remainingTime.implementation72h < 0
+    ) {
       status = 'overdue';
       riskFactors.push('Timeline deadline exceeded');
-    } else if (remainingTime.executive24h < 4 * 60 * 60 * 1000) { // 4 hours
+    } else if (remainingTime.executive24h < 4 * 60 * 60 * 1000) {
+      // 4 hours
       status = 'at-risk';
       riskFactors.push('Approaching 24h deadline');
     }
@@ -275,7 +294,7 @@ export class TimelineManager {
       pauseEvent: pauseEvent || undefined,
       extensions,
       remainingTime,
-      riskFactors
+      riskFactors,
     };
   }
 
@@ -287,8 +306,8 @@ export class TimelineManager {
         TableName: this.tableName,
         Key: marshall({
           PK: `ASSESSMENT#${assessmentId}`,
-          SK: 'METADATA'
-        })
+          SK: 'METADATA',
+        }),
       };
 
       const result = await this.dynamoDb.send(new GetItemCommand(params));
@@ -304,7 +323,7 @@ export class TimelineManager {
     }
   }
 
-  private async validateTimelinePause(assessment: Assessment, reason: string): Promise<void> {
+  private async validateTimelinePause(assessment: Assessment, _reason: string): Promise<void> {
     // Check if already paused
     const existingPause = await this.getActivePauseEvent(assessment.id);
     if (existingPause) {
@@ -313,7 +332,12 @@ export class TimelineManager {
 
     // Check clarification policy limits
     const now = Date.now();
-    const clarificationDeadline = new Date(assessment.deliverySchedule[assessment.clarificationPolicy.allowClarificationUntil as keyof typeof assessment.deliverySchedule]).getTime();
+    const clarificationDeadline = new Date(
+      assessment.deliverySchedule[
+        assessment.clarificationPolicy
+          .allowClarificationUntil as keyof typeof assessment.deliverySchedule
+      ]
+    ).getTime();
 
     if (now > clarificationDeadline) {
       throw new Error('Clarification period has expired');
@@ -331,9 +355,10 @@ export class TimelineManager {
     extensionType: string,
     durationMs: number
   ): Promise<void> {
-    const maxDuration = extensionType === 'gap-resolution'
-      ? this.businessRules.maxCriticalGapExtension
-      : this.businessRules.maxClarificationExtension;
+    const maxDuration =
+      extensionType === 'gap-resolution'
+        ? this.businessRules.maxCriticalGapExtension
+        : this.businessRules.maxClarificationExtension;
 
     if (durationMs > maxDuration) {
       throw new Error(`Extension duration exceeds maximum allowed for ${extensionType}`);
@@ -350,7 +375,7 @@ export class TimelineManager {
     return criticalGaps.reduce((total, gap) => {
       const baseTime = gap.estimatedResolutionTime || 20; // minutes
       const complexityMultiplier = gap.category === 'critical' ? 1.5 : 1.0;
-      return total + (baseTime * complexityMultiplier);
+      return total + baseTime * complexityMultiplier;
     }, 0);
   }
 
@@ -361,7 +386,7 @@ export class TimelineManager {
       `Review ${criticalGaps.length} critical gap(s) identified in your assessment`,
       'Provide additional information through the gap resolution interface',
       'Address the most critical items first (marked with high priority)',
-      'Contact support if you need clarification on any requirements'
+      'Contact support if you need clarification on any requirements',
     ];
 
     return steps.join('. ') + '.';
@@ -380,7 +405,10 @@ export class TimelineManager {
     }
   }
 
-  private async calculateTimelineExtension(assessmentId: string, pauseDurationMs: number): Promise<TimelineExtension | null> {
+  private async calculateTimelineExtension(
+    assessmentId: string,
+    pauseDurationMs: number
+  ): Promise<TimelineExtension | null> {
     // Only extend if pause was longer than 1 hour
     if (pauseDurationMs < 60 * 60 * 1000) {
       return null;
@@ -397,48 +425,40 @@ export class TimelineManager {
 
   // Database operations
   private async storePauseEvent(pauseEvent: TimelinePauseEvent): Promise<void> {
-    const params = {
-      TableName: this.tableName,
-      Item: marshall({
-        PK: `ASSESSMENT#${pauseEvent.assessmentId}`,
-        SK: `PAUSE#${pauseEvent.pausedAt}`,
-        GSI1PK: 'TIMELINE_PAUSE',
-        GSI1SK: pauseEvent.pausedAt,
-        ...pauseEvent,
-        active: true
-      })
-    };
+    // Note: Using UpdateItem for pause event storage
 
-    await this.dynamoDb.send(new UpdateItemCommand({
-      TableName: this.tableName,
-      Key: marshall({
-        PK: `ASSESSMENT#${pauseEvent.assessmentId}`,
-        SK: `PAUSE#${pauseEvent.pausedAt}`
-      }),
-      UpdateExpression: 'SET #data = :data',
-      ExpressionAttributeNames: {
-        '#data': 'data'
-      },
-      ExpressionAttributeValues: marshall({
-        ':data': pauseEvent
+    await this.dynamoDb.send(
+      new UpdateItemCommand({
+        TableName: this.tableName,
+        Key: marshall({
+          PK: `ASSESSMENT#${pauseEvent.assessmentId}`,
+          SK: `PAUSE#${pauseEvent.pausedAt}`,
+        }),
+        UpdateExpression: 'SET #data = :data',
+        ExpressionAttributeNames: {
+          '#data': 'data',
+        },
+        ExpressionAttributeValues: marshall({
+          ':data': pauseEvent,
+        }),
       })
-    }));
+    );
   }
 
-  private async getActivePauseEvent(assessmentId: string): Promise<TimelinePauseEvent | null> {
+  private async getActivePauseEvent(_assessmentId: string): Promise<TimelinePauseEvent | null> {
     // This would query for active pause events - simplified for now
     return null;
   }
 
-  private async completePauseEvent(assessmentId: string, resumedBy: string): Promise<void> {
+  private async completePauseEvent(_assessmentId: string, _resumedBy: string): Promise<void> {
     // Mark pause event as completed
   }
 
-  private async storeExtensionRequest(extension: TimelineExtension): Promise<void> {
+  private async storeExtensionRequest(_extension: TimelineExtension): Promise<void> {
     // Store extension request in database
   }
 
-  private async getExtensions(assessmentId: string): Promise<TimelineExtension[]> {
+  private async getExtensions(_assessmentId: string): Promise<TimelineExtension[]> {
     // Get all extensions for assessment
     return [];
   }
@@ -449,12 +469,12 @@ export class TimelineManager {
       TableName: this.tableName,
       Key: marshall({
         PK: `ASSESSMENT#${extension.assessmentId}`,
-        SK: 'METADATA'
+        SK: 'METADATA',
       }),
       UpdateExpression: 'SET deliverySchedule = :schedule',
       ExpressionAttributeValues: marshall({
-        ':schedule': extension.newDeadlines
-      })
+        ':schedule': extension.newDeadlines,
+      }),
     };
 
     await this.dynamoDb.send(new UpdateItemCommand(params));
@@ -465,16 +485,16 @@ export class TimelineManager {
       TableName: this.tableName,
       Key: marshall({
         PK: `ASSESSMENT#${assessmentId}`,
-        SK: 'METADATA'
+        SK: 'METADATA',
       }),
       UpdateExpression: 'SET #status = :status, updatedAt = :updatedAt',
       ExpressionAttributeNames: {
-        '#status': 'status'
+        '#status': 'status',
       },
       ExpressionAttributeValues: marshall({
         ':status': status,
-        ':updatedAt': new Date().toISOString()
-      })
+        ':updatedAt': new Date().toISOString(),
+      }),
     };
 
     await this.dynamoDb.send(new UpdateItemCommand(params));
