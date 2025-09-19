@@ -441,6 +441,38 @@ export class ScaleMapStack extends cdk.Stack {
       new apigateway.LambdaIntegration(listAssessmentsFunction),
       protectedMethodOptions
     );
+    // Add OPTIONS method for CORS preflight
+    assessmentResource.addMethod(
+      'OPTIONS',
+      new apigateway.MockIntegration({
+        integrationResponses: [
+          {
+            statusCode: '200',
+            responseParameters: {
+              'method.response.header.Access-Control-Allow-Origin': "'*'",
+              'method.response.header.Access-Control-Allow-Headers': "'Content-Type,Authorization'",
+              'method.response.header.Access-Control-Allow-Methods': "'GET,POST,OPTIONS'",
+            },
+          },
+        ],
+        passthroughBehavior: apigateway.PassthroughBehavior.NEVER,
+        requestTemplates: {
+          'application/json': '{"statusCode": 200}',
+        },
+      }),
+      {
+        methodResponses: [
+          {
+            statusCode: '200',
+            responseParameters: {
+              'method.response.header.Access-Control-Allow-Origin': true,
+              'method.response.header.Access-Control-Allow-Headers': true,
+              'method.response.header.Access-Control-Allow-Methods': true,
+            },
+          },
+        ],
+      }
+    );
     assessmentResource
       .addResource('responses')
       .addMethod(
