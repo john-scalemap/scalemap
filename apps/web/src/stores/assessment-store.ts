@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 
-import { assessmentService } from '@/lib/api';
+import { assessmentService } from '@/lib/api/assessments';
 import { QuestionService } from '@/services/question-service';
 import {
   Assessment,
@@ -11,7 +11,7 @@ import {
   AssessmentProgress,
   DomainProgress,
   IndustryClassification,
-  AssessmentValidation
+  AssessmentValidation,
 } from '@/types';
 
 interface AssessmentState {
@@ -34,7 +34,11 @@ interface AssessmentState {
 interface AssessmentActions {
   setCurrentAssessment: (assessment: Assessment) => void;
   updateDomainResponses: (domain: DomainName, responses: Partial<DomainResponse>) => void;
-  updateQuestionResponse: (domain: DomainName, questionId: string, response: QuestionResponse) => void;
+  updateQuestionResponse: (
+    domain: DomainName,
+    questionId: string,
+    response: QuestionResponse
+  ) => void;
   setCurrentDomain: (domain: DomainName) => void;
   setCurrentQuestion: (questionId: string) => void;
   updateProgress: (progress: Partial<AssessmentProgress>) => void;
@@ -117,21 +121,93 @@ function calculateDynamicDomainTotal(
 const initialProgressState: AssessmentProgress = {
   overall: 0,
   domains: {
-    'strategic-alignment': { completed: 0, total: 7, status: 'not-started', requiredQuestions: 6, optionalQuestions: 1 },
-    'financial-management': { completed: 0, total: 9, status: 'not-started', requiredQuestions: 7, optionalQuestions: 2 },
-    'revenue-engine': { completed: 0, total: 9, status: 'not-started', requiredQuestions: 7, optionalQuestions: 2 },
-    'operational-excellence': { completed: 0, total: 8, status: 'not-started', requiredQuestions: 7, optionalQuestions: 1 },
-    'people-organization': { completed: 0, total: 9, status: 'not-started', requiredQuestions: 7, optionalQuestions: 2 },
-    'technology-data': { completed: 0, total: 8, status: 'not-started', requiredQuestions: 7, optionalQuestions: 1 },
-    'customer-experience': { completed: 0, total: 8, status: 'not-started', requiredQuestions: 7, optionalQuestions: 1 },
-    'supply-chain': { completed: 0, total: 6, status: 'not-started', requiredQuestions: 4, optionalQuestions: 2 },
-    'risk-compliance': { completed: 0, total: 8, status: 'not-started', requiredQuestions: 6, optionalQuestions: 2 },
-    'partnerships': { completed: 0, total: 7, status: 'not-started', requiredQuestions: 6, optionalQuestions: 1 },
-    'customer-success': { completed: 0, total: 8, status: 'not-started', requiredQuestions: 6, optionalQuestions: 2 },
-    'change-management': { completed: 0, total: 8, status: 'not-started', requiredQuestions: 7, optionalQuestions: 1 }
+    'strategic-alignment': {
+      completed: 0,
+      total: 7,
+      status: 'not-started',
+      requiredQuestions: 6,
+      optionalQuestions: 1,
+    },
+    'financial-management': {
+      completed: 0,
+      total: 9,
+      status: 'not-started',
+      requiredQuestions: 7,
+      optionalQuestions: 2,
+    },
+    'revenue-engine': {
+      completed: 0,
+      total: 9,
+      status: 'not-started',
+      requiredQuestions: 7,
+      optionalQuestions: 2,
+    },
+    'operational-excellence': {
+      completed: 0,
+      total: 8,
+      status: 'not-started',
+      requiredQuestions: 7,
+      optionalQuestions: 1,
+    },
+    'people-organization': {
+      completed: 0,
+      total: 9,
+      status: 'not-started',
+      requiredQuestions: 7,
+      optionalQuestions: 2,
+    },
+    'technology-data': {
+      completed: 0,
+      total: 8,
+      status: 'not-started',
+      requiredQuestions: 7,
+      optionalQuestions: 1,
+    },
+    'customer-experience': {
+      completed: 0,
+      total: 8,
+      status: 'not-started',
+      requiredQuestions: 7,
+      optionalQuestions: 1,
+    },
+    'supply-chain': {
+      completed: 0,
+      total: 6,
+      status: 'not-started',
+      requiredQuestions: 4,
+      optionalQuestions: 2,
+    },
+    'risk-compliance': {
+      completed: 0,
+      total: 8,
+      status: 'not-started',
+      requiredQuestions: 6,
+      optionalQuestions: 2,
+    },
+    partnerships: {
+      completed: 0,
+      total: 7,
+      status: 'not-started',
+      requiredQuestions: 6,
+      optionalQuestions: 1,
+    },
+    'customer-success': {
+      completed: 0,
+      total: 8,
+      status: 'not-started',
+      requiredQuestions: 6,
+      optionalQuestions: 2,
+    },
+    'change-management': {
+      completed: 0,
+      total: 8,
+      status: 'not-started',
+      requiredQuestions: 7,
+      optionalQuestions: 1,
+    },
   },
   completeness: 0,
-  estimatedTimeRemaining: '45-60 minutes'
+  estimatedTimeRemaining: '45-60 minutes',
 };
 
 export const useAssessmentStore = create<AssessmentStore>()(
@@ -144,7 +220,7 @@ export const useAssessmentStore = create<AssessmentStore>()(
           canProceed: false,
           validationErrors: {},
           isLoading: false,
-          autoSaveEnabled: true
+          autoSaveEnabled: true,
         },
         progressState: initialProgressState,
 
@@ -154,7 +230,7 @@ export const useAssessmentStore = create<AssessmentStore>()(
               // Initialize domains with dynamic totals
               const updatedDomains = { ...state.progressState.domains };
 
-              Object.keys(updatedDomains).forEach(domainKey => {
+              Object.keys(updatedDomains).forEach((domainKey) => {
                 const domainName = domainKey as DomainName;
                 const domainResponse = assessment.domainResponses?.[domainName];
 
@@ -162,7 +238,9 @@ export const useAssessmentStore = create<AssessmentStore>()(
                 const baseProgress = updatedDomains[domainName];
 
                 // Calculate completed count
-                const completedCount = domainResponse ? Object.keys(domainResponse.questions).length : 0;
+                const completedCount = domainResponse
+                  ? Object.keys(domainResponse.questions).length
+                  : 0;
 
                 // Calculate dynamic total
                 const dynamicTotal = calculateDynamicDomainTotal(
@@ -178,9 +256,12 @@ export const useAssessmentStore = create<AssessmentStore>()(
                   total: dynamicTotal,
                   completed: completedCount,
                   // Update status based on new counts
-                  status: completedCount === 0 ? 'not-started' as const :
-                          completedCount >= baseProgress.requiredQuestions ? 'completed' as const :
-                          'in-progress' as const
+                  status:
+                    completedCount === 0
+                      ? ('not-started' as const)
+                      : completedCount >= baseProgress.requiredQuestions
+                        ? ('completed' as const)
+                        : ('in-progress' as const),
                 };
               });
 
@@ -191,15 +272,26 @@ export const useAssessmentStore = create<AssessmentStore>()(
                   // Don't override our calculated domains with potentially stale assessment progress
                   domains: updatedDomains,
                   // Recalculate overall progress based on our updated domains
-                  overall: Object.values(updatedDomains).reduce((sum, dp) => sum + dp.completed, 0) > 0
-                    ? Math.round((Object.values(updatedDomains).reduce((sum, dp) => sum + dp.completed, 0) / Object.values(updatedDomains).reduce((sum, dp) => sum + dp.total, 0)) * 100)
-                    : 0
+                  overall:
+                    Object.values(updatedDomains).reduce((sum, dp) => sum + dp.completed, 0) > 0
+                      ? Math.round(
+                          (Object.values(updatedDomains).reduce(
+                            (sum, dp) => sum + dp.completed,
+                            0
+                          ) /
+                            Object.values(updatedDomains).reduce((sum, dp) => sum + dp.total, 0)) *
+                            100
+                        )
+                      : 0,
                 },
                 industryClassification: assessment.industryClassification,
                 workflowState: {
                   ...state.workflowState,
-                  currentStep: Object.values(updatedDomains).reduce((sum, dp) => sum + dp.completed, 0) === 0 ? 'company-context' : 'questionnaire'
-                }
+                  currentStep:
+                    Object.values(updatedDomains).reduce((sum, dp) => sum + dp.completed, 0) === 0
+                      ? 'company-context'
+                      : 'questionnaire',
+                },
               };
             },
             false,
@@ -217,16 +309,16 @@ export const useAssessmentStore = create<AssessmentStore>()(
                 [domain]: {
                   ...state.currentAssessment.domainResponses[domain],
                   ...responses,
-                  lastUpdated: new Date().toISOString()
-                }
+                  lastUpdated: new Date().toISOString(),
+                },
               };
 
               return {
                 currentAssessment: {
                   ...state.currentAssessment,
                   domainResponses: updatedDomainResponses,
-                  updatedAt: new Date().toISOString()
-                }
+                  updatedAt: new Date().toISOString(),
+                },
               };
             },
             false,
@@ -248,12 +340,12 @@ export const useAssessmentStore = create<AssessmentStore>()(
                 domain,
                 questions: {},
                 completeness: 0,
-                lastUpdated: new Date().toISOString()
+                lastUpdated: new Date().toISOString(),
               };
 
               const updatedQuestions = {
                 ...domainResponse.questions,
-                [questionId]: response
+                [questionId]: response,
               };
 
               const completedCount = Object.keys(updatedQuestions).length;
@@ -264,7 +356,7 @@ export const useAssessmentStore = create<AssessmentStore>()(
                 ...domainResponse,
                 questions: updatedQuestions,
                 completeness,
-                lastUpdated: new Date().toISOString()
+                lastUpdated: new Date().toISOString(),
               };
 
               return {
@@ -272,10 +364,10 @@ export const useAssessmentStore = create<AssessmentStore>()(
                   ...state.currentAssessment,
                   domainResponses: {
                     ...state.currentAssessment.domainResponses,
-                    [domain]: updatedDomainResponse
+                    [domain]: updatedDomainResponse,
                   },
-                  updatedAt: new Date().toISOString()
-                }
+                  updatedAt: new Date().toISOString(),
+                },
               };
             },
             false,
@@ -297,8 +389,8 @@ export const useAssessmentStore = create<AssessmentStore>()(
               workflowState: {
                 ...state.workflowState,
                 currentDomain: domain,
-                currentStep: 'questionnaire'
-              }
+                currentStep: 'questionnaire',
+              },
             }),
             false,
             'setCurrentDomain'
@@ -310,8 +402,8 @@ export const useAssessmentStore = create<AssessmentStore>()(
             (state) => ({
               workflowState: {
                 ...state.workflowState,
-                currentQuestion: questionId
-              }
+                currentQuestion: questionId,
+              },
             }),
             false,
             'setCurrentQuestion'
@@ -323,8 +415,8 @@ export const useAssessmentStore = create<AssessmentStore>()(
             (state) => ({
               progressState: {
                 ...state.progressState,
-                ...progress
-              }
+                ...progress,
+              },
             }),
             false,
             'updateProgress'
@@ -338,7 +430,9 @@ export const useAssessmentStore = create<AssessmentStore>()(
               if (!currentDomainProgress) return state;
 
               const domainResponse = state.currentAssessment?.domainResponses[domain];
-              const completedCount = domainResponse ? Object.keys(domainResponse.questions).length : 0;
+              const completedCount = domainResponse
+                ? Object.keys(domainResponse.questions).length
+                : 0;
 
               // Calculate dynamic total including follow-ups and conditional questions
               const dynamicTotal = calculateDynamicDomainTotal(
@@ -349,8 +443,13 @@ export const useAssessmentStore = create<AssessmentStore>()(
               );
 
               // Check if there are pending conditional questions that need answering
-              const hasPendingConditionals = state.currentAssessment ?
-                checkForPendingConditionals(domain, state.currentAssessment.domainResponses[domain], state.industryClassification) : false;
+              const hasPendingConditionals = state.currentAssessment
+                ? checkForPendingConditionals(
+                    domain,
+                    state.currentAssessment.domainResponses[domain],
+                    state.industryClassification
+                  )
+                : false;
 
               // Domain is only complete if required questions are answered AND no pending conditionals
               const hasMinimumRequired = completedCount >= currentDomainProgress.requiredQuestions;
@@ -361,20 +460,30 @@ export const useAssessmentStore = create<AssessmentStore>()(
                 ...progress,
                 completed: completedCount,
                 total: dynamicTotal, // Use dynamic total instead of static
-                status: completedCount === 0 ? 'not-started' as const :
-                        isComplete ? 'completed' as const :
-                        'in-progress' as const
+                status:
+                  completedCount === 0
+                    ? ('not-started' as const)
+                    : isComplete
+                      ? ('completed' as const)
+                      : ('in-progress' as const),
               };
 
               const updatedDomains = {
                 ...state.progressState.domains,
-                [domain]: updatedDomainProgress
+                [domain]: updatedDomainProgress,
               };
 
               // Calculate overall progress using updated dynamic totals
-              const totalCompleted = Object.values(updatedDomains).reduce((sum, dp) => sum + dp.completed, 0);
-              const totalQuestions = Object.values(updatedDomains).reduce((sum, dp) => sum + dp.total, 0);
-              const overallProgress = totalQuestions > 0 ? Math.round((totalCompleted / totalQuestions) * 100) : 0;
+              const totalCompleted = Object.values(updatedDomains).reduce(
+                (sum, dp) => sum + dp.completed,
+                0
+              );
+              const totalQuestions = Object.values(updatedDomains).reduce(
+                (sum, dp) => sum + dp.total,
+                0
+              );
+              const overallProgress =
+                totalQuestions > 0 ? Math.round((totalCompleted / totalQuestions) * 100) : 0;
 
               return {
                 progressState: {
@@ -382,8 +491,8 @@ export const useAssessmentStore = create<AssessmentStore>()(
                   domains: updatedDomains,
                   overall: overallProgress,
                   completeness: get().calculateCompleteness(),
-                  estimatedTimeRemaining: get().getEstimatedTimeRemaining()
-                }
+                  estimatedTimeRemaining: get().getEstimatedTimeRemaining(),
+                },
               };
             },
             false,
@@ -395,11 +504,13 @@ export const useAssessmentStore = create<AssessmentStore>()(
           set(
             (state) => ({
               industryClassification: classification,
-              currentAssessment: state.currentAssessment ? {
-                ...state.currentAssessment,
-                industryClassification: classification,
-                updatedAt: new Date().toISOString()
-              } : null
+              currentAssessment: state.currentAssessment
+                ? {
+                    ...state.currentAssessment,
+                    industryClassification: classification,
+                    updatedAt: new Date().toISOString(),
+                  }
+                : null,
             }),
             false,
             'setIndustryClassification'
@@ -415,8 +526,8 @@ export const useAssessmentStore = create<AssessmentStore>()(
             (state) => ({
               workflowState: {
                 ...state.workflowState,
-                isLoading: loading
-              }
+                isLoading: loading,
+              },
             }),
             false,
             'setLoading'
@@ -429,8 +540,8 @@ export const useAssessmentStore = create<AssessmentStore>()(
               workflowState: {
                 ...state.workflowState,
                 validationErrors: errors,
-                canProceed: Object.keys(errors).length === 0
-              }
+                canProceed: Object.keys(errors).length === 0,
+              },
             }),
             false,
             'setValidationErrors'
@@ -440,13 +551,14 @@ export const useAssessmentStore = create<AssessmentStore>()(
         clearValidationError: (field) => {
           set(
             (state) => {
-              const { [field]: _removed, ...remainingErrors } = state.workflowState.validationErrors;
+              const { [field]: removed, ...remainingErrors } = state.workflowState.validationErrors;
+              void removed; // Mark as used
               return {
                 workflowState: {
                   ...state.workflowState,
                   validationErrors: remainingErrors,
-                  canProceed: Object.keys(remainingErrors).length === 0
-                }
+                  canProceed: Object.keys(remainingErrors).length === 0,
+                },
               };
             },
             false,
@@ -464,8 +576,8 @@ export const useAssessmentStore = create<AssessmentStore>()(
               (state) => ({
                 workflowState: {
                   ...state.workflowState,
-                  lastAutoSave: new Date().toISOString()
-                }
+                  lastAutoSave: new Date().toISOString(),
+                },
               }),
               false,
               'autoSave'
@@ -480,8 +592,8 @@ export const useAssessmentStore = create<AssessmentStore>()(
             (state) => ({
               workflowState: {
                 ...state.workflowState,
-                autoSaveEnabled: true
-              }
+                autoSaveEnabled: true,
+              },
             }),
             false,
             'enableAutoSave'
@@ -493,8 +605,8 @@ export const useAssessmentStore = create<AssessmentStore>()(
             (state) => ({
               workflowState: {
                 ...state.workflowState,
-                autoSaveEnabled: false
-              }
+                autoSaveEnabled: false,
+              },
             }),
             false,
             'disableAutoSave'
@@ -505,36 +617,47 @@ export const useAssessmentStore = create<AssessmentStore>()(
           const state = get();
           if (!state.currentAssessment || !state.progressState.domains) return 0;
 
-          const totalRequiredQuestions = Object.values(state.progressState.domains)
-            .reduce((sum, domain) => sum + domain.requiredQuestions, 0);
+          const totalRequiredQuestions = Object.values(state.progressState.domains).reduce(
+            (sum, domain) => sum + domain.requiredQuestions,
+            0
+          );
 
-          const completedRequiredQuestions = Object.entries(state.currentAssessment.domainResponses)
-            .reduce((sum, [domainName, domainResponse]) => {
-              const domainProgress = state.progressState.domains[domainName as DomainName];
-              const completedInDomain = Math.min(
-                Object.keys(domainResponse.questions).length,
-                domainProgress.requiredQuestions
-              );
-              return sum + completedInDomain;
-            }, 0);
+          const completedRequiredQuestions = Object.entries(
+            state.currentAssessment.domainResponses
+          ).reduce((sum, [domainName, domainResponse]) => {
+            const domainProgress = state.progressState.domains[domainName as DomainName];
+            const completedInDomain = Math.min(
+              Object.keys(domainResponse.questions).length,
+              domainProgress.requiredQuestions
+            );
+            return sum + completedInDomain;
+          }, 0);
 
-          return totalRequiredQuestions > 0 ?
-            Math.round((completedRequiredQuestions / totalRequiredQuestions) * 100) : 0;
+          return totalRequiredQuestions > 0
+            ? Math.round((completedRequiredQuestions / totalRequiredQuestions) * 100)
+            : 0;
         },
 
         canProgressToDomain: (domain) => {
           const state = get();
-          const _domainProgress = state.progressState.domains[domain];
 
           // Can always access strategic alignment first
           if (domain === 'strategic-alignment') return true;
 
           // For other domains, check if previous domains meet minimum requirements
           const domainOrder: DomainName[] = [
-            'strategic-alignment', 'financial-management', 'revenue-engine',
-            'operational-excellence', 'people-organization', 'technology-data',
-            'customer-experience', 'supply-chain', 'risk-compliance',
-            'partnerships', 'customer-success', 'change-management'
+            'strategic-alignment',
+            'financial-management',
+            'revenue-engine',
+            'operational-excellence',
+            'people-organization',
+            'technology-data',
+            'customer-experience',
+            'supply-chain',
+            'risk-compliance',
+            'partnerships',
+            'customer-success',
+            'change-management',
           ];
 
           const currentIndex = domainOrder.indexOf(domain);
@@ -542,7 +665,7 @@ export const useAssessmentStore = create<AssessmentStore>()(
 
           // Check if at least 50% of previous domains are adequately completed
           const previousDomains = domainOrder.slice(0, currentIndex);
-          const adequatelyCompleted = previousDomains.filter(d => {
+          const adequatelyCompleted = previousDomains.filter((d) => {
             const progress = state.progressState.domains[d];
             return progress.completed >= Math.ceil(progress.requiredQuestions * 0.7);
           });
@@ -554,10 +677,14 @@ export const useAssessmentStore = create<AssessmentStore>()(
           const state = get();
           if (!state.progressState.domains) return '45-60 minutes';
 
-          const totalQuestions = Object.values(state.progressState.domains)
-            .reduce((sum, domain) => sum + domain.total, 0);
-          const completedQuestions = Object.values(state.progressState.domains)
-            .reduce((sum, domain) => sum + domain.completed, 0);
+          const totalQuestions = Object.values(state.progressState.domains).reduce(
+            (sum, domain) => sum + domain.total,
+            0
+          );
+          const completedQuestions = Object.values(state.progressState.domains).reduce(
+            (sum, domain) => sum + domain.completed,
+            0
+          );
 
           const remainingQuestions = totalQuestions - completedQuestions;
           const estimatedMinutes = Math.ceil(remainingQuestions * 0.75); // ~45 seconds per question
@@ -578,11 +705,11 @@ export const useAssessmentStore = create<AssessmentStore>()(
                 canProceed: false,
                 validationErrors: {},
                 isLoading: false,
-                autoSaveEnabled: true
+                autoSaveEnabled: true,
               },
               progressState: initialProgressState,
               industryClassification: undefined,
-              validation: undefined
+              validation: undefined,
             },
             false,
             'resetAssessment'
@@ -594,8 +721,8 @@ export const useAssessmentStore = create<AssessmentStore>()(
             (state) => ({
               workflowState: {
                 ...state.workflowState,
-                isLoading: true
-              }
+                isLoading: true,
+              },
             }),
             false,
             'createAssessment'
@@ -604,15 +731,17 @@ export const useAssessmentStore = create<AssessmentStore>()(
           try {
             const response = await assessmentService.createAssessment({
               title,
-              description,
-              companyId: companyId || 'default-company-id' // Should be from auth store
+              description: description || '',
+              companyName: 'Default Company', // TODO: Get from auth context
+              contactEmail: 'user@example.com', // TODO: Get from auth context
+              companyId: companyId || 'default-company-id', // Should be from auth store
             });
 
             if (!response.success) {
               throw new Error(response.error?.message || 'Failed to create assessment');
             }
 
-            get().setCurrentAssessment(response.data!);
+            get().setCurrentAssessment(response.data);
           } catch (error) {
             console.error('Failed to create assessment:', error);
             throw error;
@@ -621,8 +750,8 @@ export const useAssessmentStore = create<AssessmentStore>()(
               (state) => ({
                 workflowState: {
                   ...state.workflowState,
-                  isLoading: false
-                }
+                  isLoading: false,
+                },
               }),
               false,
               'createAssessment'
@@ -635,8 +764,8 @@ export const useAssessmentStore = create<AssessmentStore>()(
             (state) => ({
               workflowState: {
                 ...state.workflowState,
-                isLoading: true
-              }
+                isLoading: true,
+              },
             }),
             false,
             'loadAssessment'
@@ -649,7 +778,7 @@ export const useAssessmentStore = create<AssessmentStore>()(
               throw new Error(response.error?.message || 'Failed to load assessment');
             }
 
-            get().setCurrentAssessment(response.data!);
+            get().setCurrentAssessment(response.data);
           } catch (error) {
             console.error('Failed to load assessment:', error);
             throw error;
@@ -658,8 +787,8 @@ export const useAssessmentStore = create<AssessmentStore>()(
               (state) => ({
                 workflowState: {
                   ...state.workflowState,
-                  isLoading: false
-                }
+                  isLoading: false,
+                },
               }),
               false,
               'loadAssessment'
@@ -675,7 +804,7 @@ export const useAssessmentStore = create<AssessmentStore>()(
             domainResponses: state.currentAssessment.domainResponses,
             progress: state.progressState,
             industryClassification: state.industryClassification,
-            assessmentContext: state.currentAssessment.assessmentContext
+            assessmentContext: state.currentAssessment.assessmentContext,
           };
 
           const response = await assessmentService.updateAssessment(
@@ -696,8 +825,8 @@ export const useAssessmentStore = create<AssessmentStore>()(
             (state) => ({
               workflowState: {
                 ...state.workflowState,
-                isLoading: true
-              }
+                isLoading: true,
+              },
             }),
             false,
             'submitAssessment'
@@ -714,7 +843,7 @@ export const useAssessmentStore = create<AssessmentStore>()(
               throw new Error(response.error?.message || 'Failed to submit assessment');
             }
 
-            get().setCurrentAssessment(response.data!);
+            get().setCurrentAssessment(response.data);
           } catch (error) {
             console.error('Failed to submit assessment:', error);
             throw error;
@@ -723,14 +852,14 @@ export const useAssessmentStore = create<AssessmentStore>()(
               (state) => ({
                 workflowState: {
                   ...state.workflowState,
-                  isLoading: false
-                }
+                  isLoading: false,
+                },
               }),
               false,
               'submitAssessment'
             );
           }
-        }
+        },
       }),
       {
         name: 'assessment-store',
@@ -742,9 +871,9 @@ export const useAssessmentStore = create<AssessmentStore>()(
             currentStep: state.workflowState.currentStep,
             currentDomain: state.workflowState.currentDomain,
             currentQuestion: state.workflowState.currentQuestion,
-            autoSaveEnabled: state.workflowState.autoSaveEnabled
-          }
-        })
+            autoSaveEnabled: state.workflowState.autoSaveEnabled,
+          },
+        }),
       }
     ),
     { name: 'assessment-store' }
