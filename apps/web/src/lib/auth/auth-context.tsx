@@ -23,13 +23,14 @@ const JwtUtils = {
 };
 import { TokenManager } from './token-manager';
 
-// Helper function to read user from both storage types
+// Helper function to read user from both storage types (only in browser)
 function getStoredUser(): string | null {
+  if (typeof window === 'undefined') return null; // SSR protection
   try {
     const fromSession = sessionStorage.getItem('user');
     if (fromSession) return fromSession;
     // Fallback to localStorage when Remember Me was used
-    return typeof localStorage !== 'undefined' ? localStorage.getItem('user') : null;
+    return localStorage.getItem('user');
   } catch {
     return null;
   }
@@ -72,8 +73,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       const accessToken = TokenManager.getAccessToken();
       console.log('AuthContext: Loading user data, token present:', !!accessToken);
-      console.log('AuthContext: sessionStorage keys:', Object.keys(sessionStorage));
-      console.log('AuthContext: localStorage keys:', Object.keys(localStorage));
+
+      // Only log storage keys in browser environment
+      if (typeof window !== 'undefined') {
+        console.log('AuthContext: sessionStorage keys:', Object.keys(sessionStorage || {}));
+        console.log('AuthContext: localStorage keys:', Object.keys(localStorage || {}));
+      }
 
       if (!accessToken) {
         console.log('AuthContext: No access token found');
@@ -263,13 +268,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
     await loadUserAndCompanyData();
   };
 
+  // CRITICAL FIX: Only run authentication loading on client side (not during SSR)
   useEffect(() => {
-    console.log('🚀 AuthProvider: useEffect mounting, calling loadUserAndCompanyData');
-    try {
-      loadUserAndCompanyData();
-    } catch (error) {
-      console.error('🚨 AuthProvider: Critical error in useEffect:', error);
-    }
+    console.log('🚀 AuthProvider: Client-side auth loading');
+    loadUserAndCompanyData().catch((error) => {
+      console.error('🚨 AuthProvider: Client auth load failed:', error);
+      setIsLoading(false);
+    });
   }, []);
 
   const isAuthenticated = !!user && !!company && !isLoading;
