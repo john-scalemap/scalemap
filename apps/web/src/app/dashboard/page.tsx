@@ -70,29 +70,52 @@ export default function DashboardPage() {
   // Load assessments when user is available
   useEffect(() => {
     if (isAuthenticated && user && !isLoading) {
+      console.log('🎯 Dashboard: Loading assessments - auth ready');
       loadDraftAssessments();
+    } else {
+      console.log('🎯 Dashboard: Auth not ready yet:', {
+        isAuthenticated,
+        hasUser: !!user,
+        isLoading,
+      });
     }
   }, [isAuthenticated, user, isLoading, loadDraftAssessments]); // Include loadDraftAssessments for proper dependency tracking
 
-  // Fallback: Load assessments after a short delay if not loaded yet
+  // Fallback: Load assessments after delays if not loaded yet
   // This handles cases where auth state changes don't trigger the above effect
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (
-        isAuthenticated &&
-        user &&
-        !isLoading &&
-        assessments.length === 0 &&
-        !assessmentsLoading &&
-        !assessmentsError
-      ) {
-        console.log('Fallback: Loading assessments after delay');
-        loadDraftAssessments();
-      }
-    }, 1000); // 1 second delay
+    const timers = [];
 
-    return () => clearTimeout(timer);
-  }, [isAuthenticated, user, isLoading, assessments.length, assessmentsLoading, assessmentsError]);
+    // Try multiple times with increasing delays
+    [1000, 3000, 5000].forEach((delay) => {
+      const timer = setTimeout(() => {
+        if (
+          isAuthenticated &&
+          user &&
+          !isLoading &&
+          assessments.length === 0 &&
+          !assessmentsLoading &&
+          !assessmentsError
+        ) {
+          console.log(`🔄 Dashboard: Fallback loading assessments after ${delay}ms delay`);
+          loadDraftAssessments();
+        }
+      }, delay);
+      timers.push(timer);
+    });
+
+    return () => {
+      timers.forEach(clearTimeout);
+    };
+  }, [
+    isAuthenticated,
+    user,
+    isLoading,
+    assessments.length,
+    assessmentsLoading,
+    assessmentsError,
+    loadDraftAssessments,
+  ]);
 
   const handleResumeAssessment = async (assessmentId: string) => {
     // Ensure authentication is ready

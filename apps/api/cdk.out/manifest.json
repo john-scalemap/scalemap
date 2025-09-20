@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-deploy-role-884337373956-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-cfn-exec-role-884337373956-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/1d18f6664aecd0caecf6f5b7b9bcae2c45485bce382d0c0e65c64a238d547f8a.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/ca8f5dd8973f2ff1a62079a96da5e3fc2f2b65d41c26df925f103fb9152b4484.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -312,6 +312,30 @@
             "data": "GetAssessmentFunctionLogRetentionB7D4D7F0"
           }
         ],
+        "/ScaleMapDev/ListAssessmentsFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListAssessmentsFunctionServiceRole6BE85110"
+          }
+        ],
+        "/ScaleMapDev/ListAssessmentsFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListAssessmentsFunctionServiceRoleDefaultPolicyE022209C"
+          }
+        ],
+        "/ScaleMapDev/ListAssessmentsFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListAssessmentsFunction29A38BD9"
+          }
+        ],
+        "/ScaleMapDev/ListAssessmentsFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListAssessmentsFunctionLogRetentionB93B354C"
+          }
+        ],
         "/ScaleMapDev/UpdateResponsesFunction/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -501,7 +525,7 @@
         "/ScaleMapDev/ScaleMapApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiDeployment77EBDD9D103783590a1a38187c4ac19d2ac2cdc8"
+            "data": "ScaleMapApiDeployment77EBDD9D3273e1a97b7c964be592a64a8b14677c"
           }
         ],
         "/ScaleMapDev/ScaleMapApi/DeploymentStage.prod/Resource": [
@@ -732,6 +756,12 @@
             "data": "ScaleMapApiassessmentsGETE6B3723C"
           }
         ],
+        "/ScaleMapDev/ScaleMapApi/Default/assessments/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentsOPTIONSF0586F4E"
+          }
+        ],
         "/ScaleMapDev/ScaleMapApi/Default/assessments/responses/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -944,7 +974,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-deploy-role-884337373956-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-cfn-exec-role-884337373956-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/34c6625bf6fd88a854f04b6caa59a7d01940738f0906c617db0c578f7160b569.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/2f6966ea2cdb8ca98ab0e37129cc8204d0f6b2ccf09b50252520ce8021bcac01.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -1238,6 +1268,30 @@
             "data": "GetAssessmentFunctionLogRetentionB7D4D7F0"
           }
         ],
+        "/ScaleMapStaging/ListAssessmentsFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListAssessmentsFunctionServiceRole6BE85110"
+          }
+        ],
+        "/ScaleMapStaging/ListAssessmentsFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListAssessmentsFunctionServiceRoleDefaultPolicyE022209C"
+          }
+        ],
+        "/ScaleMapStaging/ListAssessmentsFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListAssessmentsFunction29A38BD9"
+          }
+        ],
+        "/ScaleMapStaging/ListAssessmentsFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListAssessmentsFunctionLogRetentionB93B354C"
+          }
+        ],
         "/ScaleMapStaging/UpdateResponsesFunction/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -1427,7 +1481,7 @@
         "/ScaleMapStaging/ScaleMapApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiDeployment77EBDD9Dd201f6e7a93cf190361eddad0525075d"
+            "data": "ScaleMapApiDeployment77EBDD9Daef4f3193e666adaa47dadc91aac3ba6"
           }
         ],
         "/ScaleMapStaging/ScaleMapApi/DeploymentStage.prod/Resource": [
@@ -1658,6 +1712,12 @@
             "data": "ScaleMapApiassessmentsGETE6B3723C"
           }
         ],
+        "/ScaleMapStaging/ScaleMapApi/Default/assessments/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentsOPTIONSF0586F4E"
+          }
+        ],
         "/ScaleMapStaging/ScaleMapApi/Default/assessments/responses/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -1870,7 +1930,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-deploy-role-884337373956-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-cfn-exec-role-884337373956-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/16cd7a8e7fd78624192d7eb5bbc9e9edf8c5b35e5495f9b0127402348ebf90c3.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/db21f7a15ce385c40a8e2c1c8806c8ce6384f01ff99268390238914522c81449.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -2164,6 +2224,30 @@
             "data": "GetAssessmentFunctionLogRetentionB7D4D7F0"
           }
         ],
+        "/ScaleMapProd/ListAssessmentsFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListAssessmentsFunctionServiceRole6BE85110"
+          }
+        ],
+        "/ScaleMapProd/ListAssessmentsFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListAssessmentsFunctionServiceRoleDefaultPolicyE022209C"
+          }
+        ],
+        "/ScaleMapProd/ListAssessmentsFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListAssessmentsFunction29A38BD9"
+          }
+        ],
+        "/ScaleMapProd/ListAssessmentsFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListAssessmentsFunctionLogRetentionB93B354C"
+          }
+        ],
         "/ScaleMapProd/UpdateResponsesFunction/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -2353,7 +2437,7 @@
         "/ScaleMapProd/ScaleMapApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiDeployment77EBDD9D520ff1b8f5a4fbcac0d75962240357c6"
+            "data": "ScaleMapApiDeployment77EBDD9D845ee067d8bd4d306a2af7470d79b755"
           }
         ],
         "/ScaleMapProd/ScaleMapApi/DeploymentStage.prod/Resource": [
@@ -2582,6 +2666,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "ScaleMapApiassessmentsGETE6B3723C"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/assessments/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiassessmentsOPTIONSF0586F4E"
           }
         ],
         "/ScaleMapProd/ScaleMapApi/Default/assessments/responses/Resource": [

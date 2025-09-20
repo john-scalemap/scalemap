@@ -2,7 +2,14 @@
 
 import { Company } from '@scalemap/shared/types/company';
 import { User } from '@scalemap/shared/types/user';
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  ReactNode,
+} from 'react';
 
 // Company service - simplified for this fix
 
@@ -65,7 +72,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     hasCompany: !!company,
   });
 
-  const loadUserAndCompanyData = async () => {
+  const loadUserAndCompanyData = useCallback(async () => {
     console.log('AuthContext: loadUserAndCompanyData called');
     try {
       setIsLoading(true);
@@ -262,7 +269,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       console.log('AuthContext: loadUserAndCompanyData finished, setting isLoading to false');
       setIsLoading(false);
     }
-  };
+  }, []); // Empty dependency array since this function should be stable
 
   const refreshData = async () => {
     await loadUserAndCompanyData();
@@ -276,6 +283,56 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setIsLoading(false);
     });
   }, []);
+
+  // CRITICAL FIX: Listen for storage changes (from login/logout) and reload auth data
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const handleStorageChange = (e: StorageEvent) => {
+      // Reload auth data when access token changes (login/logout)
+      if (e.key === 'accessToken' || e.key === 'user') {
+        console.log('🔄 AuthProvider: Storage changed, reloading auth data');
+        loadUserAndCompanyData().catch((error) => {
+          console.error('🚨 AuthProvider: Storage change reload failed:', error);
+        });
+      }
+    };
+
+    // Listen for storage events from other tabs/windows
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, [loadUserAndCompanyData]);
+
+  // CRITICAL FIX: Also check for auth data periodically in case storage events are missed
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const checkAuthPeriodically = () => {
+      const hasToken = TokenManager.getAccessToken();
+
+      // If we have a token but no user data, try to reload
+      if (hasToken && !user && !isLoading) {
+        console.log('🔄 AuthProvider: Found token but missing user data, reloading...');
+        loadUserAndCompanyData().catch((error) => {
+          console.error('🚨 AuthProvider: Periodic reload failed:', error);
+        });
+      }
+    };
+
+    // Check every 2 seconds for the first 10 seconds after mount
+    // This handles the case where login redirect happens faster than auth context reload
+    const intervals = [];
+    for (let i = 1; i <= 5; i++) {
+      intervals.push(setTimeout(checkAuthPeriodically, i * 2000));
+    }
+
+    return () => {
+      intervals.forEach(clearTimeout);
+    };
+  }, [user, isLoading, loadUserAndCompanyData]);
 
   const isAuthenticated = !!user && !!company && !isLoading;
 
