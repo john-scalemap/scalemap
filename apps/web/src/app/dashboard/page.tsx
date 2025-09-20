@@ -11,16 +11,28 @@ import { Assessment } from '@/types';
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { listAssessments } = useAssessment();
+  const { listAssessments, loadAssessment } = useAssessment();
   const { user, company, isAuthenticated, isLoading } = useAuth();
   const [assessments, setAssessments] = useState<Assessment[]>([]);
   const [assessmentsLoading, setAssessmentsLoading] = useState(false);
   const [assessmentsError, setAssessmentsError] = useState<string | null>(null);
 
   const loadDraftAssessments = useCallback(async () => {
+    // Ensure authentication is ready before making API calls
+    if (!isAuthenticated || !user || isLoading) {
+      console.log('Skipping assessment load - auth not ready:', {
+        isAuthenticated,
+        hasUser: !!user,
+        isLoading,
+      });
+      return;
+    }
+
     try {
       setAssessmentsLoading(true);
       setAssessmentsError(null);
+
+      console.log('Loading draft assessments for user:', user.email);
 
       // Load draft/in-progress assessments
       const result = await listAssessments([
@@ -34,21 +46,33 @@ export default function DashboardPage() {
 
       // Defensive programming: ensure assessments is always an array
       const assessments = Array.isArray(result?.assessments) ? result.assessments : [];
+      console.log('Loaded assessments:', assessments.length);
       setAssessments(assessments);
     } catch (error) {
       console.error('Failed to load assessments:', error);
-      setAssessmentsError(error instanceof Error ? error.message : 'Failed to load assessments');
+      const errorMessage = error instanceof Error ? error.message : 'Failed to load assessments';
+
+      // Check for specific error types and provide better user messages
+      if (errorMessage.includes('Authentication') || errorMessage.includes('token')) {
+        setAssessmentsError('Please log in again to view your assessments');
+      } else if (errorMessage.includes('Network') || errorMessage.includes('fetch')) {
+        setAssessmentsError(
+          'Unable to connect to server. Please check your connection and try again.'
+        );
+      } else {
+        setAssessmentsError(errorMessage);
+      }
     } finally {
       setAssessmentsLoading(false);
     }
-  }, [listAssessments]);
+  }, [listAssessments, isAuthenticated, user, isLoading]);
 
   // Load assessments when user is available
   useEffect(() => {
     if (isAuthenticated && user && !isLoading) {
       loadDraftAssessments();
     }
-  }, [isAuthenticated, user, isLoading]); // Removed loadDraftAssessments from deps to prevent recreation issues
+  }, [isAuthenticated, user, isLoading, loadDraftAssessments]); // Include loadDraftAssessments for proper dependency tracking
 
   // Fallback: Load assessments after a short delay if not loaded yet
   // This handles cases where auth state changes don't trigger the above effect
@@ -70,8 +94,45 @@ export default function DashboardPage() {
     return () => clearTimeout(timer);
   }, [isAuthenticated, user, isLoading, assessments.length, assessmentsLoading, assessmentsError]);
 
-  const handleResumeAssessment = (assessmentId: string) => {
-    router.push(`/assessment/${assessmentId}/questionnaire`);
+  const handleResumeAssessment = async (assessmentId: string) => {
+    // Ensure authentication is ready
+    if (!isAuthenticated || !user || isLoading) {
+      setAssessmentsError('Please log in to resume your assessment');
+      return;
+    }
+
+    try {
+      setAssessmentsLoading(true);
+      setAssessmentsError(null);
+
+      console.log('Resuming assessment:', assessmentId, 'for user:', user.email);
+
+      // Load the specific assessment to ensure fresh data
+      await loadAssessment(assessmentId);
+
+      console.log('Assessment loaded successfully, navigating to questionnaire');
+
+      // Navigate to questionnaire
+      router.push(`/assessment/${assessmentId}/questionnaire`);
+    } catch (error) {
+      console.error('Failed to resume assessment:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to resume assessment';
+
+      // Provide user-friendly error messages
+      if (errorMessage.includes('Authentication') || errorMessage.includes('token')) {
+        setAssessmentsError('Please log in again to resume your assessment');
+      } else if (errorMessage.includes('Network') || errorMessage.includes('fetch')) {
+        setAssessmentsError(
+          'Unable to connect to server. Please check your connection and try again.'
+        );
+      } else if (errorMessage.includes('not found') || errorMessage.includes('404')) {
+        setAssessmentsError('Assessment not found. It may have been deleted or moved.');
+      } else {
+        setAssessmentsError(`Failed to resume assessment: ${errorMessage}`);
+      }
+    } finally {
+      setAssessmentsLoading(false);
+    }
   };
 
   if (isLoading) {
@@ -285,12 +346,20 @@ export default function DashboardPage() {
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-2">Failed to load assessments</h3>
               <p className="text-gray-500 mb-4">{assessmentsError}</p>
-              <button
-                onClick={loadDraftAssessments}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-600 bg-blue-100 hover:bg-blue-200"
-              >
-                Try Again
-              </button>
+              <div className="space-x-3">
+                <button
+                  onClick={loadDraftAssessments}
+                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-600 bg-blue-100 hover:bg-blue-200"
+                >
+                  Try Again
+                </button>
+                <button
+                  onClick={() => setAssessmentsError(null)}
+                  className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                >
+                  Dismiss
+                </button>
+              </div>
             </div>
           ) : !assessments || assessments.length === 0 ? (
             <div className="text-center py-8">

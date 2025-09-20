@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import { assessmentService } from '@/lib/api';
+import { assessmentService } from '@/lib/api/assessments';
 import { useAuth } from '@/lib/auth/auth-context';
 import { useAssessmentStore } from '@/stores/assessment-store';
 import {
