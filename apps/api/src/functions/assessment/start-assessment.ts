@@ -1,4 +1,9 @@
-import { DynamoDBClient, GetItemCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
+import {
+  DynamoDBClient,
+  GetItemCommand,
+  UpdateItemCommand,
+  ReturnValue,
+} from '@aws-sdk/client-dynamodb';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 import { Assessment, AssessmentStatus } from '@scalemap/shared';
 import { APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda';
@@ -10,7 +15,10 @@ import { rateLimiters } from '../../services/rate-limiter';
 const dynamoDb = new DynamoDBClient({ region: process.env.AWS_REGION || 'us-east-1' });
 const TABLE_NAME = process.env.DYNAMODB_TABLE_NAME || 'scalemap-table';
 
-export const handler: APIGatewayProxyHandler = async (event, _context): Promise<APIGatewayProxyResult> => {
+export const handler: APIGatewayProxyHandler = async (
+  event,
+  _context
+): Promise<APIGatewayProxyResult> => {
   const corsHeaders = corsPolicy.getCorsHeaders(event);
 
   try {
@@ -30,14 +38,13 @@ export const handler: APIGatewayProxyHandler = async (event, _context): Promise<
           success: false,
           error: {
             code: 'INVALID_REQUEST',
-            message: 'Assessment ID is required'
-          }
-        })
+            message: 'Assessment ID is required',
+          },
+        }),
       };
     }
 
     // Extract and validate JWT token
-    let userId: string;
     let companyId: string;
     try {
       const token = jwtService.extractTokenFromHeader(event.headers.Authorization);
@@ -49,14 +56,13 @@ export const handler: APIGatewayProxyHandler = async (event, _context): Promise<
             success: false,
             error: {
               code: 'AUTHENTICATION_REQUIRED',
-              message: 'Authentication token required'
-            }
-          })
+              message: 'Authentication token required',
+            },
+          }),
         };
       }
 
       const payload = await jwtService.validateAccessToken(token);
-      userId = payload.sub;
       companyId = payload.companyId;
 
       if (!payload.emailVerified) {
@@ -67,9 +73,9 @@ export const handler: APIGatewayProxyHandler = async (event, _context): Promise<
             success: false,
             error: {
               code: 'EMAIL_NOT_VERIFIED',
-              message: 'Email verification required'
-            }
-          })
+              message: 'Email verification required',
+            },
+          }),
         };
       }
     } catch (error) {
@@ -80,9 +86,9 @@ export const handler: APIGatewayProxyHandler = async (event, _context): Promise<
           success: false,
           error: {
             code: 'INVALID_TOKEN',
-            message: 'Invalid or expired authentication token'
-          }
-        })
+            message: 'Invalid or expired authentication token',
+          },
+        }),
       };
     }
 
@@ -91,8 +97,8 @@ export const handler: APIGatewayProxyHandler = async (event, _context): Promise<
       TableName: TABLE_NAME,
       Key: marshall({
         PK: `ASSESSMENT#${assessmentId}`,
-        SK: 'METADATA'
-      })
+        SK: 'METADATA',
+      }),
     };
 
     const getResult = await dynamoDb.send(new GetItemCommand(getParams));
@@ -105,9 +111,9 @@ export const handler: APIGatewayProxyHandler = async (event, _context): Promise<
           success: false,
           error: {
             code: 'ASSESSMENT_NOT_FOUND',
-            message: 'Assessment not found'
-          }
-        })
+            message: 'Assessment not found',
+          },
+        }),
       };
     }
 
@@ -122,14 +128,18 @@ export const handler: APIGatewayProxyHandler = async (event, _context): Promise<
           success: false,
           error: {
             code: 'ACCESS_DENIED',
-            message: 'You do not have permission to access this assessment'
-          }
-        })
+            message: 'You do not have permission to access this assessment',
+          },
+        }),
       };
     }
 
     // Check if assessment can be started
-    const validStartStatuses: AssessmentStatus[] = ['document-processing', 'triaging', 'paused'];
+    const validStartStatuses: AssessmentStatus[] = [
+      'document-processing',
+      'triaging',
+      'paused-for-gaps',
+    ];
     if (!validStartStatuses.includes(assessment.status)) {
       return {
         statusCode: 400,
@@ -138,9 +148,9 @@ export const handler: APIGatewayProxyHandler = async (event, _context): Promise<
           success: false,
           error: {
             code: 'INVALID_STATUS',
-            message: `Cannot start assessment with status: ${assessment.status}. Valid statuses: ${validStartStatuses.join(', ')}`
-          }
-        })
+            message: `Cannot start assessment with status: ${assessment.status}. Valid statuses: ${validStartStatuses.join(', ')}`,
+          },
+        }),
       };
     }
 
@@ -150,20 +160,20 @@ export const handler: APIGatewayProxyHandler = async (event, _context): Promise<
       TableName: TABLE_NAME,
       Key: marshall({
         PK: `ASSESSMENT#${assessmentId}`,
-        SK: 'METADATA'
+        SK: 'METADATA',
       }),
       UpdateExpression: 'SET #status = :status, #updatedAt = :updatedAt, #startedAt = :startedAt',
       ExpressionAttributeNames: {
         '#status': 'status',
         '#updatedAt': 'updatedAt',
-        '#startedAt': 'startedAt'
+        '#startedAt': 'startedAt',
       },
       ExpressionAttributeValues: marshall({
         ':status': 'analyzing' as AssessmentStatus,
         ':updatedAt': now,
-        ':startedAt': now
+        ':startedAt': now,
       }),
-      ReturnValues: 'ALL_NEW'
+      ReturnValues: ReturnValue.ALL_NEW,
     };
 
     const updateResult = await dynamoDb.send(new UpdateItemCommand(updateParams));
@@ -181,18 +191,17 @@ export const handler: APIGatewayProxyHandler = async (event, _context): Promise<
       statusCode: 200,
       headers: {
         ...corsHeaders,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         success: true,
         data: updatedAssessment,
         meta: {
           timestamp: now,
-          requestId: event.requestContext?.requestId || 'unknown'
-        }
-      })
+          requestId: event.requestContext?.requestId || 'unknown',
+        },
+      }),
     };
-
   } catch (error) {
     console.error('Error starting assessment:', error);
 
@@ -204,9 +213,9 @@ export const handler: APIGatewayProxyHandler = async (event, _context): Promise<
         error: {
           code: 'INTERNAL_SERVER_ERROR',
           message: 'Internal server error',
-          details: error instanceof Error ? error.message : 'Unknown error occurred'
-        }
-      })
+          details: error instanceof Error ? error.message : 'Unknown error occurred',
+        },
+      }),
     };
   }
 };
