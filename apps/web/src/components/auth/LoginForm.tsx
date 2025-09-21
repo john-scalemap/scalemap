@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+
 import { useRouter } from 'next/navigation';
+
 import { useAuth } from '@/lib/auth/auth-context';
 import type { LoginRequest } from '@/types/auth';
 
@@ -186,7 +188,7 @@ export function LoginForm({ redirectTo = '/dashboard', onSuccess }: LoginFormPro
 
         <div className="mt-6 text-center">
           <p className="text-sm text-secondary-600">
-            Don't have an account?{' '}
+            Don&apos;t have an account?{' '}
             <a
               href="/register"
               className="font-medium text-primary-600 hover:text-primary-500"

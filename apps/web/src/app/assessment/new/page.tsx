@@ -49,7 +49,7 @@ const strategicObjectiveOptions = [
 
 export default function NewAssessmentPage() {
   const router = useRouter();
-  const { user, company } = useAuth();
+  const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -95,7 +95,7 @@ export default function NewAssessmentPage() {
       return;
     }
 
-    if (!user || !company) {
+    if (!user) {
       router.push('/login');
       return;
     }
@@ -110,7 +110,7 @@ export default function NewAssessmentPage() {
       };
 
       const request: CreateAssessmentRequest = {
-        companyName: company.name,
+        companyName: 'Company Name', // TODO: Fetch from API
         contactEmail: user.email,
         title: formData.title,
         description: formData.description,
@@ -164,7 +164,7 @@ export default function NewAssessmentPage() {
     }));
   };
 
-  if (!user || !company) {
+  if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">

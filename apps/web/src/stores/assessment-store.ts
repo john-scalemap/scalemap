@@ -518,7 +518,7 @@ export const useAssessmentStore = create<AssessmentState & AssessmentActions>()(
           };
         }
 
-        const domainProgress: Record<DomainName, any> = {};
+        const domainProgress = {} as Record<DomainName, any>;
         let totalCompleteness = 0;
 
         domainOrder.forEach(domain => {

@@ -73,11 +73,11 @@ class ApiClient {
         if (refreshed) {
           // Retry the request with new token
           const newHeaders = await this.buildHeaders(fetchOptions.headers, false);
-          return await this.executeRequest<T>(
-            url,
-            { ...requestOptions, headers: newHeaders },
-            timeout
-          );
+          return await this.request<T>(endpoint, {
+            ...options,
+            skipRetry: true,
+            headers: newHeaders
+          });
         }
       }
 
@@ -406,4 +406,4 @@ const apiClient = new ApiClient({
 });
 
 export { apiClient, ApiClient };
-export type { ApiResponse, RequestOptions };
+export type { RequestOptions };

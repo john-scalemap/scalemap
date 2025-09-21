@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
+
 import { useRouter } from 'next/navigation';
+
 import { useAuth } from '@/lib/auth/auth-context';
 import type { RegisterRequest } from '@/types/auth';
 import type { CompanyRegistrationData, CompanyValidationErrors } from '@/types/company';
@@ -119,7 +121,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
         company: {
           ...prev.company,
           [parent]: {
-            ...prev.company[parent as keyof CompanyRegistrationData],
+            ...(prev.company[parent as keyof CompanyRegistrationData] as Record<string, any>),
             [child]: value,
           },
         },
@@ -176,7 +178,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
       errors.password = 'Password is required';
     } else if (formData.user.password.length < 12) {
       errors.password = 'Password must be at least 12 characters';
-    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{}|;:,.<>?])/.test(formData.user.password)) {
+    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{}|;:,.<>?])/.test(formData.user.password)) {
       errors.password = 'Password must include uppercase, lowercase, number, and special character';
     }
 
@@ -480,7 +482,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                     className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-secondary-300 rounded mt-1"
                   />
                   <label htmlFor="marketingConsent" className="ml-3 text-sm text-secondary-700">
-                    I'd like to receive product updates and marketing communications
+                    I&apos;d like to receive product updates and marketing communications
                   </label>
                 </div>
               </div>
@@ -635,9 +637,9 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-secondary-700 mb-2">
+                <div className="block text-sm font-medium text-secondary-700 mb-2">
                   Specific Regulations (if applicable)
-                </label>
+                </div>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                   {currentSector.commonRegulations.map(regulation => (
                     <label key={regulation} className="flex items-center">

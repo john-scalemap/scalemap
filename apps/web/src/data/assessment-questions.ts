@@ -1,4 +1,4 @@
-import { DomainTemplate, DomainName } from '../types/assessment';
+import { DomainTemplate, DomainName, Question } from '../types/assessment';
 
 export const domainDisplayNames: Record<DomainName, string> = {
   'strategic-alignment': 'Strategic Alignment & Vision',
