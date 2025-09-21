@@ -28,6 +28,10 @@ class AuthService {
    */
   async login(credentials: LoginRequest): Promise<LoginResponse> {
     try {
+      // Debug: Log the API URL being used
+      console.log('Login API URL:', process.env.NEXT_PUBLIC_API_URL);
+      console.log('Attempting login for:', credentials.email);
+
       const response = await apiClient.post<LoginResponse>('/auth/login', credentials, {
         skipAuth: true, // No auth needed for login
       });
