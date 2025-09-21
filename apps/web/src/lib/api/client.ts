@@ -28,7 +28,6 @@ export class ApiClient {
     this.timeout = config.timeout || 30000; // 30 seconds default
   }
 
-
   private async makeRequest<T>(
     method: string,
     endpoint: string,
@@ -44,12 +43,20 @@ export class ApiClient {
     // Get valid access token with automatic refresh
     if (typeof window !== 'undefined') {
       try {
+        console.log('🔑 API Client: Getting access token...');
         const accessToken = await TokenManager.getValidAccessToken();
         if (accessToken) {
+          console.log('✅ API Client: Access token found, adding to headers', {
+            tokenPrefix: accessToken.substring(0, 20) + '...',
+            url: `${this.baseUrl}${endpoint}`,
+            method,
+          });
           headers['Authorization'] = `Bearer ${accessToken}`;
+        } else {
+          console.log('❌ API Client: No access token found');
         }
       } catch (error) {
-        console.error('Failed to get access token:', error);
+        console.error('💥 API Client: Failed to get access token:', error);
       }
     }
 
@@ -133,7 +140,11 @@ export class ApiClient {
     return this.makeRequest<T>('PUT', endpoint, data, config);
   }
 
-  async patch<T>(endpoint: string, data?: unknown, config?: RequestConfig): Promise<ApiResponse<T>> {
+  async patch<T>(
+    endpoint: string,
+    data?: unknown,
+    config?: RequestConfig
+  ): Promise<ApiResponse<T>> {
     return this.makeRequest<T>('PATCH', endpoint, data, config);
   }
 
@@ -153,7 +164,9 @@ export class ApiClient {
 
 // Create the default API client instance
 const apiClient = new ApiClient({
-  baseUrl: process.env.NEXT_PUBLIC_API_URL || 'https://nb3pzj6u65.execute-api.eu-west-1.amazonaws.com/prod',
+  baseUrl:
+    process.env.NEXT_PUBLIC_API_URL ||
+    'https://nb3pzj6u65.execute-api.eu-west-1.amazonaws.com/prod',
 });
 
 export default apiClient;

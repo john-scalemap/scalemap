@@ -72,34 +72,52 @@ export class TokenManager {
    * Get current access token
    */
   static getAccessToken(): string | null {
-    if (typeof window === 'undefined') return null;
+    if (typeof window === 'undefined') {
+      console.log('TokenManager: SSR environment, no window object');
+      return null;
+    }
 
     try {
+      console.log('🔍 TokenManager: Searching for access token...');
+
       // Check sessionStorage first (live site format)
       let token = sessionStorage.getItem('accessToken');
       if (token) {
-        console.log('TokenManager: Found access token in sessionStorage');
+        console.log('✅ TokenManager: Found access token in sessionStorage', {
+          length: token.length,
+          prefix: token.substring(0, 20) + '...',
+        });
         return token;
       }
 
       // Check localStorage (development format)
       token = localStorage.getItem('accessToken');
       if (token) {
-        console.log('TokenManager: Found access token in localStorage');
+        console.log('✅ TokenManager: Found access token in localStorage', {
+          length: token.length,
+          prefix: token.substring(0, 20) + '...',
+        });
         return token;
       }
 
       // Fallback: Check with our custom key (backwards compatibility)
       token = localStorage.getItem(this.ACCESS_TOKEN_KEY);
       if (token) {
-        console.log('TokenManager: Found access token with custom key');
+        console.log('✅ TokenManager: Found access token with custom key', {
+          length: token.length,
+          prefix: token.substring(0, 20) + '...',
+        });
         return token;
       }
 
-      console.log('TokenManager: No access token found in any storage');
+      // Debug: Show what's actually in storage
+      console.log('❌ TokenManager: No access token found. Storage contents:', {
+        sessionStorageKeys: Object.keys(sessionStorage),
+        localStorageKeys: Object.keys(localStorage),
+      });
       return null;
     } catch (error) {
-      console.error('Failed to retrieve access token:', error);
+      console.error('💥 TokenManager: Failed to retrieve access token:', error);
       return null;
     }
   }
