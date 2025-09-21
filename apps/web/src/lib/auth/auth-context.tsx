@@ -334,11 +334,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
     };
   }, [user, isLoading, loadUserAndCompanyData]);
 
-  const isAuthenticated = !!user && !!company && !isLoading;
+  // Check if user is authenticated based on valid token presence, not just loaded data
+  const hasValidToken = typeof window !== 'undefined' ? !!TokenManager.getAccessToken() : false;
+  const isAuthenticated = hasValidToken && !isLoading;
 
   // Debug authentication state
   React.useEffect(() => {
-    console.log('AuthContext state update:', {
+    console.log('🔄 AuthContext state update:', {
+      hasValidToken,
       hasUser: !!user,
       hasCompany: !!company,
       isLoading,
