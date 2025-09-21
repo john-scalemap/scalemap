@@ -1,7 +1,5 @@
 import { jest } from '@jest/globals'
 
-import { handler } from '../scheduled-health-check'
-
 import { ScheduledEvent } from 'aws-lambda'
 
 // Mock dependencies
@@ -10,6 +8,8 @@ jest.mock('../../../services/monitoring-service')
 
 import { healthService } from '../../../services/health-service'
 import { monitoringService } from '../../../services/monitoring-service'
+
+import { handler } from '../scheduled-health-check'
 
 const mockHealthService = healthService as jest.Mocked<typeof healthService>
 const mockMonitoringService = monitoringService as jest.Mocked<typeof monitoringService>

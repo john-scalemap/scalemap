@@ -1,4 +1,7 @@
 import { jest } from '@jest/globals'
+import { CloudWatchClient, PutMetricDataCommand, GetMetricStatisticsCommand } from '@aws-sdk/client-cloudwatch'
+import { SNSClient, PublishCommand } from '@aws-sdk/client-sns'
+import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb'
 
 import { monitoringService } from '../monitoring-service'
 
@@ -6,10 +9,6 @@ import { monitoringService } from '../monitoring-service'
 jest.mock('@aws-sdk/client-cloudwatch')
 jest.mock('@aws-sdk/client-sns')
 jest.mock('@aws-sdk/client-dynamodb')
-
-import { CloudWatchClient, PutMetricDataCommand, GetMetricStatisticsCommand } from '@aws-sdk/client-cloudwatch'
-import { SNSClient, PublishCommand } from '@aws-sdk/client-sns'
-import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb'
 
 const mockCloudWatchSend = jest.fn() as jest.MockedFunction<any>
 const mockSNSSend = jest.fn() as jest.MockedFunction<any>

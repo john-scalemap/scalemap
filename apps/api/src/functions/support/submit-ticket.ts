@@ -3,7 +3,7 @@ import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses'
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import { v4 as uuidv4 } from 'uuid'
 
-import { errorHandler, ValidationError, ServiceError } from '../../shared/middleware/error-handler'
+import { errorHandler, ValidationError } from '../../shared/middleware/error-handler'
 
 interface SupportTicketRequest {
   name: string

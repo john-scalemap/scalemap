@@ -1,8 +1,6 @@
 import { ApiResponse } from '@scalemap/shared';
 import { APIGatewayProxyResult } from 'aws-lambda';
 
-import { db } from '../../services/database';
-import { jwtService } from '../../services/jwt';
 import { sessionManager } from '../../services/session-manager';
 import { withAuth, AuthenticatedEvent } from '../../shared/middleware/auth-middleware';
 import { logger } from '../../utils/logger';

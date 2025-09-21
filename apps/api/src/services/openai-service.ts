@@ -109,7 +109,6 @@ export class OpenAIService {
       });
 
       const completion = response.choices[0]?.message?.content || '';
-      const tokenUsage = response.usage;
 
       // Track metrics
       this.updateMetrics(Date.now() - startTime, false);

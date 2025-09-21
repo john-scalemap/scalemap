@@ -5,7 +5,6 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import * as s3 from 'aws-cdk-lib/aws-s3';
-import * as s3n from 'aws-cdk-lib/aws-s3-notifications';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { Construct } from 'constructs';
 
@@ -162,6 +161,11 @@ export class ScaleMapStackMinimal extends cdk.Stack {
       evaluationPeriods: 1,
       treatMissingData: cdk.aws_cloudwatch.TreatMissingData.NOT_BREACHING,
     });
+
+    // Explicitly mark alarms as intentionally unused (they are deployed for monitoring)
+    void apiErrorAlarm;
+    void lambdaErrorAlarm;
+    void costAlarm;
 
     // Outputs
     new cdk.CfnOutput(this, 'ApiUrl', {

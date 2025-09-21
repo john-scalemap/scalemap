@@ -5,7 +5,6 @@ import {
   QuestionResponse,
   GapAnalysisRequest,
   AssessmentGap,
-  GapCategory,
   IndustryClassification,
   ConflictingResponse
 } from '@scalemap/shared';
@@ -68,7 +67,7 @@ describe('GapAnalysisService', () => {
   describe('analyzeGaps', () => {
     it('should analyze gaps successfully for a complete assessment', async () => {
       // Mock the private getAssessment method
-      const getAssessmentSpy = jest.spyOn(gapAnalysisService as any, 'getAssessment')
+      const _getAssessmentSpy = jest.spyOn(gapAnalysisService as any, 'getAssessment')
         .mockResolvedValue(mockAssessment);
 
       const updateAssessmentSpy = jest.spyOn(gapAnalysisService as any, 'updateAssessmentWithGapAnalysis')
@@ -112,7 +111,7 @@ describe('GapAnalysisService', () => {
         }
       };
 
-      const getAssessmentSpy = jest.spyOn(gapAnalysisService as any, 'getAssessment')
+      const _getAssessmentSpy = jest.spyOn(gapAnalysisService as any, 'getAssessment')
         .mockResolvedValue(assessmentWithGaps);
 
       const generateRecommendationsSpy = jest.spyOn(gapAnalysisService as any, 'generateRecommendations')
@@ -147,7 +146,7 @@ describe('GapAnalysisService', () => {
         }
       };
 
-      const getAssessmentSpy = jest.spyOn(gapAnalysisService as any, 'getAssessment')
+      const _getAssessmentSpy = jest.spyOn(gapAnalysisService as any, 'getAssessment')
         .mockResolvedValue(incompleteAssessment);
 
       jest.spyOn(gapAnalysisService as any, 'updateAssessmentWithGapAnalysis')
@@ -182,7 +181,7 @@ describe('GapAnalysisService', () => {
         } as IndustryClassification
       };
 
-      const getAssessmentSpy = jest.spyOn(gapAnalysisService as any, 'getAssessment')
+      const _getAssessmentSpy = jest.spyOn(gapAnalysisService as any, 'getAssessment')
         .mockResolvedValue(financialAssessment);
 
       jest.spyOn(gapAnalysisService as any, 'updateAssessmentWithGapAnalysis')
@@ -206,7 +205,7 @@ describe('GapAnalysisService', () => {
     });
 
     it('should handle assessment not found', async () => {
-      const getAssessmentSpy = jest.spyOn(gapAnalysisService as any, 'getAssessment')
+      const _getAssessmentSpy = jest.spyOn(gapAnalysisService as any, 'getAssessment')
         .mockResolvedValue(null);
 
       const request: GapAnalysisRequest = {
@@ -318,7 +317,7 @@ describe('GapAnalysisService', () => {
           message: 'Resolved successfully'
         });
 
-      const getAssessmentSpy = jest.spyOn(gapAnalysisService as any, 'getAssessment')
+      const _getAssessmentSpy = jest.spyOn(gapAnalysisService as any, 'getAssessment')
         .mockResolvedValue({
           ...mockAssessment,
           gapAnalysis: {
@@ -356,7 +355,7 @@ describe('GapAnalysisService', () => {
         })
         .mockRejectedValueOnce(new Error('Resolution failed'));
 
-      const getAssessmentSpy = jest.spyOn(gapAnalysisService as any, 'getAssessment')
+      const _getAssessmentSpy = jest.spyOn(gapAnalysisService as any, 'getAssessment')
         .mockResolvedValue({
           ...mockAssessment,
           gapAnalysis: {

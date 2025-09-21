@@ -6,14 +6,11 @@ import {
   DomainName,
   DomainTemplate,
   Question,
-  IndustryClassification,
   AssessmentValidation,
   AssessmentValidationError,
-  ValidationError,
   ValidationWarning,
   TriageResult,
-  AgentAnalysisResult,
-  PrioritizationResult
+  AgentAnalysisResult
 } from '@scalemap/shared';
 
 import { OpenAIService } from './openai-service';

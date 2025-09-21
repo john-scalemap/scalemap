@@ -243,7 +243,7 @@ function validateUpdateData(data: UpdateProfileRequest): { code: string; message
 
   // Validate phone number format (basic validation)
   if (data.phone !== undefined && data.phone.trim() !== '') {
-    const phoneRegex = /^[\+]?[\d\s\-\(\)]{10,}$/;
+    const phoneRegex = /^[+]?[\d\s\-()]{10,}$/;
     if (!phoneRegex.test(data.phone.trim())) {
       return { code: 'INVALID_PHONE', message: 'Invalid phone number format' };
     }
