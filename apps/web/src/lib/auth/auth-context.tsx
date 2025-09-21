@@ -102,6 +102,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
         storedUserData?.substring(0, 50) + '...'
       );
 
+      // If we have stored user data, parse and use it immediately
+      if (storedUserData) {
+        try {
+          const userData = JSON.parse(storedUserData);
+          console.log('✅ AuthContext: Setting user from storage:', userData.email);
+          setUser(userData);
+
+          // Also set a basic company object if user has companyId
+          if (userData.companyId) {
+            setCompany({
+              id: userData.companyId,
+              name: 'Your Company', // Placeholder until we load real data
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+            });
+          }
+        } catch (error) {
+          console.error('❌ AuthContext: Failed to parse stored user data:', error);
+        }
+      }
+
       let user: User | null = null;
 
       if (storedUserData) {
@@ -334,9 +355,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
     };
   }, [user, isLoading, loadUserAndCompanyData]);
 
-  // Check if user is authenticated based on valid token presence, not just loaded data
-  const hasValidToken = typeof window !== 'undefined' ? !!TokenManager.getAccessToken() : false;
-  const isAuthenticated = hasValidToken && !isLoading;
+  // Use user data to determine authentication (with token validation)
+  const [hasValidToken, setHasValidToken] = useState(false);
+
+  // Check token validity on client side only
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const token = TokenManager.getAccessToken();
+      setHasValidToken(!!token);
+    }
+  }, [user]); // Re-check when user data changes
+
+  const isAuthenticated = !!user && hasValidToken && !isLoading;
 
   // Debug authentication state
   React.useEffect(() => {
