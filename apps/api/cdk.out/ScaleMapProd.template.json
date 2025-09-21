@@ -3167,7 +3167,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-884337373956-eu-west-1",
-     "S3Key": "df8c6000a97837453d7e5f757ed257ba4361ef8a6bf780fddc064b90d8dc60b7.zip"
+     "S3Key": "1b4e9f9834729f3a77dbb14cda5e6ac1948682c6e8e89d1e47157407f9152fc6.zip"
     },
     "DeadLetterConfig": {
      "TargetArn": {
@@ -3226,7 +3226,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/StartAssessmentFunction/Resource",
-    "aws:asset:path": "asset.df8c6000a97837453d7e5f757ed257ba4361ef8a6bf780fddc064b90d8dc60b7",
+    "aws:asset:path": "asset.1b4e9f9834729f3a77dbb14cda5e6ac1948682c6e8e89d1e47157407f9152fc6",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
