@@ -16,6 +16,7 @@ export default function DashboardPage() {
   const [assessments, setAssessments] = useState<Assessment[]>([]);
   const [assessmentsLoading, setAssessmentsLoading] = useState(false);
   const [assessmentsError, setAssessmentsError] = useState<string | null>(null);
+  const [hasAttemptedLoad, setHasAttemptedLoad] = useState(false);
 
   const loadDraftAssessments = useCallback(async () => {
     // Ensure authentication is ready before making API calls
@@ -31,6 +32,7 @@ export default function DashboardPage() {
     try {
       setAssessmentsLoading(true);
       setAssessmentsError(null);
+      setHasAttemptedLoad(true);
 
       console.log('Loading draft assessments for user:', user.email);
 
@@ -52,15 +54,26 @@ export default function DashboardPage() {
       console.error('Failed to load assessments:', error);
       const errorMessage = error instanceof Error ? error.message : 'Failed to load assessments';
 
-      // Check for specific error types and provide better user messages
-      if (errorMessage.includes('Authentication') || errorMessage.includes('token')) {
-        setAssessmentsError('Please log in again to view your assessments');
-      } else if (errorMessage.includes('Network') || errorMessage.includes('fetch')) {
-        setAssessmentsError(
-          'Unable to connect to server. Please check your connection and try again.'
-        );
+      // Improved error categorization
+      if (
+        errorMessage.includes('Authentication') ||
+        errorMessage.includes('token') ||
+        errorMessage.includes('Unauthorized') ||
+        errorMessage.includes('401')
+      ) {
+        setAssessmentsError('AUTHENTICATION_ERROR');
+      } else if (errorMessage.includes('Forbidden') || errorMessage.includes('403')) {
+        setAssessmentsError('PERMISSION_ERROR');
+      } else if (
+        errorMessage.includes('Network') ||
+        errorMessage.includes('fetch') ||
+        errorMessage.includes('NETWORK_ERROR')
+      ) {
+        setAssessmentsError('NETWORK_ERROR');
+      } else if (errorMessage.includes('timeout') || errorMessage.includes('TIMEOUT')) {
+        setAssessmentsError('TIMEOUT_ERROR');
       } else {
-        setAssessmentsError(errorMessage);
+        setAssessmentsError('UNKNOWN_ERROR');
       }
     } finally {
       setAssessmentsLoading(false);
@@ -81,39 +94,22 @@ export default function DashboardPage() {
     }
   }, [isAuthenticated, user, isLoading, loadDraftAssessments]); // Include loadDraftAssessments for proper dependency tracking
 
-  // Fallback: Load assessments after delays if not loaded yet
-  // This handles cases where auth state changes don't trigger the above effect
+  // Simplified fallback: Only retry once after 2 seconds if no attempt was made
   useEffect(() => {
-    const timers = [];
-
-    // Try multiple times with increasing delays
-    [1000, 3000, 5000].forEach((delay) => {
+    if (!hasAttemptedLoad && isAuthenticated && user && !isLoading && !assessmentsLoading) {
       const timer = setTimeout(() => {
-        if (
-          isAuthenticated &&
-          user &&
-          !isLoading &&
-          assessments.length === 0 &&
-          !assessmentsLoading &&
-          !assessmentsError
-        ) {
-          console.log(`🔄 Dashboard: Fallback loading assessments after ${delay}ms delay`);
-          loadDraftAssessments();
-        }
-      }, delay);
-      timers.push(timer);
-    });
+        console.log('🔄 Dashboard: Fallback loading assessments after 2s delay');
+        loadDraftAssessments();
+      }, 2000);
 
-    return () => {
-      timers.forEach(clearTimeout);
-    };
+      return () => clearTimeout(timer);
+    }
   }, [
     isAuthenticated,
     user,
     isLoading,
-    assessments.length,
     assessmentsLoading,
-    assessmentsError,
+    hasAttemptedLoad,
     loadDraftAssessments,
   ]);
 
@@ -364,41 +360,138 @@ export default function DashboardPage() {
             </div>
           ) : assessmentsError ? (
             <div className="text-center py-8">
-              <div className="w-16 h-16 mx-auto bg-red-100 rounded-full flex items-center justify-center mb-4">
-                <span className="text-2xl text-red-400">⚠️</span>
-              </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">Failed to load assessments</h3>
-              <p className="text-gray-500 mb-4">{assessmentsError}</p>
-              <div className="space-x-3">
-                <button
-                  onClick={loadDraftAssessments}
-                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-600 bg-blue-100 hover:bg-blue-200"
-                >
-                  Try Again
-                </button>
-                <button
-                  onClick={() => setAssessmentsError(null)}
-                  className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                >
-                  Dismiss
-                </button>
-              </div>
+              {assessmentsError === 'AUTHENTICATION_ERROR' ? (
+                <>
+                  <div className="w-16 h-16 mx-auto bg-yellow-100 rounded-full flex items-center justify-center mb-4">
+                    <span className="text-2xl text-yellow-500">🔐</span>
+                  </div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">
+                    Authentication Required
+                  </h3>
+                  <p className="text-gray-500 mb-4">Please log in again to view your assessments</p>
+                  <div className="space-x-3">
+                    <Link
+                      href="/login"
+                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                    >
+                      Log In Again
+                    </Link>
+                    <button
+                      onClick={() => setAssessmentsError(null)}
+                      className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                    >
+                      Dismiss
+                    </button>
+                  </div>
+                </>
+              ) : assessmentsError === 'PERMISSION_ERROR' ? (
+                <>
+                  <div className="w-16 h-16 mx-auto bg-orange-100 rounded-full flex items-center justify-center mb-4">
+                    <span className="text-2xl text-orange-500">🚫</span>
+                  </div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">Access Denied</h3>
+                  <p className="text-gray-500 mb-4">
+                    You don&apos;t have permission to view assessments. Please contact support.
+                  </p>
+                  <div className="space-x-3">
+                    <Link
+                      href="/contact"
+                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                    >
+                      Contact Support
+                    </Link>
+                    <button
+                      onClick={() => setAssessmentsError(null)}
+                      className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                    >
+                      Dismiss
+                    </button>
+                  </div>
+                </>
+              ) : assessmentsError === 'NETWORK_ERROR' ? (
+                <>
+                  <div className="w-16 h-16 mx-auto bg-red-100 rounded-full flex items-center justify-center mb-4">
+                    <span className="text-2xl text-red-400">📡</span>
+                  </div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">Connection Error</h3>
+                  <p className="text-gray-500 mb-4">
+                    Unable to connect to server. Please check your internet connection.
+                  </p>
+                  <div className="space-x-3">
+                    <button
+                      onClick={loadDraftAssessments}
+                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-600 bg-blue-100 hover:bg-blue-200"
+                    >
+                      Try Again
+                    </button>
+                    <button
+                      onClick={() => setAssessmentsError(null)}
+                      className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                    >
+                      Dismiss
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="w-16 h-16 mx-auto bg-red-100 rounded-full flex items-center justify-center mb-4">
+                    <span className="text-2xl text-red-400">⚠️</span>
+                  </div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">
+                    Unable to Load Assessments
+                  </h3>
+                  <p className="text-gray-500 mb-4">
+                    Something went wrong while loading your assessments.
+                  </p>
+                  <div className="space-x-3">
+                    <button
+                      onClick={loadDraftAssessments}
+                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-600 bg-blue-100 hover:bg-blue-200"
+                    >
+                      Try Again
+                    </button>
+                    <button
+                      onClick={() => setAssessmentsError(null)}
+                      className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                    >
+                      Dismiss
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           ) : !assessments || assessments.length === 0 ? (
             <div className="text-center py-8">
-              <div className="w-16 h-16 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                <span className="text-2xl text-gray-400">📊</span>
+              <div className="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                <span className="text-2xl text-blue-500">📊</span>
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No assessments in progress</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                {hasAttemptedLoad ? 'No assessments yet' : 'Ready to get started?'}
+              </h3>
               <p className="text-gray-500 mb-4">
-                Start your first assessment to see your progress here
+                {hasAttemptedLoad
+                  ? 'You haven&apos;t created any assessments yet. Start your first assessment to unlock powerful insights about your business.'
+                  : 'Create your first assessment to get comprehensive insights about your business operations and growth opportunities.'}
               </p>
-              <Link
-                href="/assessment/new"
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
-              >
-                Create Assessment
-              </Link>
+              <div className="space-y-3">
+                <Link
+                  href="/assessment/new"
+                  className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                >
+                  Create Your First Assessment
+                </Link>
+                {hasAttemptedLoad && (
+                  <div>
+                    <button
+                      onClick={loadDraftAssessments}
+                      disabled={assessmentsLoading}
+                      className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
+                    >
+                      {assessmentsLoading ? 'Checking...' : 'Check Again'}
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           ) : (
             <div className="space-y-4">
