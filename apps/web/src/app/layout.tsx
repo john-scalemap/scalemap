@@ -1,27 +1,39 @@
-import type { Metadata } from 'next'
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { AuthProvider } from "@/lib/auth/auth-context";
+import "./globals.css";
 
-import ClientProviders from '@/components/providers/ClientProviders'
-import './globals.css'
-
-export const dynamic = 'force-dynamic'
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
-  title: 'ScaleMap',
-  description: 'Strategic Enterprise Assessment and Agent Framework',
-}
+  title: "ScaleMap - AI-Powered Business Assessments",
+  description: "Transform your business with AI-powered operational assessments and strategic recommendations",
+  keywords: ["business assessment", "AI", "operational excellence", "strategic planning"],
+  authors: [{ name: "ScaleMap" }],
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
 export default function RootLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en">
-      <body>
-        <ClientProviders>
+      <body
+        className={`${inter.variable} font-sans antialiased bg-background text-foreground`}
+      >
+        <AuthProvider>
           {children}
-        </ClientProviders>
+        </AuthProvider>
       </body>
     </html>
-  )
+  );
 }

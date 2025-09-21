@@ -32,10 +32,6 @@ export interface Assessment {
   analysisCompletedAt?: string;
   prioritizationResult?: PrioritizationResult;
   synthesisCompletedAt?: string;
-
-  // Gap analysis integration
-  gapAnalysis?: import('./gap-analysis').GapAnalysis;
-  gapAnalysisCompletedAt?: string;
 }
 
 export type AssessmentStatus =
@@ -222,21 +218,6 @@ export interface QuestionResult {
   impact: 'low' | 'medium' | 'high';
 }
 
-export interface AssessmentDimension {
-  name: string;
-  score: number;
-  description: string;
-  metrics: AssessmentMetric[];
-}
-
-export interface AssessmentMetric {
-  name: string;
-  value: number;
-  unit: string;
-  benchmark?: number;
-  description: string;
-}
-
 export interface AssessmentValidation {
   isValid: boolean;
   errors: AssessmentValidationError[];
@@ -301,37 +282,34 @@ export interface PriorityRecommendation {
   dependencies: string[];
 }
 
-export interface TokenUsage {
-  promptTokens: number;
-  completionTokens: number;
-  totalTokens: number;
-  model: string;
-}
-
-export interface ClientData {
+export interface CreateAssessmentRequest {
   companyName: string;
-  industryClassification?: IndustryClassification;
-  companyStage?: 'startup' | 'growth' | 'mature';
-  domainResponses?: Record<string, DomainResponse>;
+  contactEmail: string;
+  title: string;
+  description: string;
+  assessmentContext?: AssessmentContext;
 }
 
-export interface ProcessedDocument {
-  id: string;
-  name: string;
-  content: string;
-  type: string;
-  size: number;
-  relevanceScore: number;
-  extractedData?: {
-    tables?: any[];
-    forms?: any[];
-    keyMetrics?: Record<string, string | number>;
+export interface CreateAssessmentResponse {
+  success: boolean;
+  data?: {
+    assessment: Assessment;
+    questionnaireUrl: string;
   };
-  processingMetadata?: {
-    confidence: number;
-    processingTime: number;
-    pageCount: number;
-    processingMethod: string;
-    extractedAt: string;
+  error?: {
+    code: string;
+    message: string;
+    details?: Record<string, unknown>;
   };
+  meta: {
+    timestamp: string;
+    requestId: string;
+  };
+}
+
+export interface UpdateAssessmentRequest {
+  assessmentId: string;
+  domainResponses?: Record<string, DomainResponse>;
+  assessmentContext?: Partial<AssessmentContext>;
+  status?: AssessmentStatus;
 }

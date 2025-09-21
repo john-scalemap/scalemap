@@ -1,28 +1,34 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
+  // Transpile shared packages
   transpilePackages: ['@scalemap/shared', '@scalemap/ui'],
+
+  // Environment variables
   env: {
-    CUSTOM_KEY: process.env.CUSTOM_KEY,
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api',
   },
-  eslint: {
-    // Allow production builds to complete even with ESLint errors
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    // Allow production builds to complete even with TypeScript errors
-    ignoreBuildErrors: true,
-  },
-  images: {
-    domains: ['localhost'],
-  },
-  skipTrailingSlashRedirect: true,
-  // Disable automatic static optimization to prevent 500.html generation
-  generateEtags: false,
-  poweredByHeader: false,
+
   // Experimental features
   experimental: {
-    // Remove experimental options that might cause manifest issues
-  }
-}
+    // Enable strict mode for better development experience
+    strictNextHead: true,
+  },
 
-module.exports = nextConfig
+  // Output configuration
+  output: 'standalone',
+
+  // TypeScript configuration
+  typescript: {
+    // Only run type checking in CI/production builds
+    ignoreBuildErrors: process.env.NODE_ENV === 'development',
+  },
+
+  // ESLint configuration
+  eslint: {
+    // Only run ESLint in CI/production builds for development speed
+    ignoreDuringBuilds: process.env.NODE_ENV === 'development',
+  },
+};
+
+module.exports = nextConfig;

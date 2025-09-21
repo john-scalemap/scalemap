@@ -1,7 +1,7 @@
-import { jest } from '@jest/globals'
 import { CloudWatchClient, PutMetricDataCommand, GetMetricStatisticsCommand } from '@aws-sdk/client-cloudwatch'
-import { SNSClient, PublishCommand } from '@aws-sdk/client-sns'
 import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb'
+import { SNSClient, PublishCommand } from '@aws-sdk/client-sns'
+import { jest } from '@jest/globals'
 
 import { monitoringService } from '../monitoring-service'
 

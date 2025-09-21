@@ -1,20 +1,14 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import { useAuth } from '../../../lib/auth/auth-context';
+import { AssessmentContext, CreateAssessmentRequest } from '../../../types/assessment';
 
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { Select } from '@/components/ui/Select';
-import { Textarea } from '@/components/ui/Textarea';
-import { useAssessment } from '@/hooks/useAssessment';
-import { IndustryClassification } from '@/types';
-
-interface CompanyContextForm {
+interface AssessmentFormData {
   title: string;
   description: string;
-  industryClassification: Partial<IndustryClassification>;
-  primaryChallenges: string[];
+  primaryBusinessChallenges: string[];
   strategicObjectives: string[];
   resourceConstraints: {
     budget: 'limited' | 'moderate' | 'substantial';
@@ -23,81 +17,46 @@ interface CompanyContextForm {
   };
 }
 
-const SECTOR_OPTIONS = [
-  { value: 'technology', label: 'Technology' },
-  { value: 'financial-services', label: 'Financial Services' },
-  { value: 'healthcare', label: 'Healthcare' },
-  { value: 'manufacturing', label: 'Manufacturing' },
-  { value: 'retail', label: 'Retail' },
-  { value: 'other', label: 'Other' }
+const businessChallengeOptions = [
+  'Scaling operations efficiently',
+  'Customer acquisition and retention',
+  'Revenue growth and profitability',
+  'Team building and talent retention',
+  'Technology infrastructure and data management',
+  'Market expansion and competition',
+  'Financial management and cash flow',
+  'Operational efficiency and process optimization',
+  'Strategic planning and execution',
+  'Risk management and compliance',
+  'Supply chain and vendor management',
+  'Customer experience and satisfaction'
 ];
 
-const BUSINESS_MODEL_OPTIONS = [
-  { value: 'b2b-saas', label: 'B2B SaaS' },
-  { value: 'b2c-marketplace', label: 'B2C Marketplace' },
-  { value: 'manufacturing', label: 'Manufacturing' },
-  { value: 'services', label: 'Services' },
-  { value: 'hybrid', label: 'Hybrid' }
-];
-
-const COMPANY_STAGE_OPTIONS = [
-  { value: 'startup', label: 'Startup (0-2 years)' },
-  { value: 'growth', label: 'Growth (2-7 years)' },
-  { value: 'mature', label: 'Mature (7+ years)' }
-];
-
-const REGULATORY_OPTIONS = [
-  { value: 'non-regulated', label: 'Non-regulated' },
-  { value: 'lightly-regulated', label: 'Lightly regulated' },
-  { value: 'heavily-regulated', label: 'Heavily regulated' }
-];
-
-const CHALLENGE_OPTIONS = [
-  'scaling-issues',
-  'operational-inefficiency',
-  'revenue-growth-stagnation',
-  'team-alignment-problems',
-  'technology-constraints',
-  'customer-satisfaction-issues',
-  'financial-management-challenges',
-  'regulatory-compliance-burden',
-  'supply-chain-disruptions',
-  'talent-acquisition-retention',
-  'digital-transformation-needs',
-  'competitive-pressure'
-];
-
-const OBJECTIVE_OPTIONS = [
-  'improve-margins',
-  'accelerate-growth',
-  'enhance-customer-satisfaction',
-  'increase-operational-efficiency',
-  'expand-market-share',
-  'develop-new-products',
-  'improve-team-performance',
-  'reduce-costs',
-  'enhance-technology-capabilities',
-  'strengthen-competitive-position',
-  'improve-compliance-posture',
-  'build-organizational-capabilities'
+const strategicObjectiveOptions = [
+  'Increase market share',
+  'Expand to new markets or regions',
+  'Launch new products or services',
+  'Improve operational efficiency',
+  'Enhance customer satisfaction',
+  'Build strategic partnerships',
+  'Strengthen financial position',
+  'Develop organizational capabilities',
+  'Implement new technologies',
+  'Achieve regulatory compliance',
+  'Optimize cost structure',
+  'Improve competitive positioning'
 ];
 
 export default function NewAssessmentPage() {
   const router = useRouter();
-  const { createAssessment, setIndustryClassification, isLoading, error } = useAssessment();
+  const { user, company } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const [formData, setFormData] = useState<CompanyContextForm>({
+  const [formData, setFormData] = useState<AssessmentFormData>({
     title: '',
     description: '',
-    industryClassification: {
-      sector: undefined,
-      subSector: '',
-      regulatoryClassification: 'non-regulated',
-      businessModel: undefined,
-      companyStage: undefined,
-      employeeCount: 0
-    },
-    primaryChallenges: [],
+    primaryBusinessChallenges: [],
     strategicObjectives: [],
     resourceConstraints: {
       budget: 'moderate',
@@ -106,45 +65,27 @@ export default function NewAssessmentPage() {
     }
   });
 
-  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
-
   const validateForm = (): boolean => {
-    const errors: Record<string, string> = {};
+    const newErrors: Record<string, string> = {};
 
     if (!formData.title.trim()) {
-      errors.title = 'Assessment title is required';
+      newErrors.title = 'Assessment title is required';
     }
 
     if (!formData.description.trim()) {
-      errors.description = 'Assessment description is required';
+      newErrors.description = 'Assessment description is required';
     }
 
-    if (!formData.industryClassification.sector) {
-      errors.sector = 'Please select your industry sector';
-    }
-
-    if (!formData.industryClassification.businessModel) {
-      errors.businessModel = 'Please select your business model';
-    }
-
-    if (!formData.industryClassification.companyStage) {
-      errors.companyStage = 'Please select your company stage';
-    }
-
-    if (!formData.industryClassification.employeeCount || formData.industryClassification.employeeCount < 1) {
-      errors.employeeCount = 'Please enter a valid employee count';
-    }
-
-    if (formData.primaryChallenges.length === 0) {
-      errors.primaryChallenges = 'Please select at least one primary business challenge';
+    if (formData.primaryBusinessChallenges.length === 0) {
+      newErrors.primaryBusinessChallenges = 'Please select at least one business challenge';
     }
 
     if (formData.strategicObjectives.length === 0) {
-      errors.strategicObjectives = 'Please select at least one strategic objective';
+      newErrors.strategicObjectives = 'Please select at least one strategic objective';
     }
 
-    setValidationErrors(errors);
-    return Object.keys(errors).length === 0;
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -154,369 +95,291 @@ export default function NewAssessmentPage() {
       return;
     }
 
-    try {
-      const assessment = await createAssessment(formData.title, formData.description);
+    if (!user || !company) {
+      router.push('/login');
+      return;
+    }
 
-      // Set industry classification
-      await setIndustryClassification({
-        ...formData.industryClassification,
-        sector: formData.industryClassification.sector!,
-        subSector: formData.industryClassification.subSector || formData.industryClassification.sector!,
-        regulatoryClassification: formData.industryClassification.regulatoryClassification!,
-        businessModel: formData.industryClassification.businessModel!,
-        companyStage: formData.industryClassification.companyStage!,
-        employeeCount: formData.industryClassification.employeeCount!
+    setIsSubmitting(true);
+
+    try {
+      const assessmentContext: AssessmentContext = {
+        primaryBusinessChallenges: formData.primaryBusinessChallenges,
+        strategicObjectives: formData.strategicObjectives,
+        resourceConstraints: formData.resourceConstraints
+      };
+
+      const request: CreateAssessmentRequest = {
+        companyName: company.name,
+        contactEmail: user.email,
+        title: formData.title,
+        description: formData.description,
+        assessmentContext
+      };
+
+      // Call API to create assessment
+      const response = await fetch('/api/assessment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+        },
+        body: JSON.stringify(request)
       });
 
-      // Navigate to questionnaire
-      router.push(`/assessment/${assessment.id}/questionnaire`);
-    } catch (err) {
-      console.error('Failed to create assessment:', err);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error?.message || 'Failed to create assessment');
+      }
+
+      const data = await response.json();
+      const assessmentId = data.data.assessment.id;
+
+      // Redirect to questionnaire
+      router.push(`/assessment/${assessmentId}/questionnaire`);
+
+    } catch (error) {
+      console.error('Error creating assessment:', error);
+      setErrors({ general: error instanceof Error ? error.message : 'Failed to create assessment' });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleChallengeToggle = (challenge: string) => {
-    const current = formData.primaryChallenges;
-    const updated = current.includes(challenge)
-      ? current.filter(c => c !== challenge)
-      : [...current, challenge];
-
-    if (updated.length <= 5) { // Max 5 challenges
-      setFormData(prev => ({
-        ...prev,
-        primaryChallenges: updated
-      }));
-    }
+    setFormData(prev => ({
+      ...prev,
+      primaryBusinessChallenges: prev.primaryBusinessChallenges.includes(challenge)
+        ? prev.primaryBusinessChallenges.filter(c => c !== challenge)
+        : [...prev.primaryBusinessChallenges, challenge]
+    }));
   };
 
   const handleObjectiveToggle = (objective: string) => {
-    const current = formData.strategicObjectives;
-    const updated = current.includes(objective)
-      ? current.filter(o => o !== objective)
-      : [...current, objective];
-
-    if (updated.length <= 5) { // Max 5 objectives
-      setFormData(prev => ({
-        ...prev,
-        strategicObjectives: updated
-      }));
-    }
+    setFormData(prev => ({
+      ...prev,
+      strategicObjectives: prev.strategicObjectives.includes(objective)
+        ? prev.strategicObjectives.filter(o => o !== objective)
+        : [...prev.strategicObjectives, objective]
+    }));
   };
 
-  const formatLabel = (value: string) => {
-    return value.split('-').map(word =>
-      word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ');
-  };
+  if (!user || !company) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-600">Please log in to create an assessment.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Create New Assessment</h1>
-          <p className="mt-2 text-lg text-gray-600">
-            Help us understand your company context to provide personalized analysis
-          </p>
-        </div>
-
-        {error && (
-          <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
-            <p className="text-red-700">{error}</p>
+    <div className="min-h-screen bg-gray-50 py-12">
+      <div className="max-w-4xl mx-auto px-6">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-900">Create New Assessment</h1>
+            <p className="text-gray-600 mt-2">
+              Tell us about your business challenges and objectives to customize your assessment experience.
+            </p>
           </div>
-        )}
 
-        <form onSubmit={handleSubmit} className="space-y-8">
-          {/* Basic Information */}
-          <div className="bg-white shadow-sm rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Basic Information</h2>
+          {errors.general && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md">
+              <p className="text-red-600">{errors.general}</p>
+            </div>
+          )}
 
-            <div className="grid grid-cols-1 gap-6">
+          <form onSubmit={handleSubmit} className="space-y-8">
+            {/* Basic Information */}
+            <div className="space-y-6">
+              <h2 className="text-xl font-semibold text-gray-900">Assessment Details</h2>
+
               <div>
-                <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
                   Assessment Title *
                 </label>
-                <Input
+                <input
+                  type="text"
                   id="title"
                   value={formData.title}
                   onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                  placeholder="e.g., Q4 2024 Operational Assessment"
-                  className={validationErrors.title ? 'border-red-300' : ''}
+                  className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="e.g., Q1 2024 Operational Assessment"
                 />
-                {validationErrors.title && (
-                  <p className="mt-1 text-sm text-red-600">{validationErrors.title}</p>
-                )}
+                {errors.title && <p className="text-sm text-red-600 mt-1">{errors.title}</p>}
               </div>
 
               <div>
-                <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
                   Description *
                 </label>
-                <Textarea
+                <textarea
                   id="description"
+                  rows={4}
                   value={formData.description}
                   onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                  className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Describe the purpose and scope of this assessment..."
-                  className={validationErrors.description ? 'border-red-300' : ''}
-                  rows={3}
                 />
-                {validationErrors.description && (
-                  <p className="mt-1 text-sm text-red-600">{validationErrors.description}</p>
-                )}
+                {errors.description && <p className="text-sm text-red-600 mt-1">{errors.description}</p>}
               </div>
             </div>
-          </div>
 
-          {/* Company Profile */}
-          <div className="bg-white shadow-sm rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Company Profile</h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label htmlFor="sector" className="block text-sm font-medium text-gray-700">
-                  Industry Sector *
-                </label>
-                <Select
-                  value={formData.industryClassification.sector || ''}
-                  onChange={(e) => setFormData(prev => ({
-                    ...prev,
-                    industryClassification: { ...prev.industryClassification, sector: e.target.value as any }
-                  }))}
-                  className={validationErrors.sector ? 'border-red-300' : ''}
-                >
-                  <option value="">Select sector...</option>
-                  {SECTOR_OPTIONS.map(option => (
-                    <option key={option.value} value={option.value}>{option.label}</option>
-                  ))}
-                </Select>
-                {validationErrors.sector && (
-                  <p className="mt-1 text-sm text-red-600">{validationErrors.sector}</p>
-                )}
-              </div>
-
-              <div>
-                <label htmlFor="subSector" className="block text-sm font-medium text-gray-700">
-                  Sub-sector
-                </label>
-                <Input
-                  id="subSector"
-                  value={formData.industryClassification.subSector}
-                  onChange={(e) => setFormData(prev => ({
-                    ...prev,
-                    industryClassification: { ...prev.industryClassification, subSector: e.target.value }
-                  }))}
-                  placeholder="e.g., Enterprise Software, FinTech..."
-                />
-              </div>
-
-              <div>
-                <label htmlFor="businessModel" className="block text-sm font-medium text-gray-700">
-                  Business Model *
-                </label>
-                <Select
-                  value={formData.industryClassification.businessModel || ''}
-                  onChange={(e) => setFormData(prev => ({
-                    ...prev,
-                    industryClassification: { ...prev.industryClassification, businessModel: e.target.value as any }
-                  }))}
-                  className={validationErrors.businessModel ? 'border-red-300' : ''}
-                >
-                  <option value="">Select business model...</option>
-                  {BUSINESS_MODEL_OPTIONS.map(option => (
-                    <option key={option.value} value={option.value}>{option.label}</option>
-                  ))}
-                </Select>
-                {validationErrors.businessModel && (
-                  <p className="mt-1 text-sm text-red-600">{validationErrors.businessModel}</p>
-                )}
-              </div>
-
-              <div>
-                <label htmlFor="companyStage" className="block text-sm font-medium text-gray-700">
-                  Company Stage *
-                </label>
-                <Select
-                  value={formData.industryClassification.companyStage || ''}
-                  onChange={(e) => setFormData(prev => ({
-                    ...prev,
-                    industryClassification: { ...prev.industryClassification, companyStage: e.target.value as any }
-                  }))}
-                  className={validationErrors.companyStage ? 'border-red-300' : ''}
-                >
-                  <option value="">Select company stage...</option>
-                  {COMPANY_STAGE_OPTIONS.map(option => (
-                    <option key={option.value} value={option.value}>{option.label}</option>
-                  ))}
-                </Select>
-                {validationErrors.companyStage && (
-                  <p className="mt-1 text-sm text-red-600">{validationErrors.companyStage}</p>
-                )}
-              </div>
-
-              <div>
-                <label htmlFor="employeeCount" className="block text-sm font-medium text-gray-700">
-                  Employee Count *
-                </label>
-                <Input
-                  id="employeeCount"
-                  type="number"
-                  min="1"
-                  value={formData.industryClassification.employeeCount || ''}
-                  onChange={(e) => setFormData(prev => ({
-                    ...prev,
-                    industryClassification: { ...prev.industryClassification, employeeCount: parseInt(e.target.value) || 0 }
-                  }))}
-                  placeholder="Number of employees"
-                  className={validationErrors.employeeCount ? 'border-red-300' : ''}
-                />
-                {validationErrors.employeeCount && (
-                  <p className="mt-1 text-sm text-red-600">{validationErrors.employeeCount}</p>
-                )}
-              </div>
-
-              <div>
-                <label htmlFor="regulatory" className="block text-sm font-medium text-gray-700">
-                  Regulatory Environment
-                </label>
-                <Select
-                  value={formData.industryClassification.regulatoryClassification || 'non-regulated'}
-                  onChange={(e) => setFormData(prev => ({
-                    ...prev,
-                    industryClassification: { ...prev.industryClassification, regulatoryClassification: e.target.value as any }
-                  }))}
-                >
-                  {REGULATORY_OPTIONS.map(option => (
-                    <option key={option.value} value={option.value}>{option.label}</option>
-                  ))}
-                </Select>
-              </div>
-            </div>
-          </div>
-
-          {/* Business Context */}
-          <div className="bg-white shadow-sm rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Business Context</h2>
-
+            {/* Business Challenges */}
             <div className="space-y-6">
-              {/* Primary Challenges */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Primary Business Challenges * (Select up to 5)
-                </label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {CHALLENGE_OPTIONS.map(challenge => (
-                    <label key={challenge} className="flex items-center space-x-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={formData.primaryChallenges.includes(challenge)}
-                        onChange={() => handleChallengeToggle(challenge)}
-                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                        disabled={!formData.primaryChallenges.includes(challenge) && formData.primaryChallenges.length >= 5}
-                      />
-                      <span className="text-sm text-gray-700">{formatLabel(challenge)}</span>
-                    </label>
-                  ))}
-                </div>
-                <p className="text-xs text-gray-500 mt-1">
-                  Selected: {formData.primaryChallenges.length}/5
-                </p>
-                {validationErrors.primaryChallenges && (
-                  <p className="mt-1 text-sm text-red-600">{validationErrors.primaryChallenges}</p>
-                )}
-              </div>
+              <h2 className="text-xl font-semibold text-gray-900">Primary Business Challenges</h2>
+              <p className="text-sm text-gray-600">
+                Select the main challenges your organization is currently facing. This helps us focus the assessment on areas most relevant to your situation.
+              </p>
 
-              {/* Strategic Objectives */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Strategic Objectives * (Select up to 5)
-                </label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {OBJECTIVE_OPTIONS.map(objective => (
-                    <label key={objective} className="flex items-center space-x-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={formData.strategicObjectives.includes(objective)}
-                        onChange={() => handleObjectiveToggle(objective)}
-                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                        disabled={!formData.strategicObjectives.includes(objective) && formData.strategicObjectives.length >= 5}
-                      />
-                      <span className="text-sm text-gray-700">{formatLabel(objective)}</span>
-                    </label>
-                  ))}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {businessChallengeOptions.map((challenge) => (
+                  <label
+                    key={challenge}
+                    className="flex items-center space-x-3 p-3 border border-gray-200 rounded-md hover:bg-gray-50 cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={formData.primaryBusinessChallenges.includes(challenge)}
+                      onChange={() => handleChallengeToggle(challenge)}
+                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    />
+                    <span className="text-sm text-gray-700">{challenge}</span>
+                  </label>
+                ))}
+              </div>
+              {errors.primaryBusinessChallenges && (
+                <p className="text-sm text-red-600">{errors.primaryBusinessChallenges}</p>
+              )}
+            </div>
+
+            {/* Strategic Objectives */}
+            <div className="space-y-6">
+              <h2 className="text-xl font-semibold text-gray-900">Strategic Objectives</h2>
+              <p className="text-sm text-gray-600">
+                Select your key strategic objectives for the next 12-18 months. This helps us align recommendations with your goals.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {strategicObjectiveOptions.map((objective) => (
+                  <label
+                    key={objective}
+                    className="flex items-center space-x-3 p-3 border border-gray-200 rounded-md hover:bg-gray-50 cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={formData.strategicObjectives.includes(objective)}
+                      onChange={() => handleObjectiveToggle(objective)}
+                      className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    />
+                    <span className="text-sm text-gray-700">{objective}</span>
+                  </label>
+                ))}
+              </div>
+              {errors.strategicObjectives && (
+                <p className="text-sm text-red-600">{errors.strategicObjectives}</p>
+              )}
+            </div>
+
+            {/* Resource Constraints */}
+            <div className="space-y-6">
+              <h2 className="text-xl font-semibold text-gray-900">Resource Assessment</h2>
+              <p className="text-sm text-gray-600">
+                Help us understand your current resource situation to provide more realistic recommendations.
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">Budget Availability</label>
+                  <div className="space-y-2">
+                    {(['limited', 'moderate', 'substantial'] as const).map((option) => (
+                      <label key={option} className="flex items-center space-x-3 cursor-pointer">
+                        <input
+                          type="radio"
+                          name="budget"
+                          value={option}
+                          checked={formData.resourceConstraints.budget === option}
+                          onChange={(e) => setFormData(prev => ({
+                            ...prev,
+                            resourceConstraints: {
+                              ...prev.resourceConstraints,
+                              budget: e.target.value as typeof option
+                            }
+                          }))}
+                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                        />
+                        <span className="text-sm text-gray-700 capitalize">{option}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">
-                  Selected: {formData.strategicObjectives.length}/5
-                </p>
-                {validationErrors.strategicObjectives && (
-                  <p className="mt-1 text-sm text-red-600">{validationErrors.strategicObjectives}</p>
-                )}
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">Team Capacity</label>
+                  <div className="space-y-2">
+                    {(['stretched', 'adequate', 'well-staffed'] as const).map((option) => (
+                      <label key={option} className="flex items-center space-x-3 cursor-pointer">
+                        <input
+                          type="radio"
+                          name="team"
+                          value={option}
+                          checked={formData.resourceConstraints.team === option}
+                          onChange={(e) => setFormData(prev => ({
+                            ...prev,
+                            resourceConstraints: {
+                              ...prev.resourceConstraints,
+                              team: e.target.value as typeof option
+                            }
+                          }))}
+                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                        />
+                        <span className="text-sm text-gray-700 capitalize">{option.replace('-', ' ')}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-3">Time Availability</label>
+                  <div className="space-y-2">
+                    {(['minimal', 'moderate', 'flexible'] as const).map((option) => (
+                      <label key={option} className="flex items-center space-x-3 cursor-pointer">
+                        <input
+                          type="radio"
+                          name="timeAvailability"
+                          value={option}
+                          checked={formData.resourceConstraints.timeAvailability === option}
+                          onChange={(e) => setFormData(prev => ({
+                            ...prev,
+                            resourceConstraints: {
+                              ...prev.resourceConstraints,
+                              timeAvailability: e.target.value as typeof option
+                            }
+                          }))}
+                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                        />
+                        <span className="text-sm text-gray-700 capitalize">{option}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Resource Constraints */}
-          <div className="bg-white shadow-sm rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Resource Constraints</h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Budget</label>
-                <Select
-                  value={formData.resourceConstraints.budget}
-                  onChange={(e) => setFormData(prev => ({
-                    ...prev,
-                    resourceConstraints: { ...prev.resourceConstraints, budget: e.target.value as any }
-                  }))}
-                >
-                  <option value="limited">Limited</option>
-                  <option value="moderate">Moderate</option>
-                  <option value="substantial">Substantial</option>
-                </Select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Team Capacity</label>
-                <Select
-                  value={formData.resourceConstraints.team}
-                  onChange={(e) => setFormData(prev => ({
-                    ...prev,
-                    resourceConstraints: { ...prev.resourceConstraints, team: e.target.value as any }
-                  }))}
-                >
-                  <option value="stretched">Stretched</option>
-                  <option value="adequate">Adequate</option>
-                  <option value="well-staffed">Well-staffed</option>
-                </Select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Time Availability</label>
-                <Select
-                  value={formData.resourceConstraints.timeAvailability}
-                  onChange={(e) => setFormData(prev => ({
-                    ...prev,
-                    resourceConstraints: { ...prev.resourceConstraints, timeAvailability: e.target.value as any }
-                  }))}
-                >
-                  <option value="minimal">Minimal</option>
-                  <option value="moderate">Moderate</option>
-                  <option value="flexible">Flexible</option>
-                </Select>
-              </div>
+            {/* Submit Button */}
+            <div className="flex justify-end pt-6 border-t border-gray-200">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="px-8 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? 'Creating Assessment...' : 'Create Assessment'}
+              </button>
             </div>
-          </div>
-
-          {/* Submit */}
-          <div className="flex justify-center">
-            <Button
-              type="submit"
-              disabled={isLoading}
-              className="px-8 py-3 text-lg"
-            >
-              {isLoading ? 'Creating Assessment...' : 'Start Assessment'}
-            </Button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );
