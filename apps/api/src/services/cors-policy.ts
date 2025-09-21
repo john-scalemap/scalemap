@@ -141,11 +141,15 @@ export class CorsPolicy {
     if (environment === 'production' && origin.endsWith('.vercel.app')) {
       // Only allow scale-map Vercel deployments (pattern: web-*-scale-map.vercel.app)
       if (origin.includes('-scale-map.vercel.app')) {
+        console.log(`[CORS DEBUG] Allowing Vercel origin: ${origin}`);
         return true;
       }
+      console.log(`[CORS DEBUG] Rejecting Vercel origin (wrong pattern): ${origin}`);
     }
 
-    return this.config.allowedOrigins.includes(origin);
+    const configAllowed = this.config.allowedOrigins.includes(origin);
+    console.log(`[CORS DEBUG] Origin: ${origin}, Environment: ${environment}, ConfigAllowed: ${configAllowed}`);
+    return configAllowed;
   }
 
   /**
