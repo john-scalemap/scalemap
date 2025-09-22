@@ -1,18 +1,20 @@
 'use client';
 
-import { useState } from 'react';
-
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import { useAuth } from '@/lib/auth/auth-context';
 import type { RegisterRequest } from '@/types/auth';
-import type { CompanyRegistrationData, CompanyValidationErrors } from '@/types/company';
+import type {
+  CompanyRegistrationData,
+  CompanyValidationErrors,
+} from '@/types/company';
 import {
   INDUSTRY_SECTORS,
   BUSINESS_MODELS,
   COMPANY_SIZES,
   REGULATORY_CLASSIFICATIONS,
-  COUNTRIES
+  COUNTRIES,
 } from '@/types/company';
 
 interface RegistrationFormProps {
@@ -78,13 +80,15 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
     },
   });
 
-  const [validationErrors, setValidationErrors] = useState<ValidationErrors>({});
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors>(
+    {}
+  );
 
   // Handle user data changes
   const handleUserChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
 
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       user: {
         ...prev.user,
@@ -94,7 +98,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
 
     // Clear validation errors when user starts typing
     if (validationErrors.user?.[name as keyof typeof validationErrors.user]) {
-      setValidationErrors(prev => ({
+      setValidationErrors((prev) => ({
         ...prev,
         user: {
           ...prev.user,
@@ -110,24 +114,31 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
   };
 
   // Handle company data changes
-  const handleCompanyChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleCompanyChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
     const { name, value } = e.target;
 
     if (name.includes('.')) {
       // Handle nested object updates
       const [parent, child] = name.split('.');
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         company: {
           ...prev.company,
           [parent]: {
-            ...(prev.company[parent as keyof CompanyRegistrationData] as Record<string, any>),
+            ...(prev.company[parent as keyof CompanyRegistrationData] as Record<
+              string,
+              any
+            >),
             [child]: value,
           },
         },
       }));
     } else {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         company: {
           ...prev.company,
@@ -138,7 +149,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
 
     // Clear validation errors
     if (validationErrors.company?.[name as keyof CompanyValidationErrors]) {
-      setValidationErrors(prev => ({
+      setValidationErrors((prev) => ({
         ...prev,
         company: {
           ...prev.company,
@@ -150,7 +161,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
 
   // Handle regulation selection
   const handleRegulationChange = (regulation: string, checked: boolean) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       company: {
         ...prev.company,
@@ -158,7 +169,9 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
           ...prev.company.industry,
           specificRegulations: checked
             ? [...prev.company.industry.specificRegulations, regulation]
-            : prev.company.industry.specificRegulations.filter(r => r !== regulation),
+            : prev.company.industry.specificRegulations.filter(
+                (r) => r !== regulation
+              ),
         },
       },
     }));
@@ -178,8 +191,13 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
       errors.password = 'Password is required';
     } else if (formData.user.password.length < 12) {
       errors.password = 'Password must be at least 12 characters';
-    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{}|;:,.<>?])/.test(formData.user.password)) {
-      errors.password = 'Password must include uppercase, lowercase, number, and special character';
+    } else if (
+      !/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{}|;:,.<>?])/.test(
+        formData.user.password
+      )
+    ) {
+      errors.password =
+        'Password must include uppercase, lowercase, number, and special character';
     }
 
     if (!formData.user.confirmPassword) {
@@ -200,7 +218,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
       errors.gdprConsent = 'You must agree to the privacy policy';
     }
 
-    setValidationErrors(prev => ({ ...prev, user: errors }));
+    setValidationErrors((prev) => ({ ...prev, user: errors }));
     return Object.keys(errors).length === 0;
   };
 
@@ -222,7 +240,10 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
       errors.description = 'Description must be at least 20 characters';
     }
 
-    if (formData.company.website && !/^https?:\/\/.+/.test(formData.company.website)) {
+    if (
+      formData.company.website &&
+      !/^https?:\/\/.+/.test(formData.company.website)
+    ) {
       errors.website = 'Please enter a valid website URL';
     }
 
@@ -234,7 +255,7 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
       errors['headquarters.city'] = 'City is required';
     }
 
-    setValidationErrors(prev => ({ ...prev, company: errors }));
+    setValidationErrors((prev) => ({ ...prev, company: errors }));
     return Object.keys(errors).length === 0;
   };
 
@@ -303,19 +324,33 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
         {/* Progress indicator */}
         <div className="mb-8">
           <div className="flex items-center justify-center space-x-4">
-            <div className={`flex items-center ${currentStep >= 1 ? 'text-primary-600' : 'text-secondary-400'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${
-                currentStep >= 1 ? 'border-primary-600 bg-primary-600 text-white' : 'border-secondary-300'
-              }`}>
+            <div
+              className={`flex items-center ${currentStep >= 1 ? 'text-primary-600' : 'text-secondary-400'}`}
+            >
+              <div
+                className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${
+                  currentStep >= 1
+                    ? 'border-primary-600 bg-primary-600 text-white'
+                    : 'border-secondary-300'
+                }`}
+              >
                 1
               </div>
               <span className="ml-2 font-medium">User Details</span>
             </div>
-            <div className={`w-16 h-0.5 ${currentStep > 1 ? 'bg-primary-600' : 'bg-secondary-300'}`} />
-            <div className={`flex items-center ${currentStep >= 2 ? 'text-primary-600' : 'text-secondary-400'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${
-                currentStep >= 2 ? 'border-primary-600 bg-primary-600 text-white' : 'border-secondary-300'
-              }`}>
+            <div
+              className={`w-16 h-0.5 ${currentStep > 1 ? 'bg-primary-600' : 'bg-secondary-300'}`}
+            />
+            <div
+              className={`flex items-center ${currentStep >= 2 ? 'text-primary-600' : 'text-secondary-400'}`}
+            >
+              <div
+                className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${
+                  currentStep >= 2
+                    ? 'border-primary-600 bg-primary-600 text-white'
+                    : 'border-secondary-300'
+                }`}
+              >
                 2
               </div>
               <span className="ml-2 font-medium">Company Info</span>
@@ -335,7 +370,10 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
             <div className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="firstName" className="block text-sm font-medium text-secondary-700 mb-2">
+                  <label
+                    htmlFor="firstName"
+                    className="block text-sm font-medium text-secondary-700 mb-2"
+                  >
                     First Name *
                   </label>
                   <input
@@ -346,17 +384,24 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                     value={formData.user.firstName}
                     onChange={handleUserChange}
                     className={`input w-full ${
-                      validationErrors.user?.firstName ? 'border-danger-300 focus-visible:ring-danger-600' : ''
+                      validationErrors.user?.firstName
+                        ? 'border-danger-300 focus-visible:ring-danger-600'
+                        : ''
                     }`}
                     placeholder="Enter your first name"
                   />
                   {validationErrors.user?.firstName && (
-                    <p className="mt-1 text-sm text-danger-600">{validationErrors.user.firstName}</p>
+                    <p className="mt-1 text-sm text-danger-600">
+                      {validationErrors.user.firstName}
+                    </p>
                   )}
                 </div>
 
                 <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium text-secondary-700 mb-2">
+                  <label
+                    htmlFor="lastName"
+                    className="block text-sm font-medium text-secondary-700 mb-2"
+                  >
                     Last Name *
                   </label>
                   <input
@@ -367,18 +412,25 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                     value={formData.user.lastName}
                     onChange={handleUserChange}
                     className={`input w-full ${
-                      validationErrors.user?.lastName ? 'border-danger-300 focus-visible:ring-danger-600' : ''
+                      validationErrors.user?.lastName
+                        ? 'border-danger-300 focus-visible:ring-danger-600'
+                        : ''
                     }`}
                     placeholder="Enter your last name"
                   />
                   {validationErrors.user?.lastName && (
-                    <p className="mt-1 text-sm text-danger-600">{validationErrors.user.lastName}</p>
+                    <p className="mt-1 text-sm text-danger-600">
+                      {validationErrors.user.lastName}
+                    </p>
                   )}
                 </div>
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-secondary-700 mb-2">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-secondary-700 mb-2"
+                >
                   Email Address *
                 </label>
                 <input
@@ -390,17 +442,24 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                   value={formData.user.email}
                   onChange={handleUserChange}
                   className={`input w-full ${
-                    validationErrors.user?.email ? 'border-danger-300 focus-visible:ring-danger-600' : ''
+                    validationErrors.user?.email
+                      ? 'border-danger-300 focus-visible:ring-danger-600'
+                      : ''
                   }`}
                   placeholder="Enter your email address"
                 />
                 {validationErrors.user?.email && (
-                  <p className="mt-1 text-sm text-danger-600">{validationErrors.user.email}</p>
+                  <p className="mt-1 text-sm text-danger-600">
+                    {validationErrors.user.email}
+                  </p>
                 )}
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-secondary-700 mb-2">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-secondary-700 mb-2"
+                >
                   Password *
                 </label>
                 <input
@@ -412,20 +471,28 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                   value={formData.user.password}
                   onChange={handleUserChange}
                   className={`input w-full ${
-                    validationErrors.user?.password ? 'border-danger-300 focus-visible:ring-danger-600' : ''
+                    validationErrors.user?.password
+                      ? 'border-danger-300 focus-visible:ring-danger-600'
+                      : ''
                   }`}
                   placeholder="Create a strong password"
                 />
                 {validationErrors.user?.password && (
-                  <p className="mt-1 text-sm text-danger-600">{validationErrors.user.password}</p>
+                  <p className="mt-1 text-sm text-danger-600">
+                    {validationErrors.user.password}
+                  </p>
                 )}
                 <p className="mt-1 text-xs text-secondary-500">
-                  Must be 12+ characters with uppercase, lowercase, number, and special character
+                  Must be 12+ characters with uppercase, lowercase, number, and
+                  special character
                 </p>
               </div>
 
               <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-secondary-700 mb-2">
+                <label
+                  htmlFor="confirmPassword"
+                  className="block text-sm font-medium text-secondary-700 mb-2"
+                >
                   Confirm Password *
                 </label>
                 <input
@@ -437,12 +504,16 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                   value={formData.user.confirmPassword}
                   onChange={handleUserChange}
                   className={`input w-full ${
-                    validationErrors.user?.confirmPassword ? 'border-danger-300 focus-visible:ring-danger-600' : ''
+                    validationErrors.user?.confirmPassword
+                      ? 'border-danger-300 focus-visible:ring-danger-600'
+                      : ''
                   }`}
                   placeholder="Confirm your password"
                 />
                 {validationErrors.user?.confirmPassword && (
-                  <p className="mt-1 text-sm text-danger-600">{validationErrors.user.confirmPassword}</p>
+                  <p className="mt-1 text-sm text-danger-600">
+                    {validationErrors.user.confirmPassword}
+                  </p>
                 )}
               </div>
 
@@ -456,20 +527,31 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                     onChange={handleUserChange}
                     className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-secondary-300 rounded mt-1"
                   />
-                  <label htmlFor="gdprConsent" className="ml-3 text-sm text-secondary-700">
+                  <label
+                    htmlFor="gdprConsent"
+                    className="ml-3 text-sm text-secondary-700"
+                  >
                     I agree to the{' '}
-                    <a href="/privacy" className="text-primary-600 hover:text-primary-500">
+                    <a
+                      href="/privacy"
+                      className="text-primary-600 hover:text-primary-500"
+                    >
                       Privacy Policy
                     </a>{' '}
                     and{' '}
-                    <a href="/terms" className="text-primary-600 hover:text-primary-500">
+                    <a
+                      href="/terms"
+                      className="text-primary-600 hover:text-primary-500"
+                    >
                       Terms of Service
                     </a>{' '}
                     *
                   </label>
                 </div>
                 {validationErrors.user?.gdprConsent && (
-                  <p className="text-sm text-danger-600">{validationErrors.user.gdprConsent}</p>
+                  <p className="text-sm text-danger-600">
+                    {validationErrors.user.gdprConsent}
+                  </p>
                 )}
 
                 <div className="flex items-start">
@@ -481,8 +563,12 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                     onChange={handleUserChange}
                     className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-secondary-300 rounded mt-1"
                   />
-                  <label htmlFor="marketingConsent" className="ml-3 text-sm text-secondary-700">
-                    I&apos;d like to receive product updates and marketing communications
+                  <label
+                    htmlFor="marketingConsent"
+                    className="ml-3 text-sm text-secondary-700"
+                  >
+                    I&apos;d like to receive product updates and marketing
+                    communications
                   </label>
                 </div>
               </div>
@@ -503,7 +589,10 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
           {currentStep === 2 && (
             <div className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-secondary-700 mb-2">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-secondary-700 mb-2"
+                >
                   Company Name *
                 </label>
                 <input
@@ -514,18 +603,25 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                   value={formData.company.name}
                   onChange={handleCompanyChange}
                   className={`input w-full ${
-                    validationErrors.company?.name ? 'border-danger-300 focus-visible:ring-danger-600' : ''
+                    validationErrors.company?.name
+                      ? 'border-danger-300 focus-visible:ring-danger-600'
+                      : ''
                   }`}
                   placeholder="Enter your company name"
                 />
                 {validationErrors.company?.name && (
-                  <p className="mt-1 text-sm text-danger-600">{validationErrors.company.name}</p>
+                  <p className="mt-1 text-sm text-danger-600">
+                    {validationErrors.company.name}
+                  </p>
                 )}
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="industry.sector" className="block text-sm font-medium text-secondary-700 mb-2">
+                  <label
+                    htmlFor="industry.sector"
+                    className="block text-sm font-medium text-secondary-700 mb-2"
+                  >
                     Industry Sector *
                   </label>
                   <select
@@ -545,7 +641,10 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                 </div>
 
                 <div>
-                  <label htmlFor="industry.subSector" className="block text-sm font-medium text-secondary-700 mb-2">
+                  <label
+                    htmlFor="industry.subSector"
+                    className="block text-sm font-medium text-secondary-700 mb-2"
+                  >
                     Sub-Sector *
                   </label>
                   <select
@@ -555,25 +654,34 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                     value={formData.company.industry.subSector}
                     onChange={handleCompanyChange}
                     className={`input w-full ${
-                      validationErrors.company?.['industry.subSector'] ? 'border-danger-300' : ''
+                      validationErrors.company?.['industry.subSector']
+                        ? 'border-danger-300'
+                        : ''
                     }`}
                   >
                     <option value="">Select a sub-sector</option>
-                    {currentSector.subSectors.map(subSector => (
+                    {(currentSector?.subSectors || []).map((subSector) => (
                       <option key={subSector} value={subSector}>
-                        {subSector.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                        {subSector
+                          .replace(/-/g, ' ')
+                          .replace(/\b\w/g, (l) => l.toUpperCase())}
                       </option>
                     ))}
                   </select>
                   {validationErrors.company?.['industry.subSector'] && (
-                    <p className="mt-1 text-sm text-danger-600">{validationErrors.company['industry.subSector']}</p>
+                    <p className="mt-1 text-sm text-danger-600">
+                      {validationErrors.company['industry.subSector']}
+                    </p>
                   )}
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="businessModel" className="block text-sm font-medium text-secondary-700 mb-2">
+                  <label
+                    htmlFor="businessModel"
+                    className="block text-sm font-medium text-secondary-700 mb-2"
+                  >
                     Business Model *
                   </label>
                   <select
@@ -593,7 +701,10 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                 </div>
 
                 <div>
-                  <label htmlFor="size" className="block text-sm font-medium text-secondary-700 mb-2">
+                  <label
+                    htmlFor="size"
+                    className="block text-sm font-medium text-secondary-700 mb-2"
+                  >
                     Company Size *
                   </label>
                   <select
@@ -614,7 +725,10 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
               </div>
 
               <div>
-                <label htmlFor="industry.regulatoryClassification" className="block text-sm font-medium text-secondary-700 mb-2">
+                <label
+                  htmlFor="industry.regulatoryClassification"
+                  className="block text-sm font-medium text-secondary-700 mb-2"
+                >
                   Regulatory Classification *
                 </label>
                 <select
@@ -625,14 +739,20 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                   onChange={handleCompanyChange}
                   className="input w-full"
                 >
-                  {Object.entries(REGULATORY_CLASSIFICATIONS).map(([key, classification]) => (
-                    <option key={key} value={key}>
-                      {classification.label}
-                    </option>
-                  ))}
+                  {Object.entries(REGULATORY_CLASSIFICATIONS).map(
+                    ([key, classification]) => (
+                      <option key={key} value={key}>
+                        {classification.label}
+                      </option>
+                    )
+                  )}
                 </select>
                 <p className="mt-1 text-xs text-secondary-500">
-                  {REGULATORY_CLASSIFICATIONS[formData.company.industry.regulatoryClassification].description}
+                  {
+                    REGULATORY_CLASSIFICATIONS[
+                      formData.company.industry.regulatoryClassification
+                    ].description
+                  }
                 </p>
               </div>
 
@@ -641,22 +761,33 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                   Specific Regulations (if applicable)
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                  {currentSector.commonRegulations.map(regulation => (
-                    <label key={regulation} className="flex items-center">
-                      <input
-                        type="checkbox"
-                        checked={formData.company.industry.specificRegulations.includes(regulation)}
-                        onChange={(e) => handleRegulationChange(regulation, e.target.checked)}
-                        className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-secondary-300 rounded"
-                      />
-                      <span className="ml-2 text-sm text-secondary-700">{regulation}</span>
-                    </label>
-                  ))}
+                  {(currentSector?.commonRegulations || []).map(
+                    (regulation) => (
+                      <label key={regulation} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          checked={formData.company.industry.specificRegulations.includes(
+                            regulation
+                          )}
+                          onChange={(e) =>
+                            handleRegulationChange(regulation, e.target.checked)
+                          }
+                          className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-secondary-300 rounded"
+                        />
+                        <span className="ml-2 text-sm text-secondary-700">
+                          {regulation}
+                        </span>
+                      </label>
+                    )
+                  )}
                 </div>
               </div>
 
               <div>
-                <label htmlFor="description" className="block text-sm font-medium text-secondary-700 mb-2">
+                <label
+                  htmlFor="description"
+                  className="block text-sm font-medium text-secondary-700 mb-2"
+                >
                   Company Description *
                 </label>
                 <textarea
@@ -667,17 +798,24 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                   value={formData.company.description}
                   onChange={handleCompanyChange}
                   className={`input w-full ${
-                    validationErrors.company?.description ? 'border-danger-300' : ''
+                    validationErrors.company?.description
+                      ? 'border-danger-300'
+                      : ''
                   }`}
                   placeholder="Describe your company, products, and services (minimum 20 characters)"
                 />
                 {validationErrors.company?.description && (
-                  <p className="mt-1 text-sm text-danger-600">{validationErrors.company.description}</p>
+                  <p className="mt-1 text-sm text-danger-600">
+                    {validationErrors.company.description}
+                  </p>
                 )}
               </div>
 
               <div>
-                <label htmlFor="website" className="block text-sm font-medium text-secondary-700 mb-2">
+                <label
+                  htmlFor="website"
+                  className="block text-sm font-medium text-secondary-700 mb-2"
+                >
                   Website (optional)
                 </label>
                 <input
@@ -692,13 +830,18 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                   placeholder="https://www.yourcompany.com"
                 />
                 {validationErrors.company?.website && (
-                  <p className="mt-1 text-sm text-danger-600">{validationErrors.company.website}</p>
+                  <p className="mt-1 text-sm text-danger-600">
+                    {validationErrors.company.website}
+                  </p>
                 )}
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="headquarters.country" className="block text-sm font-medium text-secondary-700 mb-2">
+                  <label
+                    htmlFor="headquarters.country"
+                    className="block text-sm font-medium text-secondary-700 mb-2"
+                  >
                     Headquarters Country *
                   </label>
                   <select
@@ -708,23 +851,30 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                     value={formData.company.headquarters.country}
                     onChange={handleCompanyChange}
                     className={`input w-full ${
-                      validationErrors.company?.['headquarters.country'] ? 'border-danger-300' : ''
+                      validationErrors.company?.['headquarters.country']
+                        ? 'border-danger-300'
+                        : ''
                     }`}
                   >
                     <option value="">Select a country</option>
-                    {COUNTRIES.map(country => (
+                    {COUNTRIES.map((country) => (
                       <option key={country} value={country}>
                         {country}
                       </option>
                     ))}
                   </select>
                   {validationErrors.company?.['headquarters.country'] && (
-                    <p className="mt-1 text-sm text-danger-600">{validationErrors.company['headquarters.country']}</p>
+                    <p className="mt-1 text-sm text-danger-600">
+                      {validationErrors.company['headquarters.country']}
+                    </p>
                   )}
                 </div>
 
                 <div>
-                  <label htmlFor="headquarters.city" className="block text-sm font-medium text-secondary-700 mb-2">
+                  <label
+                    htmlFor="headquarters.city"
+                    className="block text-sm font-medium text-secondary-700 mb-2"
+                  >
                     Headquarters City *
                   </label>
                   <input
@@ -735,12 +885,16 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                     value={formData.company.headquarters.city}
                     onChange={handleCompanyChange}
                     className={`input w-full ${
-                      validationErrors.company?.['headquarters.city'] ? 'border-danger-300' : ''
+                      validationErrors.company?.['headquarters.city']
+                        ? 'border-danger-300'
+                        : ''
                     }`}
                     placeholder="Enter city name"
                   />
                   {validationErrors.company?.['headquarters.city'] && (
-                    <p className="mt-1 text-sm text-danger-600">{validationErrors.company['headquarters.city']}</p>
+                    <p className="mt-1 text-sm text-danger-600">
+                      {validationErrors.company['headquarters.city']}
+                    </p>
                   )}
                 </div>
               </div>
@@ -761,9 +915,25 @@ export function RegistrationForm({ onSuccess }: RegistrationFormProps) {
                 >
                   {isLoading ? (
                     <span className="flex items-center">
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      <svg
+                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
                       </svg>
                       Creating Account...
                     </span>
