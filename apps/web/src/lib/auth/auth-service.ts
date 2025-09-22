@@ -8,7 +8,7 @@ import type {
   RefreshTokenResponse,
   User,
   AuthTokens,
-  AuthError
+  AuthError,
 } from '@/types/auth';
 
 class AuthService {
@@ -32,9 +32,13 @@ class AuthService {
       console.log('Login API URL:', process.env.NEXT_PUBLIC_API_URL);
       console.log('Attempting login for:', credentials.email);
 
-      const response = await apiClient.post<LoginResponse>('/auth/login', credentials, {
-        skipAuth: true, // No auth needed for login
-      });
+      const response = await apiClient.post<LoginResponse>(
+        '/auth/login',
+        credentials,
+        {
+          skipAuth: true, // No auth needed for login
+        }
+      );
 
       if (!response.success || !response.data) {
         throw new Error('Invalid login response');
@@ -61,9 +65,13 @@ class AuthService {
    */
   async register(data: RegisterRequest): Promise<RegisterResponse> {
     try {
-      const response = await apiClient.post<RegisterResponse>('/auth/register', data, {
-        skipAuth: true, // No auth needed for registration
-      });
+      const response = await apiClient.post<RegisterResponse>(
+        '/auth/register',
+        data,
+        {
+          skipAuth: true, // No auth needed for registration
+        }
+      );
 
       if (!response.success || !response.data) {
         throw new Error('Invalid registration response');
@@ -86,12 +94,16 @@ class AuthService {
     }
 
     try {
-      const response = await apiClient.post<RefreshTokenResponse>('/auth/refresh', {
-        refreshToken,
-      }, {
-        skipAuth: true, // Skip auth for refresh
-        skipRetry: true, // Don't retry refresh requests
-      });
+      const response = await apiClient.post<RefreshTokenResponse>(
+        '/auth/refresh',
+        {
+          refreshToken,
+        },
+        {
+          skipAuth: true, // Skip auth for refresh
+          skipRetry: true, // Don't retry refresh requests
+        }
+      );
 
       if (!response.success || !response.data) {
         throw new Error('Invalid refresh response');
@@ -146,9 +158,12 @@ class AuthService {
    */
   async verifyEmail(token: string): Promise<boolean> {
     try {
-      const response = await apiClient.get(`/auth/verify-email?token=${encodeURIComponent(token)}`, {
-        skipAuth: true,
-      });
+      const response = await apiClient.get(
+        `/auth/verify-email?token=${encodeURIComponent(token)}`,
+        {
+          skipAuth: true,
+        }
+      );
 
       return response.success;
     } catch (error) {
@@ -162,9 +177,13 @@ class AuthService {
    */
   async requestPasswordReset(email: string): Promise<boolean> {
     try {
-      const response = await apiClient.post('/auth/forgot-password', { email }, {
-        skipAuth: true,
-      });
+      const response = await apiClient.post(
+        '/auth/forgot-password',
+        { email },
+        {
+          skipAuth: true,
+        }
+      );
 
       return response.success;
     } catch (error) {
@@ -178,12 +197,16 @@ class AuthService {
    */
   async resetPassword(token: string, newPassword: string): Promise<boolean> {
     try {
-      const response = await apiClient.post('/auth/reset-password', {
-        token,
-        password: newPassword,
-      }, {
-        skipAuth: true,
-      });
+      const response = await apiClient.post(
+        '/auth/reset-password',
+        {
+          token,
+          password: newPassword,
+        },
+        {
+          skipAuth: true,
+        }
+      );
 
       return response.success;
     } catch (error) {
@@ -213,7 +236,7 @@ class AuthService {
    */
   hasPermission(permission: string): boolean {
     const user = this.getCurrentUser();
-    if (!user) return false;
+    if (!user || !user.permissions) return false;
 
     return user.permissions.includes(permission);
   }
@@ -304,7 +327,9 @@ class AuthService {
       const retryAfter = error.details?.retryAfter as number;
       const waitTime = retryAfter ? retryAfter * 1000 : 15 * 60 * 1000; // Default 15 minutes
 
-      console.warn(`Rate limited. Waiting ${waitTime / 1000} seconds before next attempt.`);
+      console.warn(
+        `Rate limited. Waiting ${waitTime / 1000} seconds before next attempt.`
+      );
 
       // Could implement exponential backoff here
       // or show user-friendly rate limit message
