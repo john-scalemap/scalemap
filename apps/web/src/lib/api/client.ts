@@ -65,18 +65,25 @@ class ApiClient {
     };
 
     try {
-      const response = await this.executeRequest<T>(url, requestOptions, timeout);
+      const response = await this.executeRequest<T>(
+        url,
+        requestOptions,
+        timeout
+      );
 
       // Handle 401 Unauthorized - attempt token refresh
       if (response.status === 401 && !skipAuth && !skipRetry) {
         const refreshed = await this.handleTokenRefresh();
         if (refreshed) {
           // Retry the request with new token
-          const newHeaders = await this.buildHeaders(fetchOptions.headers, false);
+          const newHeaders = await this.buildHeaders(
+            fetchOptions.headers,
+            false
+          );
           return await this.request<T>(endpoint, {
             ...options,
             skipRetry: true,
-            headers: newHeaders
+            headers: newHeaders,
           });
         }
       }
@@ -86,12 +93,19 @@ class ApiClient {
       if (!skipRetry && this.shouldRetry(error)) {
         return await this.retryRequest<T>(endpoint, options);
       }
-      throw this.createAuthError('NETWORK_ERROR', 'Network request failed', error);
+      throw this.createAuthError(
+        'NETWORK_ERROR',
+        'Network request failed',
+        error
+      );
     }
   }
 
   // Convenience methods for common HTTP verbs
-  async get<T>(endpoint: string, options?: RequestOptions): Promise<ApiResponse<T>> {
+  async get<T>(
+    endpoint: string,
+    options?: RequestOptions
+  ): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, { ...options, method: 'GET' });
   }
 
@@ -131,15 +145,22 @@ class ApiClient {
     });
   }
 
-  async delete<T>(endpoint: string, options?: RequestOptions): Promise<ApiResponse<T>> {
+  async delete<T>(
+    endpoint: string,
+    options?: RequestOptions
+  ): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, { ...options, method: 'DELETE' });
   }
 
   private buildURL(endpoint: string): string {
     // Remove leading slash from endpoint if present
-    const cleanEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
+    const cleanEndpoint = endpoint.startsWith('/')
+      ? endpoint.slice(1)
+      : endpoint;
     // Remove trailing slash from baseURL if present
-    const cleanBaseURL = this.baseURL.endsWith('/') ? this.baseURL.slice(0, -1) : this.baseURL;
+    const cleanBaseURL = this.baseURL.endsWith('/')
+      ? this.baseURL.slice(0, -1)
+      : this.baseURL;
     return `${cleanBaseURL}/${cleanEndpoint}`;
   }
 
@@ -161,15 +182,15 @@ class ApiClient {
       }
     }
 
-    // Add device information headers for session tracking
-    const deviceInfo = tokenManager.getDeviceInfo();
-    headers.set('X-Device-ID', deviceInfo.deviceId);
-    headers.set('X-Client-Version', process.env.NEXT_PUBLIC_APP_VERSION || '1.0.0');
+    // Add device information headers for session tracking (temporarily disabled for debugging)
+    // const deviceInfo = tokenManager.getDeviceInfo();
+    // headers.set('X-Device-ID', deviceInfo.deviceId);
+    // headers.set('X-Client-Version', process.env.NEXT_PUBLIC_APP_VERSION || '1.0.0');
 
     return headers;
   }
 
-  private async executeRequest<T>(
+  private async executeRequest(
     url: string,
     options: RequestInit,
     timeout: number
@@ -257,7 +278,9 @@ class ApiClient {
     }
   }
 
-  private async performTokenRefresh(refreshToken: string): Promise<string | null> {
+  private async performTokenRefresh(
+    refreshToken: string
+  ): Promise<string | null> {
     try {
       const response = await this.request<{
         accessToken: string;
@@ -326,8 +349,9 @@ class ApiClient {
     }
 
     // Exponential backoff with jitter
-    const delay = this.retryDelay * Math.pow(2, attempt - 1) + Math.random() * 1000;
-    await new Promise(resolve => setTimeout(resolve, delay));
+    const delay =
+      this.retryDelay * Math.pow(2, attempt - 1) + Math.random() * 1000;
+    await new Promise((resolve) => setTimeout(resolve, delay));
 
     return this.request<T>(endpoint, { ...options, skipRetry: true });
   }
@@ -374,17 +398,17 @@ class ApiClient {
   private mapApiErrorCode(apiCode: string): AuthErrorCode {
     // Map backend error codes to frontend error codes
     const codeMap: Record<string, AuthErrorCode> = {
-      'INVALID_CREDENTIALS': 'INVALID_CREDENTIALS',
-      'EMAIL_NOT_VERIFIED': 'EMAIL_NOT_VERIFIED',
-      'ACCOUNT_SUSPENDED': 'ACCOUNT_SUSPENDED',
-      'TOKEN_EXPIRED': 'TOKEN_EXPIRED',
-      'REFRESH_TOKEN_INVALID': 'REFRESH_TOKEN_INVALID',
-      'SESSION_EXPIRED': 'SESSION_EXPIRED',
-      'RATE_LIMIT_EXCEEDED': 'RATE_LIMIT_EXCEEDED',
-      'EMAIL_ALREADY_EXISTS': 'EMAIL_ALREADY_EXISTS',
-      'VALIDATION_ERROR': 'VALIDATION_ERROR',
-      'PASSWORD_TOO_WEAK': 'PASSWORD_TOO_WEAK',
-      'UNAUTHORIZED': 'UNAUTHORIZED',
+      INVALID_CREDENTIALS: 'INVALID_CREDENTIALS',
+      EMAIL_NOT_VERIFIED: 'EMAIL_NOT_VERIFIED',
+      ACCOUNT_SUSPENDED: 'ACCOUNT_SUSPENDED',
+      TOKEN_EXPIRED: 'TOKEN_EXPIRED',
+      REFRESH_TOKEN_INVALID: 'REFRESH_TOKEN_INVALID',
+      SESSION_EXPIRED: 'SESSION_EXPIRED',
+      RATE_LIMIT_EXCEEDED: 'RATE_LIMIT_EXCEEDED',
+      EMAIL_ALREADY_EXISTS: 'EMAIL_ALREADY_EXISTS',
+      VALIDATION_ERROR: 'VALIDATION_ERROR',
+      PASSWORD_TOO_WEAK: 'PASSWORD_TOO_WEAK',
+      UNAUTHORIZED: 'UNAUTHORIZED',
     };
 
     return codeMap[apiCode] || 'UNKNOWN_ERROR';
