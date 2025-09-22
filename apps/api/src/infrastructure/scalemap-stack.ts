@@ -371,7 +371,7 @@ export class ScaleMapStack extends cdk.Stack {
       responseHeaders: {
         'Access-Control-Allow-Origin': `'*'`,
         'Access-Control-Allow-Headers':
-          "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token,X-Device-ID'",
+          "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token,X-Device-ID,X-Client-Version'",
         'Access-Control-Allow-Methods': "'GET,POST,PUT,DELETE,OPTIONS'",
         'Access-Control-Allow-Credentials': "'true'",
       },
@@ -382,7 +382,7 @@ export class ScaleMapStack extends cdk.Stack {
       responseHeaders: {
         'Access-Control-Allow-Origin': `'*'`,
         'Access-Control-Allow-Headers':
-          "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token,X-Device-ID'",
+          "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token,X-Device-ID,X-Client-Version'",
         'Access-Control-Allow-Methods': "'GET,POST,PUT,DELETE,OPTIONS'",
         'Access-Control-Allow-Credentials': "'true'",
       },
@@ -407,7 +407,7 @@ export class ScaleMapStack extends cdk.Stack {
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin': "'*'",
               'method.response.header.Access-Control-Allow-Headers':
-                "'Content-Type,Authorization,X-Device-ID'",
+                "'Content-Type,Authorization,X-Device-ID,X-Client-Version'",
               'method.response.header.Access-Control-Allow-Methods': "'POST,OPTIONS'",
             },
           },
@@ -443,7 +443,7 @@ export class ScaleMapStack extends cdk.Stack {
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin': "'*'",
               'method.response.header.Access-Control-Allow-Headers':
-                "'Content-Type,Authorization,X-Device-ID'",
+                "'Content-Type,Authorization,X-Device-ID,X-Client-Version'",
               'method.response.header.Access-Control-Allow-Methods': "'POST,OPTIONS'",
             },
           },
@@ -479,7 +479,7 @@ export class ScaleMapStack extends cdk.Stack {
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin': "'*'",
               'method.response.header.Access-Control-Allow-Headers':
-                "'Content-Type,Authorization,X-Device-ID'",
+                "'Content-Type,Authorization,X-Device-ID,X-Client-Version'",
               'method.response.header.Access-Control-Allow-Methods': "'POST,OPTIONS'",
             },
           },
@@ -515,7 +515,7 @@ export class ScaleMapStack extends cdk.Stack {
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin': "'*'",
               'method.response.header.Access-Control-Allow-Headers':
-                "'Content-Type,Authorization,X-Device-ID'",
+                "'Content-Type,Authorization,X-Device-ID,X-Client-Version'",
               'method.response.header.Access-Control-Allow-Methods': "'GET,OPTIONS'",
             },
           },
@@ -583,7 +583,7 @@ export class ScaleMapStack extends cdk.Stack {
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin': "'*'",
               'method.response.header.Access-Control-Allow-Headers':
-                "'Content-Type,Authorization,X-Device-ID'",
+                "'Content-Type,Authorization,X-Device-ID,X-Client-Version'",
               'method.response.header.Access-Control-Allow-Methods': "'GET,POST,OPTIONS'",
             },
           },

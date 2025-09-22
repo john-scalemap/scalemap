@@ -26,6 +26,7 @@ const CORS_CONFIGS: Record<string, CorsConfig> = {
       'X-Amz-User-Agent',
       'Cache-Control',
       'X-Device-ID',
+      'X-Client-Version',
     ],
     allowCredentials: true,
     maxAge: 86400, // 24 hours
@@ -41,6 +42,7 @@ const CORS_CONFIGS: Record<string, CorsConfig> = {
       'X-Api-Key',
       'X-Amz-Security-Token',
       'X-Device-ID',
+      'X-Client-Version',
     ],
     allowCredentials: true,
     maxAge: 3600, // 1 hour
@@ -56,6 +58,7 @@ const CORS_CONFIGS: Record<string, CorsConfig> = {
       'X-Api-Key',
       'X-Amz-Security-Token',
       'X-Device-ID',
+      'X-Client-Version',
     ],
     allowCredentials: true,
     maxAge: 3600, // 1 hour
