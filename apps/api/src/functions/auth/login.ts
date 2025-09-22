@@ -4,7 +4,7 @@ import {
   AuthUser,
   AuthError,
   ApiResponse,
-  UserRole
+  UserRole,
 } from '@scalemap/shared';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import * as bcrypt from 'bcryptjs';
@@ -29,14 +29,13 @@ interface LoginResponse {
     companyId: string;
     role: string;
     emailVerified: boolean;
+    permissions: string[];
   };
   tokens: AuthTokens;
   sessionId: string;
 }
 
-export const handler = async (
-  event: APIGatewayProxyEvent
-): Promise<APIGatewayProxyResult> => {
+export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const requestId = event.requestContext?.requestId || 'unknown';
   const requestLogger = logger.child({ requestId, function: 'login' });
 
@@ -49,7 +48,7 @@ export const handler = async (
     if (!rateLimitResult.allowed) {
       requestLogger.warn('Login attempt rate limited', {
         remaining: rateLimitResult.remaining,
-        resetTime: rateLimitResult.resetTime
+        resetTime: rateLimitResult.resetTime,
       });
       return rateLimitResult.result!;
     }
@@ -64,13 +63,18 @@ export const handler = async (
     // Validate required fields
     const validationError = validateCredentials(credentials);
     if (validationError) {
-      return errorHandler.createErrorResponse(400, validationError.code, {
-        requestId,
-        email: credentials.email,
-        endpoint: event.path,
-        method: event.httpMethod,
-        functionName: 'login'
-      }, validationError.message);
+      return errorHandler.createErrorResponse(
+        400,
+        validationError.code,
+        {
+          requestId,
+          email: credentials.email,
+          endpoint: event.path,
+          method: event.httpMethod,
+          functionName: 'login',
+        },
+        validationError.message
+      );
     }
 
     // Get user by email
@@ -82,7 +86,7 @@ export const handler = async (
 
     if (userRecords.length === 0) {
       requestLogger.warn('Login attempt with non-existent email', {
-        email: credentials.email
+        email: credentials.email,
       });
       Monitoring.incrementCounter('LoginFailures', { reason: 'user_not_found' });
 
@@ -94,7 +98,7 @@ export const handler = async (
         userAgent: event.headers?.['User-Agent'],
         outcome: 'FAILURE',
         details: { reason: 'user_not_found' },
-        requestId
+        requestId,
       });
 
       // Use same error message to avoid email enumeration
@@ -105,7 +109,7 @@ export const handler = async (
         userAgent: event.headers?.['User-Agent'],
         endpoint: event.path,
         method: event.httpMethod,
-        functionName: 'login'
+        functionName: 'login',
       });
     }
 
@@ -115,7 +119,7 @@ export const handler = async (
     if (userRecord.status !== 'active') {
       requestLogger.warn('Login attempt on inactive account', {
         userId: userRecord.id,
-        status: userRecord.status
+        status: userRecord.status,
       });
 
       let errorCode = 'ACCOUNT_SUSPENDED';
@@ -135,20 +139,25 @@ export const handler = async (
         userAgent: event.headers?.['User-Agent'],
         outcome: 'FAILURE',
         details: { reason: 'account_inactive', status: userRecord.status },
-        requestId
+        requestId,
       });
 
       Monitoring.incrementCounter('LoginFailures', { reason: 'account_inactive' });
-      return errorHandler.createErrorResponse(403, errorCode, {
-        requestId,
-        userId: userRecord.id as string,
-        email: credentials.email,
-        ipAddress: event.requestContext?.identity?.sourceIp,
-        userAgent: event.headers?.['User-Agent'],
-        endpoint: event.path,
-        method: event.httpMethod,
-        functionName: 'login'
-      }, errorMessage);
+      return errorHandler.createErrorResponse(
+        403,
+        errorCode,
+        {
+          requestId,
+          userId: userRecord.id as string,
+          email: credentials.email,
+          ipAddress: event.requestContext?.identity?.sourceIp,
+          userAgent: event.headers?.['User-Agent'],
+          endpoint: event.path,
+          method: event.httpMethod,
+          functionName: 'login',
+        },
+        errorMessage
+      );
     }
 
     // Verify password
@@ -158,7 +167,7 @@ export const handler = async (
     if (!passwordValid) {
       requestLogger.warn('Login attempt with invalid password', {
         userId: userRecord.id,
-        email: credentials.email
+        email: credentials.email,
       });
 
       // Log failed authentication attempt
@@ -170,7 +179,7 @@ export const handler = async (
         userAgent: event.headers?.['User-Agent'],
         outcome: 'FAILURE',
         details: { reason: 'invalid_password' },
-        requestId
+        requestId,
       });
 
       Monitoring.incrementCounter('LoginFailures', { reason: 'invalid_password' });
@@ -183,7 +192,7 @@ export const handler = async (
         userAgent: event.headers?.['User-Agent'],
         endpoint: event.path,
         method: event.httpMethod,
-        functionName: 'login'
+        functionName: 'login',
       });
     }
 
@@ -192,15 +201,20 @@ export const handler = async (
     if (!companyRecord) {
       requestLogger.error('Company not found for user', {
         userId: userRecord.id,
-        companyId: userRecord.companyId
+        companyId: userRecord.companyId,
       });
-      return errorHandler.createErrorResponse(500, 'INTERNAL_ERROR', {
-        requestId,
-        userId: userRecord.id as string,
-        endpoint: event.path,
-        method: event.httpMethod,
-        functionName: 'login'
-      }, 'Account configuration error');
+      return errorHandler.createErrorResponse(
+        500,
+        'INTERNAL_ERROR',
+        {
+          requestId,
+          userId: userRecord.id as string,
+          endpoint: event.path,
+          method: event.httpMethod,
+          functionName: 'login',
+        },
+        'Account configuration error'
+      );
     }
 
     // Build AuthUser object for JWT generation
@@ -212,7 +226,7 @@ export const handler = async (
       companyId: userRecord.companyId as string,
       role: userRecord.role as UserRole,
       emailVerified: userRecord.emailVerified as boolean,
-      permissions: getPermissionsForRole(userRecord.role as string)
+      permissions: getPermissionsForRole(userRecord.role as string),
     };
 
     // Generate JWT tokens
@@ -224,7 +238,7 @@ export const handler = async (
       deviceId: event.headers?.['User-Agent']?.substring(0, 50) || 'unknown',
       ipAddress: event.requestContext?.identity?.sourceIp || 'unknown',
       userAgent: event.headers?.['User-Agent'] || 'unknown',
-      refreshToken: tokens.refreshToken
+      refreshToken: tokens.refreshToken,
     });
 
     // Update user last login
@@ -239,7 +253,7 @@ export const handler = async (
       userId: userRecord.id,
       email: credentials.email,
       role: userRecord.role,
-      sessionId: sessionData.sessionId
+      sessionId: sessionData.sessionId,
     });
 
     // Log successful authentication
@@ -253,9 +267,9 @@ export const handler = async (
       outcome: 'SUCCESS',
       details: {
         role: userRecord.role,
-        companyId: userRecord.companyId
+        companyId: userRecord.companyId,
       },
-      requestId
+      requestId,
     });
 
     // Log session creation
@@ -268,13 +282,13 @@ export const handler = async (
       outcome: 'SUCCESS',
       details: {
         deviceId: sessionData.deviceId,
-        expiresAt: sessionData.expiresAt
+        expiresAt: sessionData.expiresAt,
       },
-      requestId
+      requestId,
     });
 
     Monitoring.incrementCounter('LoginSuccess', {
-      userRole: userRecord.role as string
+      userRole: userRecord.role as string,
     });
 
     // Prepare response
@@ -286,10 +300,11 @@ export const handler = async (
         lastName: authUser.lastName,
         companyId: authUser.companyId,
         role: authUser.role,
-        emailVerified: authUser.emailVerified
+        emailVerified: authUser.emailVerified,
+        permissions: authUser.permissions,
       },
       tokens,
-      sessionId: sessionData.sessionId
+      sessionId: sessionData.sessionId,
     };
 
     const response: ApiResponse<LoginResponse> = {
@@ -297,8 +312,8 @@ export const handler = async (
       data: loginResponse,
       meta: {
         timestamp: new Date().toISOString(),
-        requestId
-      }
+        requestId,
+      },
     };
 
     return {
@@ -306,7 +321,6 @@ export const handler = async (
       headers: corsPolicy.getAllHeaders(event),
       body: JSON.stringify(response),
     };
-
   } catch (error) {
     return errorHandler.handleUnexpectedError(error as Error, {
       requestId,
@@ -314,7 +328,7 @@ export const handler = async (
       userAgent: event.headers?.['User-Agent'],
       endpoint: event.path,
       method: event.httpMethod,
-      functionName: 'login'
+      functionName: 'login',
     });
   }
 };
@@ -336,7 +350,7 @@ function validateCredentials(credentials: LoginCredentials): AuthError | null {
 
 function getPermissionsForRole(role: string): string[] {
   const rolePermissions: Record<string, string[]> = {
-    'admin': [
+    admin: [
       'assessments:create',
       'assessments:read',
       'assessments:update',
@@ -349,25 +363,19 @@ function getPermissionsForRole(role: string): string[] {
       'company:update',
       'users:read',
       'users:update',
-      'analytics:read'
+      'analytics:read',
     ],
-    'user': [
+    user: [
       'assessments:create',
       'assessments:read',
       'assessments:update',
       'agents:read',
       'agents:update',
       'company:read',
-      'analytics:read'
+      'analytics:read',
     ],
-    'viewer': [
-      'assessments:read',
-      'agents:read',
-      'company:read',
-      'analytics:read'
-    ]
+    viewer: ['assessments:read', 'agents:read', 'company:read', 'analytics:read'],
   };
 
   return rolePermissions[role] || rolePermissions['viewer'] || [];
 }
-

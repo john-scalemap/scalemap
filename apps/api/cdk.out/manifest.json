@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-deploy-role-884337373956-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-cfn-exec-role-884337373956-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/6ac7366b5f1f0c43c87a25441e8865b6a30553d9727fede4670bd3b057f7f2a7.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/9c84ff064d7d8c4d1bc70eb96080b4a1e4c85a2890941faf00571902870d835d.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -525,7 +525,7 @@
         "/ScaleMapDev/ScaleMapApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiDeployment77EBDD9D3273e1a97b7c964be592a64a8b14677c"
+            "data": "ScaleMapApiDeployment77EBDD9D81f0293cf90f9e4de74a2ba91db5883b"
           }
         ],
         "/ScaleMapDev/ScaleMapApi/DeploymentStage.prod/Resource": [
@@ -594,6 +594,12 @@
             "data": "ScaleMapApiauthloginPOSTE1CB51A5"
           }
         ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/login/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthloginOPTIONS86D709F4"
+          }
+        ],
         "/ScaleMapDev/ScaleMapApi/Default/auth/register/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -616,6 +622,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "ScaleMapApiauthregisterPOST1086F82F"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/register/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthregisterOPTIONSFEDF5216"
           }
         ],
         "/ScaleMapDev/ScaleMapApi/Default/auth/refresh/Resource": [
@@ -642,6 +654,12 @@
             "data": "ScaleMapApiauthrefreshPOST6EC4C378"
           }
         ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/refresh/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthrefreshOPTIONSF8DE41B6"
+          }
+        ],
         "/ScaleMapDev/ScaleMapApi/Default/auth/verify-email/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -664,6 +682,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "ScaleMapApiauthverifyemailGET703CE8DA"
+          }
+        ],
+        "/ScaleMapDev/ScaleMapApi/Default/auth/verify-email/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthverifyemailOPTIONS1AD637B0"
           }
         ],
         "/ScaleMapDev/ScaleMapApi/Default/company/Resource": [
@@ -974,7 +998,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-deploy-role-884337373956-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-cfn-exec-role-884337373956-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/ac2a4f51df8fa3f7971b903a4ed44d8af0235279566e9ae79a29d5c2f79a76cb.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/22905f4ae5e553cfbe97cee3a983e4e852f5276969802556f58f78cbe6364a31.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -1481,7 +1505,7 @@
         "/ScaleMapStaging/ScaleMapApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiDeployment77EBDD9Daef4f3193e666adaa47dadc91aac3ba6"
+            "data": "ScaleMapApiDeployment77EBDD9D356dbd55b8adb82b08644ecd87426712"
           }
         ],
         "/ScaleMapStaging/ScaleMapApi/DeploymentStage.prod/Resource": [
@@ -1550,6 +1574,12 @@
             "data": "ScaleMapApiauthloginPOSTE1CB51A5"
           }
         ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/login/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthloginOPTIONS86D709F4"
+          }
+        ],
         "/ScaleMapStaging/ScaleMapApi/Default/auth/register/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -1572,6 +1602,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "ScaleMapApiauthregisterPOST1086F82F"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/register/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthregisterOPTIONSFEDF5216"
           }
         ],
         "/ScaleMapStaging/ScaleMapApi/Default/auth/refresh/Resource": [
@@ -1598,6 +1634,12 @@
             "data": "ScaleMapApiauthrefreshPOST6EC4C378"
           }
         ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/refresh/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthrefreshOPTIONSF8DE41B6"
+          }
+        ],
         "/ScaleMapStaging/ScaleMapApi/Default/auth/verify-email/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -1620,6 +1662,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "ScaleMapApiauthverifyemailGET703CE8DA"
+          }
+        ],
+        "/ScaleMapStaging/ScaleMapApi/Default/auth/verify-email/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthverifyemailOPTIONS1AD637B0"
           }
         ],
         "/ScaleMapStaging/ScaleMapApi/Default/company/Resource": [
@@ -1930,7 +1978,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-deploy-role-884337373956-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::884337373956:role/cdk-hnb659fds-cfn-exec-role-884337373956-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/7e5d012862ea09f9f8eee790e47e74239550286eb684d94ddb613b93acdbfb5a.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-884337373956-eu-west-1/4c488ada643d804e202a354f68d3eb49c9f34d62431e52f8f8e3a7163e249345.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -2437,7 +2485,7 @@
         "/ScaleMapProd/ScaleMapApi/Deployment/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ScaleMapApiDeployment77EBDD9D845ee067d8bd4d306a2af7470d79b755"
+            "data": "ScaleMapApiDeployment77EBDD9Dacdf7dac023a17c162e622d61abfc292"
           }
         ],
         "/ScaleMapProd/ScaleMapApi/DeploymentStage.prod/Resource": [
@@ -2506,6 +2554,12 @@
             "data": "ScaleMapApiauthloginPOSTE1CB51A5"
           }
         ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/login/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthloginOPTIONS86D709F4"
+          }
+        ],
         "/ScaleMapProd/ScaleMapApi/Default/auth/register/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -2528,6 +2582,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "ScaleMapApiauthregisterPOST1086F82F"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/register/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthregisterOPTIONSFEDF5216"
           }
         ],
         "/ScaleMapProd/ScaleMapApi/Default/auth/refresh/Resource": [
@@ -2554,6 +2614,12 @@
             "data": "ScaleMapApiauthrefreshPOST6EC4C378"
           }
         ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/refresh/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthrefreshOPTIONSF8DE41B6"
+          }
+        ],
         "/ScaleMapProd/ScaleMapApi/Default/auth/verify-email/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -2576,6 +2642,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "ScaleMapApiauthverifyemailGET703CE8DA"
+          }
+        ],
+        "/ScaleMapProd/ScaleMapApi/Default/auth/verify-email/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ScaleMapApiauthverifyemailOPTIONS1AD637B0"
           }
         ],
         "/ScaleMapProd/ScaleMapApi/Default/company/Resource": [

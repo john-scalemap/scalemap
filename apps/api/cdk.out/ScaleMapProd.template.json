@@ -385,7 +385,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-884337373956-eu-west-1",
-     "S3Key": "ec934425c809f1c5766dbbd66a5d2b97b184533ed8f5337b2e560f2ebee94f7b.zip"
+     "S3Key": "36efcc1d37a3a4fbf359540a21b6487f5154aec00becdee88b4744980788551f.zip"
     },
     "DeadLetterConfig": {
      "TargetArn": {
@@ -444,7 +444,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/LoginFunction/Resource",
-    "aws:asset:path": "asset.ec934425c809f1c5766dbbd66a5d2b97b184533ed8f5337b2e560f2ebee94f7b",
+    "aws:asset:path": "asset.36efcc1d37a3a4fbf359540a21b6487f5154aec00becdee88b4744980788551f",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -958,7 +958,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-884337373956-eu-west-1",
-     "S3Key": "d82058950a8a348f6e487287097bd51fdf20743ca2e2166be7d24c197856e1f2.zip"
+     "S3Key": "cc6a3469a20119dde6155fd3d73cb2d126362b19e90dbea0c7e80edac3aa3273.zip"
     },
     "DeadLetterConfig": {
      "TargetArn": {
@@ -1017,7 +1017,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/RegisterFunction/Resource",
-    "aws:asset:path": "asset.d82058950a8a348f6e487287097bd51fdf20743ca2e2166be7d24c197856e1f2",
+    "aws:asset:path": "asset.cc6a3469a20119dde6155fd3d73cb2d126362b19e90dbea0c7e80edac3aa3273",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -2199,7 +2199,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-884337373956-eu-west-1",
-     "S3Key": "8fda5fda43b1a417124d995045f1a978560f557626b4c7c8549fd0b0a16400fe.zip"
+     "S3Key": "4a68607792bd655ee5013ef46ea7a814f4ce5d93da46300802598b2a9d427c57.zip"
     },
     "DeadLetterConfig": {
      "TargetArn": {
@@ -2258,7 +2258,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/CreateAssessmentFunction/Resource",
-    "aws:asset:path": "asset.8fda5fda43b1a417124d995045f1a978560f557626b4c7c8549fd0b0a16400fe",
+    "aws:asset:path": "asset.4a68607792bd655ee5013ef46ea7a814f4ce5d93da46300802598b2a9d427c57",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -3167,7 +3167,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-884337373956-eu-west-1",
-     "S3Key": "2f89a3a19ca7d91720edece9de992bdebab2a5fdec11c905339373405e109e41.zip"
+     "S3Key": "bff4793c49d2f1d78a69b0dc3d6c45a01cbc98053ea9425a218fb7cbff1ce1d4.zip"
     },
     "DeadLetterConfig": {
      "TargetArn": {
@@ -3226,7 +3226,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/StartAssessmentFunction/Resource",
-    "aws:asset:path": "asset.2f89a3a19ca7d91720edece9de992bdebab2a5fdec11c905339373405e109e41",
+    "aws:asset:path": "asset.bff4793c49d2f1d78a69b0dc3d6c45a01cbc98053ea9425a218fb7cbff1ce1d4",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -4440,7 +4440,7 @@
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Account"
    }
   },
-  "ScaleMapApiDeployment77EBDD9D845ee067d8bd4d306a2af7470d79b755": {
+  "ScaleMapApiDeployment77EBDD9Dacdf7dac023a17c162e622d61abfc292": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "Description": "ScaleMap API for production environment",
@@ -4461,14 +4461,18 @@
     "ScaleMapApiassessmentsCBAE5DB3",
     "ScaleMapApiassessmentsresponsesPUT3C6FE69F",
     "ScaleMapApiassessmentsresponses32212C8B",
+    "ScaleMapApiauthloginOPTIONS86D709F4",
     "ScaleMapApiauthloginPOSTE1CB51A5",
     "ScaleMapApiauthlogin7F8100CE",
+    "ScaleMapApiauthrefreshOPTIONSF8DE41B6",
     "ScaleMapApiauthrefreshPOST6EC4C378",
     "ScaleMapApiauthrefresh503A46F4",
+    "ScaleMapApiauthregisterOPTIONSFEDF5216",
     "ScaleMapApiauthregisterPOST1086F82F",
     "ScaleMapApiauthregisterBB7044BD",
     "ScaleMapApiauthBA436AC9",
     "ScaleMapApiauthverifyemailGET703CE8DA",
+    "ScaleMapApiauthverifyemailOPTIONS1AD637B0",
     "ScaleMapApiauthverifyemail0AE6483F",
     "ScaleMapApicompanyidGET3C4F96D2",
     "ScaleMapApicompanyid26EF5C04",
@@ -4491,7 +4495,7 @@
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "DeploymentId": {
-     "Ref": "ScaleMapApiDeployment77EBDD9D845ee067d8bd4d306a2af7470d79b755"
+     "Ref": "ScaleMapApiDeployment77EBDD9Dacdf7dac023a17c162e622d61abfc292"
     },
     "RestApiId": {
      "Ref": "ScaleMapApi2204383E"
@@ -4746,6 +4750,49 @@
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/auth/login/POST/Resource"
    }
   },
+  "ScaleMapApiauthloginOPTIONS86D709F4": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Device-ID,X-Client-Version'",
+        "method.response.header.Access-Control-Allow-Methods": "'POST,OPTIONS'"
+       },
+       "StatusCode": "200"
+      }
+     ],
+     "PassthroughBehavior": "NEVER",
+     "RequestTemplates": {
+      "application/json": "{\"statusCode\": 200}"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "200"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "ScaleMapApiauthlogin7F8100CE"
+    },
+    "RestApiId": {
+     "Ref": "ScaleMapApi2204383E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/auth/login/OPTIONS/Resource"
+   }
+  },
   "ScaleMapApiauthregisterBB7044BD": {
    "Type": "AWS::ApiGateway::Resource",
    "Properties": {
@@ -4854,6 +4901,49 @@
    },
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/auth/register/POST/Resource"
+   }
+  },
+  "ScaleMapApiauthregisterOPTIONSFEDF5216": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Device-ID,X-Client-Version'",
+        "method.response.header.Access-Control-Allow-Methods": "'POST,OPTIONS'"
+       },
+       "StatusCode": "200"
+      }
+     ],
+     "PassthroughBehavior": "NEVER",
+     "RequestTemplates": {
+      "application/json": "{\"statusCode\": 200}"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "200"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "ScaleMapApiauthregisterBB7044BD"
+    },
+    "RestApiId": {
+     "Ref": "ScaleMapApi2204383E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/auth/register/OPTIONS/Resource"
    }
   },
   "ScaleMapApiauthrefresh503A46F4": {
@@ -4966,6 +5056,49 @@
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/auth/refresh/POST/Resource"
    }
   },
+  "ScaleMapApiauthrefreshOPTIONSF8DE41B6": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Device-ID,X-Client-Version'",
+        "method.response.header.Access-Control-Allow-Methods": "'POST,OPTIONS'"
+       },
+       "StatusCode": "200"
+      }
+     ],
+     "PassthroughBehavior": "NEVER",
+     "RequestTemplates": {
+      "application/json": "{\"statusCode\": 200}"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "200"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "ScaleMapApiauthrefresh503A46F4"
+    },
+    "RestApiId": {
+     "Ref": "ScaleMapApi2204383E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/auth/refresh/OPTIONS/Resource"
+   }
+  },
   "ScaleMapApiauthverifyemail0AE6483F": {
    "Type": "AWS::ApiGateway::Resource",
    "Properties": {
@@ -5074,6 +5207,49 @@
    },
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/auth/verify-email/GET/Resource"
+   }
+  },
+  "ScaleMapApiauthverifyemailOPTIONS1AD637B0": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Device-ID,X-Client-Version'",
+        "method.response.header.Access-Control-Allow-Methods": "'GET,OPTIONS'"
+       },
+       "StatusCode": "200"
+      }
+     ],
+     "PassthroughBehavior": "NEVER",
+     "RequestTemplates": {
+      "application/json": "{\"statusCode\": 200}"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "200"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "ScaleMapApiauthverifyemail0AE6483F"
+    },
+    "RestApiId": {
+     "Ref": "ScaleMapApi2204383E"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ScaleMapProd/ScaleMapApi/Default/auth/verify-email/OPTIONS/Resource"
    }
   },
   "ScaleMapApicompanyE86C5AA2": {
@@ -5529,7 +5705,7 @@
       {
        "ResponseParameters": {
         "method.response.header.Access-Control-Allow-Origin": "'*'",
-        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Device-ID,X-Client-Version'",
         "method.response.header.Access-Control-Allow-Methods": "'GET,POST,OPTIONS'"
        },
        "StatusCode": "200"
@@ -6135,7 +6311,7 @@
    "Properties": {
     "ResponseParameters": {
      "gatewayresponse.header.Access-Control-Allow-Origin": "'*'",
-     "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+     "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token,X-Device-ID,X-Client-Version'",
      "gatewayresponse.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
      "gatewayresponse.header.Access-Control-Allow-Credentials": "'true'"
     },
@@ -6153,7 +6329,7 @@
    "Properties": {
     "ResponseParameters": {
      "gatewayresponse.header.Access-Control-Allow-Origin": "'*'",
-     "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+     "gatewayresponse.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token,X-Device-ID,X-Client-Version'",
      "gatewayresponse.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE,OPTIONS'",
      "gatewayresponse.header.Access-Control-Allow-Credentials": "'true'"
     },

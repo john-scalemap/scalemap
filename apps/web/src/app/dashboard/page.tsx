@@ -1,10 +1,16 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+import { assessmentService } from '@/lib/api/assessment-service';
 import { useAuth } from '@/lib/auth/auth-context';
 import { PERMISSIONS } from '@/types/auth';
 
 export default function DashboardPage() {
   const { user, logout, hasPermission, isLoading } = useAuth();
+  const router = useRouter();
+  const [isActionLoading, setIsActionLoading] = useState(false);
 
   if (isLoading) {
     return (
@@ -33,6 +39,41 @@ export default function DashboardPage() {
     } catch (error) {
       console.error('Logout failed:', error);
     }
+  };
+
+  const handleStartAssessment = () => {
+    router.push('/assessment/new');
+  };
+
+  const handleViewAssessments = async () => {
+    try {
+      setIsActionLoading(true);
+      const result = await assessmentService.listAssessments();
+      console.log('Assessments:', result);
+
+      // For now, just log the results. Later we can create an assessments list page
+      if (result.assessments.length > 0) {
+        // Navigate to the first assessment for now
+        router.push(`/assessment/${result.assessments[0].id}/progress`);
+      } else {
+        alert('No assessments found. Create a new assessment to get started!');
+      }
+    } catch (error) {
+      console.error('Failed to load assessments:', error);
+      alert('Failed to load assessments. Please try again.');
+    } finally {
+      setIsActionLoading(false);
+    }
+  };
+
+  const handleCompanySettings = () => {
+    // Placeholder for company settings page
+    alert('Company settings page coming soon!');
+  };
+
+  const handleAnalytics = () => {
+    // Placeholder for analytics page
+    alert('Analytics page coming soon!');
   };
 
   return (
@@ -115,7 +156,11 @@ export default function DashboardPage() {
           </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {hasPermission(PERMISSIONS.ASSESSMENTS_CREATE) && (
-              <button className="btn-primary p-4 text-left">
+              <button
+                className="btn-primary p-4 text-left hover:opacity-90 transition-opacity"
+                onClick={handleStartAssessment}
+                disabled={isActionLoading}
+              >
                 <div className="font-medium">Start Assessment</div>
                 <div className="text-sm opacity-90">
                   Create a new business assessment
@@ -124,8 +169,14 @@ export default function DashboardPage() {
             )}
 
             {hasPermission(PERMISSIONS.ASSESSMENTS_READ) && (
-              <button className="btn-secondary p-4 text-left">
-                <div className="font-medium">View Assessments</div>
+              <button
+                className="btn-secondary p-4 text-left hover:opacity-90 transition-opacity"
+                onClick={handleViewAssessments}
+                disabled={isActionLoading}
+              >
+                <div className="font-medium">
+                  {isActionLoading ? 'Loading...' : 'View Assessments'}
+                </div>
                 <div className="text-sm opacity-90">
                   Browse existing assessments
                 </div>
@@ -133,7 +184,11 @@ export default function DashboardPage() {
             )}
 
             {hasPermission(PERMISSIONS.COMPANY_UPDATE) && (
-              <button className="btn-secondary p-4 text-left">
+              <button
+                className="btn-secondary p-4 text-left hover:opacity-90 transition-opacity"
+                onClick={handleCompanySettings}
+                disabled={isActionLoading}
+              >
                 <div className="font-medium">Company Settings</div>
                 <div className="text-sm opacity-90">
                   Manage company information
@@ -142,7 +197,11 @@ export default function DashboardPage() {
             )}
 
             {hasPermission(PERMISSIONS.ANALYTICS_READ) && (
-              <button className="btn-secondary p-4 text-left">
+              <button
+                className="btn-secondary p-4 text-left hover:opacity-90 transition-opacity"
+                onClick={handleAnalytics}
+                disabled={isActionLoading}
+              >
                 <div className="font-medium">Analytics</div>
                 <div className="text-sm opacity-90">
                   View performance metrics
