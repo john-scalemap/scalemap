@@ -385,7 +385,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-884337373956-eu-west-1",
-     "S3Key": "36efcc1d37a3a4fbf359540a21b6487f5154aec00becdee88b4744980788551f.zip"
+     "S3Key": "4122b5336dfebae44add1668e3738e8124929e09223837f5a97674140c05a10b.zip"
     },
     "DeadLetterConfig": {
      "TargetArn": {
@@ -444,7 +444,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ScaleMapProd/LoginFunction/Resource",
-    "aws:asset:path": "asset.36efcc1d37a3a4fbf359540a21b6487f5154aec00becdee88b4744980788551f",
+    "aws:asset:path": "asset.4122b5336dfebae44add1668e3738e8124929e09223837f5a97674140c05a10b",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
