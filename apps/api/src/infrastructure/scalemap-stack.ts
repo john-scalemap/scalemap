@@ -371,7 +371,7 @@ export class ScaleMapStack extends cdk.Stack {
       responseHeaders: {
         'Access-Control-Allow-Origin': `'*'`,
         'Access-Control-Allow-Headers':
-          "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+          "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token,X-Device-ID'",
         'Access-Control-Allow-Methods': "'GET,POST,PUT,DELETE,OPTIONS'",
         'Access-Control-Allow-Credentials': "'true'",
       },
@@ -382,7 +382,7 @@ export class ScaleMapStack extends cdk.Stack {
       responseHeaders: {
         'Access-Control-Allow-Origin': `'*'`,
         'Access-Control-Allow-Headers':
-          "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'",
+          "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token,X-Device-ID'",
         'Access-Control-Allow-Methods': "'GET,POST,PUT,DELETE,OPTIONS'",
         'Access-Control-Allow-Credentials': "'true'",
       },
@@ -394,18 +394,150 @@ export class ScaleMapStack extends cdk.Stack {
 
     // Auth endpoints
     const authResource = api.root.addResource('auth');
-    authResource
-      .addResource('login')
-      .addMethod('POST', new apigateway.LambdaIntegration(loginFunction));
-    authResource
-      .addResource('register')
-      .addMethod('POST', new apigateway.LambdaIntegration(registerFunction));
-    authResource
-      .addResource('refresh')
-      .addMethod('POST', new apigateway.LambdaIntegration(refreshTokenFunction));
-    authResource
-      .addResource('verify-email')
-      .addMethod('GET', new apigateway.LambdaIntegration(verifyEmailFunction));
+
+    // Login endpoint
+    const loginResource = authResource.addResource('login');
+    loginResource.addMethod('POST', new apigateway.LambdaIntegration(loginFunction));
+    loginResource.addMethod(
+      'OPTIONS',
+      new apigateway.MockIntegration({
+        integrationResponses: [
+          {
+            statusCode: '200',
+            responseParameters: {
+              'method.response.header.Access-Control-Allow-Origin': "'*'",
+              'method.response.header.Access-Control-Allow-Headers':
+                "'Content-Type,Authorization,X-Device-ID'",
+              'method.response.header.Access-Control-Allow-Methods': "'POST,OPTIONS'",
+            },
+          },
+        ],
+        passthroughBehavior: apigateway.PassthroughBehavior.NEVER,
+        requestTemplates: {
+          'application/json': '{"statusCode": 200}',
+        },
+      }),
+      {
+        methodResponses: [
+          {
+            statusCode: '200',
+            responseParameters: {
+              'method.response.header.Access-Control-Allow-Origin': true,
+              'method.response.header.Access-Control-Allow-Headers': true,
+              'method.response.header.Access-Control-Allow-Methods': true,
+            },
+          },
+        ],
+      }
+    );
+
+    // Register endpoint
+    const registerResource = authResource.addResource('register');
+    registerResource.addMethod('POST', new apigateway.LambdaIntegration(registerFunction));
+    registerResource.addMethod(
+      'OPTIONS',
+      new apigateway.MockIntegration({
+        integrationResponses: [
+          {
+            statusCode: '200',
+            responseParameters: {
+              'method.response.header.Access-Control-Allow-Origin': "'*'",
+              'method.response.header.Access-Control-Allow-Headers':
+                "'Content-Type,Authorization,X-Device-ID'",
+              'method.response.header.Access-Control-Allow-Methods': "'POST,OPTIONS'",
+            },
+          },
+        ],
+        passthroughBehavior: apigateway.PassthroughBehavior.NEVER,
+        requestTemplates: {
+          'application/json': '{"statusCode": 200}',
+        },
+      }),
+      {
+        methodResponses: [
+          {
+            statusCode: '200',
+            responseParameters: {
+              'method.response.header.Access-Control-Allow-Origin': true,
+              'method.response.header.Access-Control-Allow-Headers': true,
+              'method.response.header.Access-Control-Allow-Methods': true,
+            },
+          },
+        ],
+      }
+    );
+
+    // Refresh endpoint
+    const refreshResource = authResource.addResource('refresh');
+    refreshResource.addMethod('POST', new apigateway.LambdaIntegration(refreshTokenFunction));
+    refreshResource.addMethod(
+      'OPTIONS',
+      new apigateway.MockIntegration({
+        integrationResponses: [
+          {
+            statusCode: '200',
+            responseParameters: {
+              'method.response.header.Access-Control-Allow-Origin': "'*'",
+              'method.response.header.Access-Control-Allow-Headers':
+                "'Content-Type,Authorization,X-Device-ID'",
+              'method.response.header.Access-Control-Allow-Methods': "'POST,OPTIONS'",
+            },
+          },
+        ],
+        passthroughBehavior: apigateway.PassthroughBehavior.NEVER,
+        requestTemplates: {
+          'application/json': '{"statusCode": 200}',
+        },
+      }),
+      {
+        methodResponses: [
+          {
+            statusCode: '200',
+            responseParameters: {
+              'method.response.header.Access-Control-Allow-Origin': true,
+              'method.response.header.Access-Control-Allow-Headers': true,
+              'method.response.header.Access-Control-Allow-Methods': true,
+            },
+          },
+        ],
+      }
+    );
+
+    // Verify email endpoint
+    const verifyEmailResource = authResource.addResource('verify-email');
+    verifyEmailResource.addMethod('GET', new apigateway.LambdaIntegration(verifyEmailFunction));
+    verifyEmailResource.addMethod(
+      'OPTIONS',
+      new apigateway.MockIntegration({
+        integrationResponses: [
+          {
+            statusCode: '200',
+            responseParameters: {
+              'method.response.header.Access-Control-Allow-Origin': "'*'",
+              'method.response.header.Access-Control-Allow-Headers':
+                "'Content-Type,Authorization,X-Device-ID'",
+              'method.response.header.Access-Control-Allow-Methods': "'GET,OPTIONS'",
+            },
+          },
+        ],
+        passthroughBehavior: apigateway.PassthroughBehavior.NEVER,
+        requestTemplates: {
+          'application/json': '{"statusCode": 200}',
+        },
+      }),
+      {
+        methodResponses: [
+          {
+            statusCode: '200',
+            responseParameters: {
+              'method.response.header.Access-Control-Allow-Origin': true,
+              'method.response.header.Access-Control-Allow-Headers': true,
+              'method.response.header.Access-Control-Allow-Methods': true,
+            },
+          },
+        ],
+      }
+    );
 
     // Protected endpoints (require authentication)
     const protectedMethodOptions = {
@@ -450,7 +582,8 @@ export class ScaleMapStack extends cdk.Stack {
             statusCode: '200',
             responseParameters: {
               'method.response.header.Access-Control-Allow-Origin': "'*'",
-              'method.response.header.Access-Control-Allow-Headers': "'Content-Type,Authorization'",
+              'method.response.header.Access-Control-Allow-Headers':
+                "'Content-Type,Authorization,X-Device-ID'",
               'method.response.header.Access-Control-Allow-Methods': "'GET,POST,OPTIONS'",
             },
           },

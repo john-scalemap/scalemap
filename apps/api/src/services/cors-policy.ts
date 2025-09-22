@@ -25,6 +25,7 @@ const CORS_CONFIGS: Record<string, CorsConfig> = {
       'X-Amz-Security-Token',
       'X-Amz-User-Agent',
       'Cache-Control',
+      'X-Device-ID',
     ],
     allowCredentials: true,
     maxAge: 86400, // 24 hours
@@ -39,6 +40,7 @@ const CORS_CONFIGS: Record<string, CorsConfig> = {
       'X-Amz-Date',
       'X-Api-Key',
       'X-Amz-Security-Token',
+      'X-Device-ID',
     ],
     allowCredentials: true,
     maxAge: 3600, // 1 hour
@@ -53,6 +55,7 @@ const CORS_CONFIGS: Record<string, CorsConfig> = {
       'X-Amz-Date',
       'X-Api-Key',
       'X-Amz-Security-Token',
+      'X-Device-ID',
     ],
     allowCredentials: true,
     maxAge: 3600, // 1 hour
@@ -148,7 +151,9 @@ export class CorsPolicy {
     }
 
     const configAllowed = this.config.allowedOrigins.includes(origin);
-    console.log(`[CORS DEBUG] Origin: ${origin}, Environment: ${environment}, ConfigAllowed: ${configAllowed}`);
+    console.log(
+      `[CORS DEBUG] Origin: ${origin}, Environment: ${environment}, ConfigAllowed: ${configAllowed}`
+    );
     return configAllowed;
   }
 
